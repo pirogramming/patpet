@@ -4,19 +4,16 @@
     <div class="container text-center middle_part">
         <div class="row">
             <div class="col-lg-4">
-                {{ post.title }}<br/>
                 {{ post.content }}<br/>
-                <img src="/media/{{ post.photo }}" style="max-width: 80%"/>
+                <img src="{{ post.photo.url }}" style="max-width: 80%"/>
             </div>
             <div class="col-lg-4">
-                {{ post.title }}<br/>
                 {{ post.content }}<br/>
-                <img src="/media/{{ post.photo }}" style="max-width: 80%"/>
+                <img src="{{ post.photo.url }}" style="max-width: 80%"/>
             </div>
             <div class="col-lg-4">
-                {{ post.title }}<br/>
                 {{ post.content }}<br/>
-                <img src="/media/{{ post.photo }}" style="max-width: 80%"/>
+                <img src="{{ post.photo.url }}" style="max-width: 80%"/>
             </div>
         </div>
     </div>
