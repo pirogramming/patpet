@@ -1,5 +1,11 @@
-from django.shortcuts import render
 
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from django.shortcuts import render, redirect
+from .forms import SignupForm
+from allauth.socialaccount.models import SocialApp
+from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 def signup(request):
     if request.method == 'POST':
@@ -29,6 +35,5 @@ def login(request):
             provider.social_app = None
         providers.append(provider)
     return LoginView.as_view(
-        authentication_form=LoginForm,
         template_name='accounts/login_form.html',
         extra_context={'providers': providers})(request)
