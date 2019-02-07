@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from my_profile.forms import PostForm
-from home.models import Post
+from .forms import PostForm
 
 def post_new_button(request):
     return render(request, 'my_profile/layout.html')
