@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .models import Post
 from .forms import PostForm
 
 def post_new_button(request):
@@ -16,3 +17,10 @@ def post_new(request):
     return render(request, 'my_profile/post_form.html', {
         'form': form,
         })
+
+def post_list(request):
+    post = Post.objects.all()
+    context = {
+        'post': post,
+    }
+    return render(request, "my_profile/post_list_p.html", context)
