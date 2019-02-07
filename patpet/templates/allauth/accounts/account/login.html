@@ -1,14 +1,28 @@
 <style>
+    .login_title {
+        margin-bottom: 40px;
+    }
+
     .login-whole {
         text-align: center;
+
     }
     .login-container {
         margin-top: 50px;
     }
 
-    .btn-facebook {
-        background-color: #3C5A99;
+    .login-form {
+        display: inline-block;
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
     }
+
+    .facebook-button {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
 
 
 </style>
@@ -25,39 +39,41 @@
 
 
 {% block content %}
+
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-12 login-whole">
             <div class="login-container">
 
-                <h1>{% trans "Sign In" %}</h1>
+                <h1 class="login_title">{% trans "Sign In" %}</h1>
 
                 {% get_providers as socialaccount_providers %}
 
-                {% if socialaccount_providers %}
-                <p>{% blocktrans with site.name as site_name %}Please sign in with one
-                of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-                for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+{#                {% if socialaccount_providers %}#}
+{#                <p>{% blocktrans with site.name as site_name %}Please sign in with one#}
+{#                of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>#}
+{#                for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>#}
+{##}
+{##}
 
-                <button type="button" class="btn btn-warning btn-lg">Sign In With Facebook</button>
-
-
+                <div class="login-form">
                 <div class="socialaccount_ballot">
 
-                  <ul class="socialaccount_providers">
+                  <div class="socialaccount_providers facebook-button">
                     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                  </ul>
-
-                  <div class="login-or">{% trans 'or' %}</div>
+                  </div>
+{#                    <div class="login-or">{% trans 'or' %}</div>#}
 
                 </div>
 
                 {% include "socialaccount/snippets/login_extra.html" %}
 
-                {% else %}
-                <p>{% blocktrans %}If you have not created an account yet, then please
-                <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-                {% endif %}
+{#                {% else %}#}
+{#                <p>{% blocktrans %}If you have not created an account yet, then please#}
+{#                <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>#}
+{#                {% endif %}#}
 
                 <form class="login" method="POST" action="{% url 'account_login' %}">
                   {% csrf_token %}
@@ -68,6 +84,7 @@
                   <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                   <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
                 </form>
+                </div>
 
 
 
