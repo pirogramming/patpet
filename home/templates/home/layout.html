@@ -1,30 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-{#    <div class="container text-center middle_part">#}
-{#        <div class="row">#}
-{#            <div class="col-lg-4">#}
-{#                {{ post.content }}<br/>#}
-{#                <img src="{{ post.photo.url }}" style="max-width: 80%"/>#}
-{#            </div>#}
-{#            <div class="col-lg-4">#}
-{#                {{ post.content }}<br/>#}
-{#                <img src="{{ post.photo.url }}" style="max-width: 80%"/>#}
-{#            </div>#}
-{#            <div class="col-lg-4">#}
-{#                {{ post.content }}<br/>#}
-{#                <img src="{{ post.photo.url }}" style="max-width: 80%"/>#}
-{#            </div>#}
-    <div class="container text-center middle_part">
-    <div class="row">
-            {% for each_post in post %}
-                <div class="col">
-                <img src="{{ each_post.photo.url }}" style="width: 80%;height: 80%;"/><br/>
-                {{ each_post.content }}
+
+    <section class="posting_list">
+    <!-- 한 줄 세로로-->
+        {% for each_post in post %}
+            <article class="posting">
+                <img src="{{ each_post.photo.url }}" class="posting_img" /><br/>
+                <div class="posting_txt">
+                    <i class="fas fa-paw posting_like fa-2x"></i>
+                    <i class="far fa-comments posting_like fa-2x"></i>
+                    <i class="far fa-save posting_like fa-2x"></i>
+                    <p>user_id</p>
+                    <p class="posting_cont">{{ each_post.content }}</p>
                 </div>
-            {% endfor %}
-    </div>
-    </div>
-{#        </div>#}
-{#    </div>#}
+            </article>
+        {% endfor %}
+    </section>
+
 {% endblock %}

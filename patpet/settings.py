@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'imagekit',
     'home',
+    'my_profile',
 ]
 
 MIDDLEWARE = [
