@@ -17,10 +17,3 @@ def post_new(request):
     return render(request, 'my_profile/post_form.html', {
         'form': form,
         })
-
-def post_list(request):
-    post = Post.objects.all()
-    context = {
-        'post': post,
-    }
-    return render(request, "my_profile/post_list_p.html", context)

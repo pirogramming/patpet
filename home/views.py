@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post
+from my_profile.models import Post
 
 
 def post_list(request):
