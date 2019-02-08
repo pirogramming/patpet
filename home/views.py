@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from .models import Post
-from django.contrib.auth.models import User
+from my_profile.models import Post
 
-def home(request):
+
+def post_list(request):
     post = Post.objects.all()
-    author = User()
     context = {
         'post': post,
     }

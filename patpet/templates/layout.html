@@ -9,13 +9,16 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.2.1/simplex/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round|Nanum+Gothic+Coding" rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/layout.css" %}">
     <title>Patpet</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{% url 'home' %}">
+      <a class="navbar-brand" href="#">
           <img src="{% static "images/main_logo.png" %}" width="120" />
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +48,7 @@
     <div class="fixed-bottom">
         <div class="btn-group nav_size" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-secondary">
-              <a href="{% url 'home' %}" class="bottom_menu">HOME</a>
+              <a href="#" class="bottom_menu">HOME</a>
           </button>
           <button type="button" class="btn btn-secondary">
               <a href="#" class="bottom_menu">SEARCH</a>
