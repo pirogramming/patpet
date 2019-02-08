@@ -1,20 +1,30 @@
 {% extends "layout.html" %}
 
 {% block content %}
+{#    <div class="container text-center middle_part">#}
+{#        <div class="row">#}
+{#            <div class="col-lg-4">#}
+{#                {{ post.content }}<br/>#}
+{#                <img src="{{ post.photo.url }}" style="max-width: 80%"/>#}
+{#            </div>#}
+{#            <div class="col-lg-4">#}
+{#                {{ post.content }}<br/>#}
+{#                <img src="{{ post.photo.url }}" style="max-width: 80%"/>#}
+{#            </div>#}
+{#            <div class="col-lg-4">#}
+{#                {{ post.content }}<br/>#}
+{#                <img src="{{ post.photo.url }}" style="max-width: 80%"/>#}
+{#            </div>#}
     <div class="container text-center middle_part">
-        <div class="row">
-            <div class="col-lg-4">
-                {{ post.content }}<br/>
-                <img src="{{ post.photo.url }}" style="max-width: 80%"/>
-            </div>
-            <div class="col-lg-4">
-                {{ post.content }}<br/>
-                <img src="{{ post.photo.url }}" style="max-width: 80%"/>
-            </div>
-            <div class="col-lg-4">
-                {{ post.content }}<br/>
-                <img src="{{ post.photo.url }}" style="max-width: 80%"/>
-            </div>
-        </div>
+    <div class="row">
+            {% for each_post in post %}
+                <div class="col">
+                <img src="{{ each_post.photo.url }}" style="width: 80%;height: 80%;"/><br/>
+                {{ each_post.content }}
+                </div>
+            {% endfor %}
     </div>
+    </div>
+{#        </div>#}
+{#    </div>#}
 {% endblock %}

@@ -2,3 +2,4 @@ django==2.1.5
 pilkit
 django-imagekit
 ipython[notebook]
+django-extensions
