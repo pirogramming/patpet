@@ -1,30 +1,115 @@
-{% extends 'accounts/layout.html' %}
+{% load static %}
+{% load widget_tweaks %}
 {% load socialaccount %}
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V11</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static "images/icons/favicon.ico" %}" />
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" />
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "fonts/font-awesome-4.7.0/css/font-awesome.min.css" %}" />
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "fonts/Linearicons-Free-v1.0.0/icon-font.min.css" %}" >
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/animate/animate.css" %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/css-hamburgers/hamburgers.min.css" %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/select2/select2.min.css"%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "css/util.css"%}">
+	<link rel="stylesheet" type="text/css" href="{% static "css/main.css"%}">
+<!--===============================================================================================-->
+</head>
+{#{% block content %}#}
 
-{% block content %}
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" />
-</form>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+            <form action="" method="post">
+            {% csrf_token %}
 
-<ul>
-{% for provider in providers %}
-    <li>
-        {% if provider.social_app %}
-        <a href="{% provider_login_url provider.id %}">
-            {{ provider.name }}
-        </a>
-    {% else %}
-        <a>
-            Provider {{ provider.name }} 설정이 필요합니다.
-        </a>
-    {% endif %}
-    </li>
-{% endfor %}
-</ul>
+                <span class="login100-form-title p-b-55">
+                    Login
+                </span>
 
-{% endblock %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+                {% for field in form.hidden_fields %}
+                    {{ field }}
+                {% endfor %}
+
+                {% for field in form.visible_fields %}
+                    <div class="wrap-input100 validate-input m-b-16">
+                        {{ field|add_class:'input100' }}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+                        </span>
+                    </div>
+
+                {% endfor %}
+                <div class="contact100-form-checkbox m-l-4">
+                    <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                    <label class="label-checkbox100" for="ckb1">
+                        Remember me
+                    </label>
+                </div>
+                <div class="container-login100-form-btn p-t-25">
+                    <input type="submit" class="login100-form-btn" placeholder="Log In">
+                </div>
+
+
+                <div class="text-center w-full p-t-42 p-b-22">
+                    <span class="txt1">
+                        Or login with
+                    </span>
+                </div>
+                {% for provider in providers %}
+                <a href="{% provider_login_url provider.id %}" class="btn-face m-b-10">
+                    <i class="fa fa-facebook-official"></i>
+                    Facebook
+                </a>
+                {% endfor %}
+
+                <a href="#" class="btn-google m-b-10">
+                    <img src="{% static "images/icons/icon-google.png"%}" alt="GOOGLE">
+                    Google
+                </a>
+
+                <div class="text-center w-full p-t-115">
+                    <span class="txt1">
+                        Not a member?
+                    </span>
+
+                    <a class="txt1 bo1 hov1" href="#">
+                        Sign up now
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{#{% endblock %}#}
+
+<!--===============================================================================================-->
+	<script src="{% static "vendor/jquery/jquery-3.2.1.min.js"%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static "vendor/bootstrap/js/popper.js"%}"></script>
+	<script src="{% static "vendor/bootstrap/js/bootstrap.min.js"%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static "vendor/select2/select2.min.js"%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static "js/main.js"%}"></script>

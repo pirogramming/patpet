@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'my_profile',
     # 'allauth.socialaccount.providers.kakao',
-    # 'allauth.socialaccount.providers.naver'
+    # 'allauth.socialaccount.providers.naver',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +69,9 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'patpet', 'templates'),
+            # os.path.join(BASE_DIR, 'patpet', 'templates', 'login-page'),
             os.path.join(BASE_DIR, 'patpet', 'templates', 'allauth', 'accounts'),
+
         ],
         'APP_DIRS': True,
         'OPTIONS': {
