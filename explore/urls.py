@@ -4,6 +4,6 @@ from explore import views
 
 app_name= 'explore'
 urlpatterns = [
-    path('', views.post_list, name='explore'),
+    path('', views.explore_post_list, name='explore'),
     # path('explore/', views.post_list, name='explore'),
     ]
