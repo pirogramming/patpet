@@ -49,16 +49,23 @@
                     {{ field }}
                 {% endfor %}
 
-                {% for field in form.visible_fields %}
+{#                {% for field in form.visible_fields %}#}
                     <div class="wrap-input100 validate-input m-b-16">
-                        {{ field|add_class:'input100' }}
+                        {{ form.username|add_class:'input100' }}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<span class="lnr lnr-user"></span>
+                        </span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-16">
+                        {{ form.password|add_class:'input100' }}
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
 							<span class="lnr lnr-lock"></span>
                         </span>
                     </div>
-
-                {% endfor %}
+{#                {% endfor %}#}
                 <div class="contact100-form-checkbox m-l-4">
                     <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
                     <label class="label-checkbox100" for="ckb1">
@@ -87,12 +94,12 @@
                     Google
                 </a>
 
-                <div class="text-center w-full p-t-115">
+                <div class="text-center w-full p-t-60">
                     <span class="txt1">
                         Not a member?
                     </span>
 
-                    <a class="txt1 bo1 hov1" href="#">
+                    <a class="txt1 bo1 hov1" href="{% url 'signup' %}">
                         Sign up now
                     </a>
                 </div>

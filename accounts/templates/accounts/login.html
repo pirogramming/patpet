@@ -1,5 +1,4 @@
 {% load static %}
-{% load widget_tweaks %}
 {% load socialaccount %}
 
 <!DOCTYPE html>
@@ -32,30 +31,23 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
-				<form action="{% url 'profile' %}" method="post" class="login100-form validate-form">
+				<form action="{% url 'login' %}" method="post" class="login100-form validate-form">
                 {% csrf_token %}
 					<span class="login100-form-title p-b-55">
 						Login
 					</span>
-                {% for field in form.hidden_fields %}
-                    {{ field }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
-					<div class="wrap-input100 validate-input m-b-16">
-                    {{ field|add_class:'input100' }}
-                        <span class="focus-input100"></span>
+
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" name="id" placeholder="아이디">
+{#                        {{ form.username }}#}
+						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<span class="lnr lnr-envelope"></span>
 						</span>
 					</div>
 
-                {% endfor %}
-					<div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" type="text" name="username" placeholder="아이디" autofocus required id="id_username">
-                        {{ form.username }}
-
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="password" placeholder="Password" required id="id_password">
+						<input class="input100" type="password" name="pass" placeholder="Password" form="password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<span class="lnr lnr-lock"></span>
@@ -69,9 +61,9 @@
 						</label>
 					</div>
 
-					<div class="container-login100-form-btn p-t-25">
+{#					<div class="container-login100-form-btn p-t-25">#}
 						<input type="submit" class="login100-form-btn">
-					</div>
+{#					</div>#}
 
 
 					<div class="text-center w-full p-t-42 p-b-22">
