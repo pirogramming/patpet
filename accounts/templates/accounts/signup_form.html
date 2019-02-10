@@ -1,11 +1,117 @@
-{% extends 'accounts/layout.html' %}
-{% block content %}
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" />
-</form>
+{% load static %}
+{% load widget_tweaks %}
+{% load socialaccount %}
 
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>SIGN UP</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static "images/icons/favicon.ico" %}" />
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" />
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "fonts/font-awesome-4.7.0/css/font-awesome.min.css" %}" />
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "fonts/Linearicons-Free-v1.0.0/icon-font.min.css" %}" >
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/animate/animate.css" %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/css-hamburgers/hamburgers.min.css" %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "vendor/select2/select2.min.css"%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static "css/util.css"%}">
+	<link rel="stylesheet" type="text/css" href="{% static "css/main.css"%}">
+<!--===============================================================================================-->
+</head>
+{#{% block content %}#}
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+            <form action="" method="post">
+            {% csrf_token %}
+
+                <span class="login100-form-title p-b-55">
+                    Sign up
+                </span>
+
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+                {% for field in form.hidden_fields %}
+                    {{ field }}
+                {% endfor %}
+                    <div class="wrap-input100 validate-input m-b-16">
+                        {% render_field form.email|add_class:'input100' placeholder="Email" %}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<span class="lnr lnr-envelope"></span>
+                        </span>
+                    </div>
+
+{#                {% for field in form.visible_fields %}#}
+                    <div class="wrap-input100 validate-input m-b-16">
+                        {% render_field form.username|add_class:'input100' placeholder="ID" %}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<span class="lnr lnr-user"></span>
+                        </span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-16">
+                        {% render_field form.password1|add_class:'input100' placeholder="PASSWORD" %}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+                        </span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-16">
+                        {% render_field form.password2|add_class:'input100' placeholder="PASSWORD CONFIRM" %}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+                        </span>
+                    </div>
+
+{#                {% endfor %}#}
+
+                <div class="container-login100-form-btn p-t-25">
+                    <input type="submit" class="login100-form-btn" value="SIGN UP">
+                </div>
+                    <div class="text-center w-full p-t-60">
+                    <span class="txt1">
+                        Are you already member?
+                    </span>
+
+                    <a class="txt1 bo1 hov1" href="{% url 'login' %}">
+                        Back to Login
+                    </a>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{#{% endblock %}#}
+
+<!--===============================================================================================-->
+	<script src="{% static "vendor/jquery/jquery-3.2.1.min.js"%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static "vendor/bootstrap/js/popper.js"%}"></script>
+	<script src="{% static "vendor/bootstrap/js/bootstrap.min.js"%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static "vendor/select2/select2.min.js"%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static "js/main.js"%}"></script>
+

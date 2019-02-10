@@ -34,13 +34,20 @@ def signup(request):
             return redirect(settings.LOGIN_URL)
     else:
         form = SignupForm()
-    return render(request, 'accounts/signup_test.html', {
+    return render(request, 'accounts/signup_form.html', {
         'form': form,
     })
 
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html')
+
+def follow(request):
+    if request.method == 'POST':
+
+
+    return
+
 
 @login_forbidden
 def login(request):
