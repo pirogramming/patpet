@@ -30,7 +30,7 @@
 
 
 {% extends "accounts/layout.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -39,7 +39,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 profile_head">
-                <img src="{{ user.socialaccount_set.all.first.get_avatar_url }}" id="profile_img" />
+                {% if user.socialaccount_set.all.first.get_avatar_url %}
+                <img src="{{ user.socialaccount_set.all.first.get_avatar_url }}" id="profile_img"/>
+                {% else %}
+                    <img src="{% static 'images/default-user-icon-13.jpg' %}" id="profile_img">
+                {% endif %}
             </div>
 
             <div class="col-md-12">
