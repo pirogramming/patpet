@@ -2,8 +2,11 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+
+from accounts.models import Profile
 from .forms import SignupForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
@@ -40,13 +43,14 @@ def signup(request):
 
 @login_required
 def profile(request):
+    # user = get_object_or_404(User, username='username')
     return render(request, 'accounts/profile.html')
 
-def follow(request):
-    if request.method == 'POST':
-
-
-    return
+# def follow(request):
+#     if request.method == 'POST':
+#
+#
+#     return
 
 
 @login_forbidden
@@ -63,3 +67,6 @@ def login(request):
     return LoginView.as_view(
         template_name='accounts/login_form.html',
         extra_context={'providers': providers})(request)
+
+def follow(request):
+    return Profile.follows.add
