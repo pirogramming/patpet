@@ -69,4 +69,4 @@ def login(request):
         extra_context={'providers': providers})(request)
 
 def follow(request):
-    return Profile.follows.add
+    return
