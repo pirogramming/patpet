@@ -36,6 +36,9 @@
           </li>
             {% else %}
           <li class="nav-item">
+            <a class="nav-link" href="#">{{ user.username }}</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">로그아웃</a>
           </li>
         {% endif%}
@@ -57,7 +60,7 @@
               <a href="#"class="bottom_menu">EXPLORE</a>
           </button>
           <button type="button" class="btn btn-secondary">
-              <a href="{% url 'profile' %}"class="bottom_menu">PROFILE</a>
+              <a href="{% url 'profile' username=user.username %}"class="bottom_menu">PROFILE</a>
           </button>
         </div>
     </div>

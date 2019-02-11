@@ -39,8 +39,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 profile_head">
-                {% if user.socialaccount_set.all.first.get_avatar_url %}
-                <img src="{{ user.socialaccount_set.all.first.get_avatar_url }}" id="profile_img"/>
+                {% if profile_user.socialaccount_set.all.first.get_avatar_url %}
+                <img src="{{ profile_user.socialaccount_set.all.first.get_avatar_url }}" id="profile_img"/>
                 {% else %}
                     <img src="{% static 'images/default-user-icon-13.jpg' %}" id="profile_img">
                 {% endif %}
@@ -48,13 +48,13 @@
 
             <div class="col-md-12">
                 <div class="profile_info">
-                    <h2 id="profile_title">{{ user }}'s profile</h2>
+                    <h2 id="profile_title">{{ profile_user }}'s profile</h2>
 
                     <ul>
-                        <li>username : {{ user.username }}</li>
-                        <li>email : {{ user.email }}</li>
-                        <li>date_joined : {{ user.date_joined }}</li>
-                        <li>phone_number : {{ user.phone_number }}</li>
+                        <li>username : {{ profile_user.username }}</li>
+                        <li>email : {{ profile_user.email }}</li>
+                        <li>date_joined : {{ profile_user.date_joined }}</li>
+                        <li>phone_number : {{ profile_user.phone_number }}</li>
                     </ul>
                 </div>
             </div>

@@ -42,9 +42,9 @@ def signup(request):
     })
 
 @login_required
-def profile(request):
-    # user = get_object_or_404(User, username='username')
-    return render(request, 'accounts/profile.html')
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    return render(request, 'accounts/profile.html', {'profile_user': user})
 
 # def follow(request):
 #     if request.method == 'POST':
