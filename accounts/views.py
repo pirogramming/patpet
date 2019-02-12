@@ -46,16 +46,9 @@ def signup(request):
     })
 
 @login_required
-def profile(request, username):
-    user = get_object_or_404(User, username=username)
+def profile(request, user_profile_id):
+    user = get_object_or_404(User, pk=user_profile_id)
     return render(request, 'accounts/profile.html', {'profile_user': user})
-
-# def follow(request):
-#     if request.method == 'POST':
-#
-#
-#     return
-
 
 @login_forbidden
 def login(request):
@@ -72,6 +65,7 @@ def login(request):
         template_name='accounts/login_form.html',
         extra_context={'providers': providers})(request)
 
+@login_required
 def follow_user(request, user_profile_id):
     profile_to_follow = get_object_or_404(Profile, pk=user_profile_id)
     user_profile = request.user
@@ -83,6 +77,7 @@ def follow_user(request, user_profile_id):
         data['message'] = "You are now following {}".format(profile_to_follow)
     return JsonResponse(data, safe=False)
 
+@login_required
 def unfollow_user(request, user_profile_id):
     profile_to_follow = get_object_or_404(Profile, pk=user_profile_id)
     user_profile = request.user

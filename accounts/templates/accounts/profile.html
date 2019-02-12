@@ -58,13 +58,17 @@
                     </ul>
                 </div>
             </div>
+<script>$('.follow-button').click(function() {
+    $.get($(this).data('url'), function(response) {
+        $('.message-section').text(response.message).show();
+    });
+});</script>
 
-
-    <div class="message-section" style="display:none;"></div>
-    {% for user_profile in all_user_profiles %}
-        <button data-url="{% url "accounts.views.follow_user" user_profile_id=user_profile.id %}"
+{#    <div class="message-section" style="display:none;"></div>#}
+{#    {% for user_profile in all_user_profile %}#}
+        <button data-url="{% url "follow" profile_user.id %}"
                 class="follow-button" type="button">Follow</button>
-    {% endfor %}
+{#    {% endfor %}#}
 
         </div>
     </div>
