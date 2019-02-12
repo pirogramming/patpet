@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Profile
+from django.forms import ModelForm
+
+from .models import Profile, Follow
 
 
 class SignupForm(UserCreationForm):
@@ -19,3 +21,10 @@ class SignupForm(UserCreationForm):
 
         )
         return user
+
+
+class FollowForm(ModelForm):
+
+    class Meta:
+        exclude = set()
+        model = Follow

@@ -4,14 +4,18 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView
 
-from accounts.models import Profile
-from .forms import SignupForm
+from accounts.models import Profile, Follow
+from .forms import SignupForm, FollowForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 LOGGED_IN_HOME = settings.LOGIN_REDIRECT_URL
+
 
 def login_forbidden(function=None, redirect_field_name=None, redirect_to=LOGGED_IN_HOME):
     """
@@ -55,7 +59,7 @@ def profile(request, username):
 
 @login_forbidden
 def login(request):
-
+    settings.LOGIN_REDIRECT_URL = '/accounts/error/'
     providers = []
     for provider in get_providers():
 
@@ -68,5 +72,35 @@ def login(request):
         template_name='accounts/login_form.html',
         extra_context={'providers': providers})(request)
 
-def follow(request):
-    return
+def follow_user(request, user_profile_id):
+    profile_to_follow = get_object_or_404(Profile, pk=user_profile_id)
+    user_profile = request.user
+    data = {}
+    if profile_to_follow.follows.filter(id=user_profile.id).exists():
+        data['message'] = "You are already following this user."
+    else:
+        profile_to_follow.follows.add(user_profile)
+        data['message'] = "You are now following {}".format(profile_to_follow)
+    return JsonResponse(data, safe=False)
+
+
+class FollowView(CreateView):
+    form_class = FollowForm
+    model = Follow
+    success_url = reverse_lazy('timeline_feed')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(FollowView, self).form_valid(form)
+
+class UnfollowView(DeleteView):
+    model = Follow
+    success_url = reverse_lazy('timeline_feed')
+
+    def get_object(self):
+        target_id = self.kwargs['target_id']
+        return self.get_queryset().get(target__id=target_id)
+
+
+def profile_redirect(request):
+    return redirect('home')

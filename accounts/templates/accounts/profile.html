@@ -59,12 +59,13 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <form action="" method="get">
-                <input type="submit">
-                </form>
 
-            </div>
+    <div class="message-section" style="display:none;"></div>
+    {% for user_profile in all_user_profiles %}
+        <button data-url="{% url "accounts.views.follow_user" user_profile_id=user_profile.id %}"
+                class="follow-button" type="button">Follow</button>
+    {% endfor %}
+
         </div>
     </div>
 
