@@ -83,6 +83,21 @@ def follow_user(request, user_profile_id):
         data['message'] = "You are now following {}".format(profile_to_follow)
     return JsonResponse(data, safe=False)
 
+def unfollow_user(request, user_profile_id):
+    profile_to_follow = get_object_or_404(Profile, pk=user_profile_id)
+    user_profile = request.user
+    data = {}
+    if profile_to_follow.follows.filter(id=user_profile.id).exists():
+        profile_to_follow.follows.remove(user_profile)
+        data['message'] = "You are now unfollowing {}.".format(profile_to_follow)
+    else:
+        data['message'] = "You are not following this user"
+    return JsonResponse(data, safe=False)
+
+
+
+
+
 
 class FollowView(CreateView):
     form_class = FollowForm

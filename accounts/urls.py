@@ -13,6 +13,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     # path('login/', auth_views.LoginView.as_view(template_name='accounts/login_form.html', authentication_form= LoginForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page=LOGIN_URL), name='logout'),
-    path('follow/<user_profile_id>', views.follow_user)
+    path('follow/<user_profile_id>', views.follow_user),
+    path('unfollow/<user_profile_id>', views.unfollow_user)
 
 ]
