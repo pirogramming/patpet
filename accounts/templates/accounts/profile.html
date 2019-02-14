@@ -58,21 +58,29 @@
                     </ul>
                 </div>
             </div>
+
+
+        {% if profile_user.id == request_user %}
+
+        {% elif profile_user.id == request_user %}
+            <button class="follow-button" type="button"><a href="{% url 'unfollow' profile_user.id %}">UnFollow</a></button>
+        {% else %}
+            <button class="follow-button btn btn-primary" type="button"><a href="{% url 'follow' profile_user.id %}">Follow</a></button>
+        {% endif %}
+
+{#    <div class="message-section" style="display:none;"></div>#}
+{#    {% for user_profile in all_user_profile %}#}
+
+{#        <button class="follow-button btn btn-primary" type="button"><a href="{% url 'follow' profile_user.id %}">Follow</a></button>#}
+{#    {% endfor %}#}
+
+        </div>
+    </div>
 <script>$('.follow-button').click(function() {
     $.get($(this).data('url'), function(response) {
         $('.message-section').text(response.message).show();
     });
 });</script>
-
-{#    <div class="message-section" style="display:none;"></div>#}
-{#    {% for user_profile in all_user_profile %}#}
-        <button data-url="{% url "follow" profile_user.id %}"
-                class="follow-button" type="button">Follow</button>
-{#    {% endfor %}#}
-
-        </div>
-    </div>
-
 
 
 

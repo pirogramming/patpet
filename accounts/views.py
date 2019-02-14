@@ -9,10 +9,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView
 
-from accounts.models import Profile, Follow
-from .forms import SignupForm, FollowForm
+from accounts.models import Profile, User
+from .forms import SignupForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
+
 
 LOGGED_IN_HOME = settings.LOGIN_REDIRECT_URL
 
@@ -45,10 +46,13 @@ def signup(request):
         'form': form,
     })
 
+
+
 @login_required
 def profile(request, user_profile_id):
     user = get_object_or_404(User, pk=user_profile_id)
-    return render(request, 'accounts/profile.html', {'profile_user': user})
+    profile = get_object_or_404(Profile, pk=user_profile_id)
+    return render(request, 'accounts/profile.html', {'profile_user': user, 'request_user': request.user.id,'real_profile_user':profile})
 
 @login_forbidden
 def login(request):
@@ -67,14 +71,24 @@ def login(request):
 
 @login_required
 def follow_user(request, user_profile_id):
+    #debug
+    print(request.user.profile.id)
+    print(user_profile_id)
     profile_to_follow = get_object_or_404(Profile, pk=user_profile_id)
     user_profile = request.user
     data = {}
-    if profile_to_follow.follows.filter(id=user_profile.id).exists():
+
+    if int(user_profile_id) == request.user.profile.id:
+        data['message'] = "You can not follow yourself"
+    elif profile_to_follow.follows.filter(id=user_profile.id).exists():
         data['message'] = "You are already following this user."
     else:
         profile_to_follow.follows.add(user_profile)
         data['message'] = "You are now following {}".format(profile_to_follow)
+    print(data)
+    t = user_profile.followed_by.all()
+    print(t)
+
     return JsonResponse(data, safe=False)
 
 @login_required
@@ -92,24 +106,24 @@ def unfollow_user(request, user_profile_id):
 
 
 
-
-
-class FollowView(CreateView):
-    form_class = FollowForm
-    model = Follow
-    success_url = reverse_lazy('timeline_feed')
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(FollowView, self).form_valid(form)
-
-class UnfollowView(DeleteView):
-    model = Follow
-    success_url = reverse_lazy('timeline_feed')
-
-    def get_object(self):
-        target_id = self.kwargs['target_id']
-        return self.get_queryset().get(target__id=target_id)
+#
+#
+# class FollowView(CreateView):
+#     form_class = FollowForm
+#     model = Follow
+#     success_url = reverse_lazy('timeline_feed')
+#
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         return super(FollowView, self).form_valid(form)
+#
+# class UnfollowView(DeleteView):
+#     model = Follow
+#     success_url = reverse_lazy('timeline_feed')
+#
+#     def get_object(self):
+#         target_id = self.kwargs['target_id']
+#         return self.get_queryset().get(target__id=target_id)
 
 
 def profile_redirect(request):
