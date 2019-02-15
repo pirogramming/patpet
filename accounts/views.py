@@ -16,7 +16,7 @@ from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 
-LOGGED_IN_HOME = settings.LOGIN_REDIRECT_URL
+LOGGED_IN_HOME = '/home/post_list'
 
 
 def login_forbidden(function=None, redirect_field_name=None, redirect_to=LOGGED_IN_HOME):
@@ -120,4 +120,4 @@ def autocompleteModel(request):
     return HttpResponse(data, mimetype)
 
 def profile_redirect(request):
-    return redirect('home')
+    return redirect('/home/post_list')

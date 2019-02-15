@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 from accounts import views
 from accounts.views import autocompleteModel
 
+app_name = 'accounts'
+
 urlpatterns = [
     path('error/', views.profile_redirect),
     path('profile/<user_profile_id>/', views.profile, name='profile'),

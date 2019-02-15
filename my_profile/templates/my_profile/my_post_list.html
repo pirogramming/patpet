@@ -1,0 +1,37 @@
+<style>
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+</style>
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="posting_list">
+    <h1 class="header"><strong>My Post</strong></h1>
+    <!-- 한 줄 세로로-->
+        {% for each_post in post_list %}
+            <article class="posting" style="width: 500px;">
+                {% if each_post.photo %}
+                <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;" /><br/>
+                {% endif %}
+                <div class="posting_txt">
+                    <div class="bar">
+                        <i class="fas fa-paw posting_like fa-2x"></i>
+                        <i class="far fa-comments posting_like fa-2x"></i>
+                        <i class="far fa-save posting_like fa-2x"></i>
+                        <span class="edit_and_delete">
+                            <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_post.id %}" class="edit">수정</a></button>
+                            <form class="delete" action="{% url "my_profile:post_delete" each_post.pk %}" method="post">
+                                {% csrf_token %}
+                                <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">삭제</button>
+                            </form>
+                        </span>
+                    </div>
+                    <p class="user_id">{{ each_post.author }}</p>
+                    <p class="posting_cont">{{ each_post.content }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </section>
+{% endblock %}
