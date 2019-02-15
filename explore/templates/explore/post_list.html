@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+
+
+  <!-- Demo styles -->
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color:#000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      height: auto;
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    .swiper-container-v {
+      background: #eee;
+    }
+    .container {
+      padding-top: 80px;
+    }
+  </style>
+
+  <!-- Swiper -->
+  <div class="swiper-container swiper-container-h">
+    <div class="swiper-wrapper">
+
+      <div class="swiper-slide">
+        <div class="swiper-container swiper-container-v">
+          <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+
+                        <div class="container">
+                            <p>소통해요</p>
+                            <p><a href="{%  url "explore:post_new" %}" class="btn btn-primary pull-right">New Post</a>
+                            </p>
+                            <div class="row">
+                                {% for post in post_list %}
+                                    <div class="col-4">
+
+                                        <div class="card" style="width: 18rem;">
+                                          {% if post.photo %}
+                                            <img src="{{ post.photo.url }}" class="card-img-top" alt="..." width:atuo; height="200px"; >
+                                          {% else %}
+                                          <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..." height="200px"; >
+                                          {% endif %}
+                                          <div class="card-body">
+                                          <p class="card-text"><a href="{% url "explore:post_detail" post.id %}">
+                                            {{ post.title }}</a></p>
+                                          </div>
+                                        </div></br>
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                </div>
+
+
+          </div>
+           <!-- Add Scroll Bar -->
+          <div class="swiper-scrollbar"></div>
+          <!--<div class="swiper-pagination swiper-pagination-v"></div>-->
+        </div>
+      </div>
+      <div class="swiper-slide">Horizontal Slide 1</div>
+      <div class="swiper-slide">Horizontal Slide 3</div>
+
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination swiper-pagination-h"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiperH = new Swiper('.swiper-container-h', {
+      spaceBetween: 50,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination-h',
+        clickable: true,
+      },
+      mousewheel: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    var swiperV = new Swiper('.swiper-container-v', {
+      direction: 'vertical',
+      spaceBetween: 50,
+      slidesPerView: 'auto',
+      freeMode: true,
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+    });
+  </script>
+
+
+
+
+
+
+
+{% endblock %}
+
