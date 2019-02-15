@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+    <style>
+        .container {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        h1 {
+            color: #6E6E6E;
+            font-size: 24px;
+        }
+
+        .col-sm-4 {
+            border-right: 3px solid green;
+            border-left: 3px solid green;
+            height: 500px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h1>What's New</h1>
+            </div>
+            <div class="col-sm-4">
+                <h1>Today's Pick</h1>
+            </div>
+            <div class="col-sm-4">
+                <h1>소통해요</h1>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
