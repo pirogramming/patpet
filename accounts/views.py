@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView
+from django_extensions.db.fields import json
 
 from accounts.models import Profile, User
 from .forms import SignupForm
@@ -104,27 +105,19 @@ def unfollow_user(request, user_profile_id):
     return JsonResponse(data, safe=False)
 
 
-
-
-#
-#
-# class FollowView(CreateView):
-#     form_class = FollowForm
-#     model = Follow
-#     success_url = reverse_lazy('timeline_feed')
-#
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         return super(FollowView, self).form_valid(form)
-#
-# class UnfollowView(DeleteView):
-#     model = Follow
-#     success_url = reverse_lazy('timeline_feed')
-#
-#     def get_object(self):
-#         target_id = self.kwargs['target_id']
-#         return self.get_queryset().get(target__id=target_id)
-
+def autocompleteModel(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = Profile.objects.filter(name__startswith=q)
+        results = []
+        print(q)
+        for r in search_qs:
+            results.append(r.FIELD)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
 
 def profile_redirect(request):
     return redirect('home')

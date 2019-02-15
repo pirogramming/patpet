@@ -1,0 +1,25 @@
+{% extends "accounts/layout.html" %}
+{% load static %}
+{% block content %}
+
+
+<form id=”search” method="POST" action=”{% url 'search' %}”>
+ {% csrf_token %}
+ <input type="text" class=”form-control” id=”txtSearch” name=”txtSearch”>
+ <button type="submit" class="btn btn-default btn-submit">Submit</button>
+ </form>
+    <script>
+        $(document).ready(function(){
+            $("#txtSearch").autocomplete({
+                source: "/ajax_calls/search/",
+                minLength: 2,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });
+        });
+</script>
+
+{% endblock %}

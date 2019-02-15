@@ -26,6 +26,7 @@
     #profile_title {
 
     }
+
 </style>
 
 
@@ -59,30 +60,41 @@
                 </div>
             </div>
 
+       <div>
+        {{ profile_user.id }}
+        {{ request.user }}
+        {{ real_profile_user.follows.all }}
+        </div>
 
         {% if profile_user.id == request_user %}
 
-        {% elif profile_user.id == request_user %}
-            <button class="follow-button" type="button"><a href="{% url 'unfollow' profile_user.id %}">UnFollow</a></button>
+        {% elif request.user in real_profile_user.follows.all %}
+            <button class="follow-button btn btn-outline-danger" type="button"><a href="{% url 'unfollow' profile_user.id %}">UnFollow</a></button>
         {% else %}
-            <button class="follow-button btn btn-primary" type="button"><a href="{% url 'follow' profile_user.id %}">Follow</a></button>
+            <button class="follow-button btn btn-outline-danger" type="button"><a href="{% url 'follow' profile_user.id %}">Follow</a></button>
         {% endif %}
-
-{#    <div class="message-section" style="display:none;"></div>#}
-{#    {% for user_profile in all_user_profile %}#}
-
-{#        <button class="follow-button btn btn-primary" type="button"><a href="{% url 'follow' profile_user.id %}">Follow</a></button>#}
-{#    {% endfor %}#}
 
         </div>
     </div>
-<script>$('.follow-button').click(function() {
-    $.get($(this).data('url'), function(response) {
-        $('.message-section').text(response.message).show();
-    });
-});</script>
 
-
+<form id="search" method="POST" action="{% url 'search' %}">
+ {% csrf_token %}
+ <input type="text" class="form-control" id="txtSearch" name="txtSearch">
+ <button type="submit" class="btn btn-default btn-submit">Submit</button>
+ </form>
+    <script>
+        $(document).ready(function(){
+            $("#txtSearch").autocomplete({
+                source: "/ajax_calls/search/",
+                minLength: 2,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });
+        });
+</script>
 
 
 
