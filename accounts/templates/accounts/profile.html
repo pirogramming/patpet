@@ -280,10 +280,10 @@
             {% for each_post in profile_post_list %}
             {#                                {{ each_post.photo.url }}#}
             <div class="col-md-4">
-                <a class="{{ each_post }}_open pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a></div>
+                <a class="{{ each_post.id }}_open pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a></div>
 
 
-            <section id="{{ each_post }}" class="popup_post_detail posting">
+            <section id="{{ each_post.id }}" class="popup_post_detail posting">
 {#                       {% if profile_post_list %}#}
 {#            {% for each_post in profile_post_list %}#}
 {#                {% if each_post ==  %}#}
@@ -362,7 +362,7 @@
     escape: false
     });
     {% for each_post in profile_post_list %}
-    $('#{{ each_post }}').popup({
+    $('#{{ each_post.id }}').popup({
     pagecontainer: '#page',
     escape: false
     });
