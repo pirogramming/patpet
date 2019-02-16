@@ -115,3 +115,7 @@ def search(request):
         return render(request, 'accounts/search.html', {
             'user_result' : qs,
             'q' : q, })
+
+
+def searchtest(request):
+    return render(request, 'accounts/search_test_form.html')

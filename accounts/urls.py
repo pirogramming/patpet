@@ -15,6 +15,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page=LOGIN_URL), name='logout'),
     path('follow/<user_profile_id>', views.follow_user, name='follow'),
     path('unfollow/<user_profile_id>', views.unfollow_user, name='unfollow'),
-    path('search/', views.search, name='search')
+    path('search/', views.search, name='search'),
+    path('searchtest/', views.searchtest, name='searchtest')
 
 ]
