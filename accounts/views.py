@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile, User
 from my_profile.models import Post
@@ -49,12 +50,16 @@ def profile(request, user_profile_id):
     user = get_object_or_404(User, pk=user_profile_id)
     profile = get_object_or_404(Profile, pk=user_profile_id)
     post_list = profile.user.post_set
-
+    post_user = get_object_or_404(get_user_model(), pk=user_profile_id)
+    profile_post = post_user.post_set.all()
+    print(profile_post)
     return render(request, 'accounts/profile.html', {
         'profile_user': user,
         'request_user': request.user.id,
         'real_profile_user': profile,
-        'post_list': post_list})
+        'post_list': post_list,
+        'profile_post_list': profile_post,
+    })
 
 @login_forbidden
 def login(request):
@@ -154,3 +159,4 @@ def profile_edit(request, pk):
 
 def searchtest(request):
     return render(request, 'accounts/search_test_form.html')
+

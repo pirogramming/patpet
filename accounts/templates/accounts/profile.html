@@ -2,6 +2,10 @@
     * {
         font-family: 'Abel', sans-serif;
     }
+
+    .container {
+        margin-bottom: 100px;
+    }
     .profile_head {
         text-align: center;
         margin-top: 50px;
@@ -15,6 +19,7 @@
         overflow: hidden;
         margin-left: auto;
         margin-right: auto;
+        vertical-align: middle;
 
     }
     .profile_img img {
@@ -22,6 +27,7 @@
         margin-left: auto;
         margin-right: auto;
         height: 100%;
+        vertical-align: middle;
     }
 
     .profile_info {
@@ -131,6 +137,50 @@
         font-size: 16px;
 
     }
+    .pic {
+        width: 100%;
+
+        float: left;
+        position: relative;
+        overflow: hidden;
+        vertical-align: middle;
+
+    }
+
+    .pic-srs {
+        width: 100%;
+        height: 350px;
+
+    }
+    @media (min-width: 768px) {
+        .pic-srs {
+            width: 100%;
+            height: 210px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .pic-srs {
+            width: 100%;
+            height: 290px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .pic-srs {
+            width: 100%;
+            height: 350px;
+        }
+
+    }
+    .post_col {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 30px;
+    }
+    .post-container {
+        margin-top: 30px;
+    }
 </style>
 
 
@@ -161,7 +211,11 @@
                         <ul class="profile_list">
                             <div class="profile_list_d">
                             <li>
-                                <a href="{% url "my_profile:my_post_list" user.username %}" class="profile_unit post_list" >{{ post_list.count }}</a>
+                                {% if profile_user.id == request_user  %}
+                                    <a href="{% url "my_profile:my_post_list" user.username %}" class="profile_unit post_list" >{{ post_list.count }}</a>
+                                {% else %}
+                                    <div class="profile_unit post_list" >{{ post_list.count }}</div>
+                                {% endif %}
                             <div class="profile_unit_head">
                                 Posts
                             </div></li>
@@ -204,6 +258,9 @@
                         {% endif %}
                         </div>
 
+
+
+
 {#                    <ul>#}
 {#                        <li>username : {{ profile_user.username }}</li>#}
 {#                        <li>email : {{ profile_user.email }}</li>#}
@@ -214,24 +271,36 @@
 {#                    </ul>#}
                 </div>
             </div>
+        </div>
+        <div class="row post-container">
+            {% if profile_post_list %}
+            {% for each_post in profile_post_list %}
+            {#                                {{ each_post.photo.url }}#}
+            <div class="col-md-4">
+                <a href="popup3_open" class="pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a></div>
 
 
 
 
 
+            {% endfor %}
+            {% endif %}
+        </div>
 
-{##}
-{#       <div>#}
-{#        {{ profile_user.id }}#}
-{#        {{ request.user }}#}
-{#           나를 팔로우 한사람#}
-{#        {{ real_profile_user.follows.all }}#}
-{#           내가 팔로우 한사람#}
-{#           {{ profile_user.followed_by.all }}#}
-{#        </div>#}
+    </div>
+            <section id="popup3" class="popup_post_detail posting">
+                <img src="{{ photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
+                <div class="posting_txt">
+                    <i class="fas fa-paw posting_like fa-2x"></i>
+                    <i class="far fa-comments posting_like fa-2x"></i>
+                    <i class="far fa-save posting_like fa-2x"></i>
+                </div>
+                <p class="user_id">{{ each_post.author }}</p>
+                <p class="posting_cont">{{ each_post.content }}</p>
+                <p>{{ each_post.time_interval }} <small>전...</small></p>
+            </section>
 
-
-        <section id="popup1" class="popup_content">
+            <section id="popup1" class="popup_content">
             <h2>Followers</h2>
             <ul class="f_list">
             {% for each_follower in real_profile_user.follows.all %}
@@ -263,12 +332,6 @@
             {% endfor %}
             </ul>
         </section>
-
-
-
-
-        </div>
-    </div>
 {#    #}
 {#<form action="{% url 'accounts:search' %}?next={{ request.path }}" method="get">#}
 {#  <input type="text" name="q" value="{{ q }}">#}
@@ -288,6 +351,11 @@
     pagecontainer: '#page',
     escape: false
     });
+    $('#popup3').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+
 </script>
 
 {% endblock %}
