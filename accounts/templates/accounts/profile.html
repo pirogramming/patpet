@@ -65,7 +65,9 @@
                     </ul>
                 </div>
             </div>
-                <div class="button_center">
+                {% if profile_user.id == request_user %}
+
+            <div class="button_center">
                 <a href="{% url "my_profile:post_new" %}" class="new_post_button">
                     <button class="btn btn-secondary">New Post</button>
                 </a>
@@ -73,6 +75,8 @@
                     <button class="btn btn-secondary">My Post</button>
                 </a>
             </div>
+        {% else %}
+        {% endif %}
        <div>
         {{ profile_user.id }}
         {{ request.user }}
@@ -90,25 +94,10 @@
         </div>
     </div>
 
-
-<form id="search" method="POST" action="{% url 'accounts:search' %}">
- {% csrf_token %}
- <input type="text" class="form-control" id="txtSearch" name="txtSearch">
- <button type="submit" class="btn btn-default btn-submit">Submit</button>
- </form>
-    <script>
-        $(document).ready(function(){
-            $("#txtSearch").autocomplete({
-                source: "/ajax_calls/search/",
-                minLength: 2,
-                open: function(){
-                    setTimeout(function () {
-                        $('.ui-autocomplete').css('z-index', 99);
-                    }, 0);
-                }
-              });
-        });
-</script>
+<form action="{% url 'accounts:search' %}" method="get">
+  <input type="text" name="q" value="{{ q }}">
+  <input type="submit" value="검색">
+</form>
 
 
 

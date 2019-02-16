@@ -11,6 +11,7 @@ from django.views.generic import CreateView, DeleteView
 from django_extensions.db.fields import json
 
 from accounts.models import Profile, User
+from my_profile.models import Post
 from .forms import SignupForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
@@ -104,20 +105,34 @@ def unfollow_user(request, user_profile_id):
         data['message'] = "You are not following this user"
     return JsonResponse(data, safe=False)
 
-
-def autocompleteModel(request):
-    if request.is_ajax():
-        q = request.GET.get('term', '').capitalize()
-        search_qs = Profile.objects.filter(name__startswith=q)
-        results = []
-        print(q)
-        for r in search_qs:
-            results.append(r.FIELD)
-        data = json.dumps(results)
-    else:
-        data = 'fail'
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+#
+# def autocompleteModel(request):
+#     if request.is_ajax():
+#         q = request.GET.get('term', '').capitalize()
+#         search_qs = Profile.objects.filter(name__startswith=q)
+#         results = []
+#         print(q)
+#         for r in search_qs:
+#             results.append(r.FIELD)
+#         data = json.dumps(results)
+#     else:
+#         data = 'fail'
+#     mimetype = 'application/json'
+#     return HttpResponse(data, mimetype)
 
 def profile_redirect(request):
     return redirect('/home/post_list')
+
+def search(request):
+    qs = User.objects.all()
+    print(qs)
+    q = request.GET.get('q', '') # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    print(q)
+    if q: # q가 있으면
+        qs = qs.filter(username__icontains=q) # 제목에 q가 포함되어 있는 레코드만 필터링
+
+        return render(request, 'accounts/search.html', {
+            'user_result' : qs,
+            'q' : q, })
+    else:
+        return redirect(request)

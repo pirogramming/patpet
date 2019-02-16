@@ -2,24 +2,33 @@
 {% load static %}
 {% block content %}
 
+{##}
+{#<form id=”search” method="POST" action=”{% url 'search' %}”>#}
+{# {% csrf_token %}#}
+{# <input type="text" class=”form-control” id=”txtSearch” name=”txtSearch”>#}
+{# <button type="submit" class="btn btn-default btn-submit">Submit</button>#}
+{# </form>#}
+{#    <script>#}
+{#        $(document).ready(function(){#}
+{#            $("#txtSearch").autocomplete({#}
+{#                source: "/ajax_calls/search/",#}
+{#                minLength: 2,#}
+{#                open: function(){#}
+{#                    setTimeout(function () {#}
+{#                        $('.ui-autocomplete').css('z-index', 99);#}
+{#                    }, 0);#}
+{#                }#}
+{#              });#}
+{#        });#}
+{#</script>#}
 
-<form id=”search” method="POST" action=”{% url 'search' %}”>
- {% csrf_token %}
- <input type="text" class=”form-control” id=”txtSearch” name=”txtSearch”>
- <button type="submit" class="btn btn-default btn-submit">Submit</button>
- </form>
-    <script>
-        $(document).ready(function(){
-            $("#txtSearch").autocomplete({
-                source: "/ajax_calls/search/",
-                minLength: 2,
-                open: function(){
-                    setTimeout(function () {
-                        $('.ui-autocomplete').css('z-index', 99);
-                    }, 0);
-                }
-              });
-        });
-</script>
-
+    {% if user_result %}
+    {% for each_profile in user_result %}
+        <a href="{% url 'accounts:profile' user_profile_id=each_profile.id %}">{{ each_profile.username }}</a>
+    <!--Upon successful search book image with hyperlink appears -->
+{#    <img src="{{each_book.image.url}}" alt="No Image"></a>#}
+{#    <p>{{each_book.bookname}}</p>#}
+{#    <p>Rs.{{each_book.price}}</p>#}
+    {% endfor %}
+    {% endif %}
 {% endblock %}

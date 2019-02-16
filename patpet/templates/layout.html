@@ -61,7 +61,7 @@
               <a href="#" class="bottom_menu">SEARCH</a>
           </button>
           <button type="button" class="btn btn-secondary">
-              <a href="#"class="bottom_menu">EXPLORE</a>
+              <a href="{% url 'explore:post_list' %}"class="bottom_menu">EXPLORE</a>
           </button>
           <button type="button" class="btn btn-secondary">
               <a href="{% url 'accounts:profile' user_profile_id=user.id %}"class="bottom_menu">PROFILE</a>
