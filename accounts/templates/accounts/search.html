@@ -19,7 +19,6 @@
     .s_img {
         border-radius: 100%;
         width: 90%;
-        margin-bottom: 10px;
     }
 
     .s_font {
@@ -40,11 +39,23 @@
             {% for each_profile in user_result %}
             <!--Upon successful search book image with hyperlink appears -->
                 <div class="s_profile_container">
-                {% if each_profile.socialaccount_set.all.first.get_avatar_url %}
-                    <img src="{{ each_profile.socialaccount_set.all.first.get_avatar_url }}" class="s_img"/>
-                {% else %}
-                    <img src="{% static 'images/default-user-icon-13.jpg' %}" class="s_img">
-                {% endif %}
+{#                {% if each_profile.id in profile_user.id %}#}
+                {% for profile_each_user in profile_user %}
+                    {% if profile_each_user.id == each_profile.id %}
+
+                        {% if each_profile.socialaccount_set.all.first.get_avatar_url %}
+                            <img src="{{ each_profile.socialaccount_set.all.first.get_avatar_url }}" class="s_img" />
+                        {% elif profile_each_user.pic %}
+                            <img src="{{ profile_each_user.pic.url }}" class="s_img"/>
+                        {% else %}
+                            <img src="{% static 'images/default-user-icon-13.jpg' %}" class="s_img"/>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+
+
+
                 <br>
                 <a href="{% url 'accounts:profile' user_profile_id=each_profile.id %}" class="s_font">{{ each_profile.username }}</a>
                 {#    <p>{{each_profile.username}}</p>#}

@@ -115,15 +115,23 @@ def profile_redirect(request):
 @login_required
 def search(request):
     qs = User.objects.all()
-    print(qs)
+    # print(qs)
     q = request.GET.get('q', '')
-    print(q)
-    if q:
-        qs = qs.filter(username__icontains=q)
+    # print(q)
 
+    if q:
+        profile = []
+        qs = qs.filter(username__icontains=q)
+        for qp in qs:
+
+            profile.append(get_object_or_404(Profile, pk=qp.id))
+            print(profile)
+        print(profile)
         return render(request, 'accounts/search.html', {
             'user_result': qs,
-            'q': q})
+            'q': q,
+            'profile_user': profile
+        })
 # def post_edit(request, id):
 #     post = get_object_or_404(CommunicationPost, id=id)
 #
