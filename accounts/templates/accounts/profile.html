@@ -260,6 +260,15 @@
                             <p>{{ real_profile_user.introduce }}</p>
                         {% endif %}
                         </div>
+                        {% if messages %}
+                          <div class="container">
+                              {% for message in messages %}
+                                  <div class="alert alert-{{ message.tags }}">
+                                    {{ message.message }}
+                                  </div>
+                              {% endfor %}
+                          </div>
+                        {% endif %}
 
 
 
