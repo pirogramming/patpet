@@ -93,8 +93,11 @@
 
         </div>
     </div>
+{#    <script>#}
+{#alert({{ data }});#}
+{#</script>#}
 
-<form action="{% url 'accounts:search' %}" method="get">
+<form action="{% url 'accounts:search' %}?next={{ request.path }}" method="get">
   <input type="text" name="q" value="{{ q }}">
   <input type="submit" value="검색">
 </form>

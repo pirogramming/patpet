@@ -1,17 +1,10 @@
-
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView
-from django_extensions.db.fields import json
-
 from accounts.models import Profile, User
-from my_profile.models import Post
 from .forms import SignupForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
@@ -81,17 +74,17 @@ def follow_user(request, user_profile_id):
     data = {}
 
     if int(user_profile_id) == request.user.profile.id:
-        data['message'] = "You can not follow yourself"
+        messages.warning(request, "You can not follow yourself")
     elif profile_to_follow.follows.filter(id=user_profile.id).exists():
-        data['message'] = "You are already following this user."
+        messages.warning(request, "You are already following this user.")
     else:
         profile_to_follow.follows.add(user_profile)
-        data['message'] = "You are now following {}".format(profile_to_follow)
+        messages.success(request, "You are now following {}".format(profile_to_follow.user))
     print(data)
     t = user_profile.followed_by.all()
     print(t)
 
-    return JsonResponse(data, safe=False)
+    return redirect('accounts:profile', user_profile_id)
 
 @login_required
 def unfollow_user(request, user_profile_id):
@@ -100,39 +93,25 @@ def unfollow_user(request, user_profile_id):
     data = {}
     if profile_to_follow.follows.filter(id=user_profile.id).exists():
         profile_to_follow.follows.remove(user_profile)
-        data['message'] = "You are now unfollowing {}.".format(profile_to_follow)
+        messages.success(request, "You are now unfollowing {}.".format(profile_to_follow.user))
     else:
-        data['message'] = "You are not following this user"
-    return JsonResponse(data, safe=False)
+        messages.warning(request, "You are not following this user")
+    return redirect('accounts:profile', user_profile_id)
 
-#
-# def autocompleteModel(request):
-#     if request.is_ajax():
-#         q = request.GET.get('term', '').capitalize()
-#         search_qs = Profile.objects.filter(name__startswith=q)
-#         results = []
-#         print(q)
-#         for r in search_qs:
-#             results.append(r.FIELD)
-#         data = json.dumps(results)
-#     else:
-#         data = 'fail'
-#     mimetype = 'application/json'
-#     return HttpResponse(data, mimetype)
 
+@login_required
 def profile_redirect(request):
     return redirect('/home/post_list')
 
+@login_required
 def search(request):
     qs = User.objects.all()
     print(qs)
-    q = request.GET.get('q', '') # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    q = request.GET.get('q', '')
     print(q)
-    if q: # q가 있으면
-        qs = qs.filter(username__icontains=q) # 제목에 q가 포함되어 있는 레코드만 필터링
+    if q:
+        qs = qs.filter(username__icontains=q)
 
         return render(request, 'accounts/search.html', {
             'user_result' : qs,
             'q' : q, })
-    else:
-        return redirect(request)
