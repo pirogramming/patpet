@@ -1,4 +1,7 @@
 <style>
+    * {
+        font-family: 'Abel', sans-serif;
+    }
     .search_result {
         margin-top: 100px;
         text-align: center;
@@ -7,6 +10,12 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    h1 {
+        margin-bottom: 30px !important;
+        font-size: 35px !important;
+    }
+
     .s_profile_container {
         float: left;
         width: 170px;
@@ -18,11 +27,15 @@
     }
     .s_img {
         border-radius: 100%;
-        width: 90%;
+        width: 85%;
+        margin-bottom: 14px;
     }
 
     .s_font {
-        font-size: 18px;
+        font-size: 20px;
+    }
+    .no_result {
+        font-size: 20px;
     }
 </style>
 
@@ -34,8 +47,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+
             <div class="search_result">
             {% if user_result %}
+                <h1>USER</h1>
             {% for each_profile in user_result %}
             <!--Upon successful search book image with hyperlink appears -->
                 <div class="s_profile_container">
@@ -56,12 +71,17 @@
 
 
 
-                <br>
+
                 <a href="{% url 'accounts:profile' user_profile_id=each_profile.id %}" class="s_font">{{ each_profile.username }}</a>
                 {#    <p>{{each_profile.username}}</p>#}
         {#    <p>Rs.{{each_book.price}}</p>#}
                 </div>
             {% endfor %}
+            {% else %}
+                <h1>NO RESULT FOUND</h1>
+                <div class="no_result">
+                    Please check your input({{ q }})
+                </div>
             {% endif %}
             </div>
         </div>
