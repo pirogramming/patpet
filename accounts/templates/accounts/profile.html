@@ -33,6 +33,13 @@
         text-decoration: none;
     }
 
+    .popup_content {
+  margin: 10px;
+  padding: 0 10px;
+  max-width: 60%;
+  border: 2px solid #444;
+  background: white;
+}
 </style>
 
 
@@ -62,6 +69,8 @@
                         <li>email : {{ profile_user.email }}</li>
                         <li>date_joined : {{ profile_user.date_joined }}</li>
                         <li>phone_number : {{ profile_user.phone_number }}</li>
+                        <li>follower : <a class="popup1_open">{{ real_profile_user.follows.count }}</a></li>
+                        <li>follow : <a class="popup2_open">{{ profile_user.followed_by.count }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -77,11 +86,38 @@
             </div>
         {% else %}
         {% endif %}
+
+
        <div>
         {{ profile_user.id }}
         {{ request.user }}
+           나를 팔로우 한사람
         {{ real_profile_user.follows.all }}
+           내가 팔로우 한사람
+           {{ profile_user.followed_by.all }}
         </div>
+
+
+{#        <button class="popup1_open">click me!</button>#}
+        <section id="popup1" class="popup_content">
+            <h2>Followers</h2>
+            <ul>
+            {% for each_follower in real_profile_user.follows.all %}
+                <li>
+                    <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower }}</a>
+                </li>
+            {% endfor %}
+        </section>
+        <section id="popup2" class="popup_content">
+            <h2>Follows</h2>
+            <ul>
+            {% for each_follower in profile_user.followed_by.all %}
+                <li>
+                    <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower.user }}</a>
+                </li>
+            {% endfor %}
+        </section>
+
 
         {% if profile_user.id == request_user %}
 
@@ -93,15 +129,25 @@
 
         </div>
     </div>
-{#    <script>#}
-{#alert({{ data }});#}
-{#</script>#}
+{#    #}
+{#<form action="{% url 'accounts:search' %}?next={{ request.path }}" method="get">#}
+{#  <input type="text" name="q" value="{{ q }}">#}
+{#  <input type="submit" value="검색">#}
+{#</form>#}
 
-<form action="{% url 'accounts:search' %}?next={{ request.path }}" method="get">
-  <input type="text" name="q" value="{{ q }}">
-  <input type="submit" value="검색">
-</form>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
 
 
+<script>
+    $('#popup1').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+    $('#popup2').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+</script>
 
 {% endblock %}

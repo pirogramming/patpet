@@ -86,6 +86,8 @@ def follow_user(request, user_profile_id):
 
     return redirect('accounts:profile', user_profile_id)
 
+
+
 @login_required
 def unfollow_user(request, user_profile_id):
     profile_to_follow = get_object_or_404(Profile, pk=user_profile_id)
