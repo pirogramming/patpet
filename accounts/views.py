@@ -5,7 +5,8 @@ from django.contrib.auth.views import LoginView
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile, User
-from .forms import SignupForm
+from my_profile.models import Post
+from .forms import SignupForm, ProfileForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
@@ -47,7 +48,13 @@ def signup(request):
 def profile(request, user_profile_id):
     user = get_object_or_404(User, pk=user_profile_id)
     profile = get_object_or_404(Profile, pk=user_profile_id)
-    return render(request, 'accounts/profile.html', {'profile_user': user, 'request_user': request.user.id,'real_profile_user':profile})
+    post_list = profile.user.post_set
+
+    return render(request, 'accounts/profile.html', {
+        'profile_user': user,
+        'request_user': request.user.id,
+        'real_profile_user': profile,
+        'post_list': post_list})
 
 @login_forbidden
 def login(request):
@@ -115,9 +122,39 @@ def search(request):
         qs = qs.filter(username__icontains=q)
 
         return render(request, 'accounts/search.html', {
-            'user_result' : qs,
-            'q' : q, })
+            'user_result': qs,
+            'q': q})
+# def post_edit(request, id):
+#     post = get_object_or_404(CommunicationPost, id=id)
+#
+#     if request.method == 'POST':
+#         form = PostForm(request.POST, request.FILES, instance=post)
+#
+#         if form.is_valid():
+#             post = form.save()
+#
+#             return redirect('explore:post_detail', id=id)
+#     else:
+#         form = PostForm(instance=post)
+#     return render(request, 'explore/post_form.html', {
+#         'form': form,
+#     })
 
+@login_required
+def profile_edit(request, pk):
+    post = get_object_or_404(Profile, pk=pk)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save()
+            # post.ip = request.META['REMOTE_ADDR']
+            # post.save()
+            return redirect('accounts:profile', pk)
+    else:
+        form = ProfileForm(instance=post)
+    return render(request, 'accounts/profile_edit.html', {
+        'form': form,
+        })
 
 def searchtest(request):
     return render(request, 'accounts/search_test_form.html')

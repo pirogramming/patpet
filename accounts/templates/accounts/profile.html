@@ -7,10 +7,21 @@
         margin-top: 50px;
         margin-bottom: 20px;
     }
-    #profile_img {
+    .profile_img {
+        text-align: center;
         width: 200px;
+        height: 200px;
         border-radius: 100%;
+        overflow: hidden;
+        margin-left: auto;
+        margin-right: auto;
 
+    }
+    .profile_img img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 100%;
     }
 
     .profile_info {
@@ -44,17 +55,27 @@
         margin-right: 10px;
         width: 135px;
     }
-
+    .btn_f {
+        width: 280px;
+    }
+    .post_list {
+        text-decoration: none !important;
+        color: black !important;
+    }
     .popup_content {
         border-radius: 5px;
-  margin: 10px;
-  padding: 30px;
-  max-width: 100%;
-  {#border: 2px solid #444;#}
-  background: white;
+        margin: 10px;
+        padding: 30px;
+        max-width: 100%;
+        {#border: 2px solid #444;#}
+        background: white;
 }
     .popup_content h2 {
         margin-bottom: 20px;
+    }
+
+    .popup_content li {
+        font-size: 17px;
     }
 
     .f_img {
@@ -72,6 +93,7 @@
     }
     .profile_unit {
         font-size: 25px;
+        cursor:pointer;
     }
     .profile_unit_head {
         font-size: 20px;
@@ -97,6 +119,18 @@
         float: left;
         width: 100px;
     }
+
+    .profile_intro {
+        margin-top: 20px;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile_intro p {
+        font-size: 16px;
+
+    }
 </style>
 
 
@@ -110,11 +144,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 profile_head">
+                <div class="profile_img">
                 {% if profile_user.socialaccount_set.all.first.get_avatar_url %}
-                <img src="{{ profile_user.socialaccount_set.all.first.get_avatar_url }}" id="profile_img"/>
+                    <img src="{{ profile_user.socialaccount_set.all.first.get_avatar_url }}" />
+                {% elif real_profile_user.pic %}
+                    <img src="{{ real_profile_user.pic.url }}"/>
                 {% else %}
-                    <img src="{% static 'images/default-user-icon-13.jpg' %}" id="profile_img">
+                    <img src="{% static 'images/default-user-icon-13.jpg' %}"/>
                 {% endif %}
+                </div>
             </div>
 
             <div class="col-md-12">
@@ -123,9 +161,9 @@
                         <ul class="profile_list">
                             <div class="profile_list_d">
                             <li>
-                                <a class="profile_unit">231</a>
+                                <a href="{% url "my_profile:my_post_list" user.username %}" class="profile_unit post_list" >{{ post_list.count }}</a>
                             <div class="profile_unit_head">
-                                Post
+                                Posts
                             </div></li>
                             <li>
                                 <a class="popup1_open profile_unit">{{ real_profile_user.follows.count }}</a>
@@ -145,12 +183,27 @@
                                 <a href="{% url "my_profile:post_new" %}" class="new_post_button">
                                     <button class="btn btn-primary btn_p">New Post</button>
                                 </a>
-                                <a href="{% url "my_profile:my_post_list" user.username %}">
-                                    <button class="btn btn-secondary btn_p">My Post</button>
+                                <a href="{% url "accounts:profile_edit" user.id %}">
+                                    <button class="btn btn-secondary btn_p">Profile Edit</button>
                                 </a>
                             </div>
+                        {% elif request.user in real_profile_user.follows.all %}
+                            <div class="button_center">
+                            <button class="follow-button btn btn-outline-danger btn_f" type="button"><a href="{% url 'accounts:unfollow' profile_user.id %}">UnFollow</a></button>
+                            </div>
                         {% else %}
+                            <div class="button_center">
+                            <button class="follow-button btn btn-outline-danger btn_f" type="button"><a href="{% url 'accounts:follow' profile_user.id %}">Follow</a></button>
+                            </div>
                         {% endif %}
+
+
+                        <div class="profile_intro">
+                        {% if real_profile_user.introduce %}
+                            <p>{{ real_profile_user.introduce }}</p>
+                        {% endif %}
+                        </div>
+
 {#                    <ul>#}
 {#                        <li>username : {{ profile_user.username }}</li>#}
 {#                        <li>email : {{ profile_user.email }}</li>#}
@@ -196,7 +249,7 @@
 
 
         <section id="popup2" class="popup_content">
-            <h2>Follows</h2>
+            <h2>Followings</h2>
             <ul class="f_list">
             {% for each_follower in profile_user.followed_by.all %}
                 <li>
@@ -212,13 +265,7 @@
         </section>
 
 
-        {% if profile_user.id == request_user %}
 
-        {% elif request.user in real_profile_user.follows.all %}
-            <button class="follow-button btn btn-outline-danger" type="button"><a href="{% url 'accounts:unfollow' profile_user.id %}">UnFollow</a></button>
-        {% else %}
-            <button class="follow-button btn btn-outline-danger" type="button"><a href="{% url 'accounts:follow' profile_user.id %}">Follow</a></button>
-        {% endif %}
 
         </div>
     </div>
