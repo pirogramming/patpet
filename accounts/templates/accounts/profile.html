@@ -181,6 +181,9 @@
     .post-container {
         margin-top: 30px;
     }
+    .popup_post_detail {
+        width: 500px;
+    }
 </style>
 
 
@@ -277,19 +280,14 @@
             {% for each_post in profile_post_list %}
             {#                                {{ each_post.photo.url }}#}
             <div class="col-md-4">
-                <a href="popup3_open" class="pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a></div>
+                <a class="{{ each_post }}_open pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a></div>
 
 
-
-
-
-            {% endfor %}
-            {% endif %}
-        </div>
-
-    </div>
-            <section id="popup3" class="popup_post_detail posting">
-                <img src="{{ photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
+            <section id="{{ each_post }}" class="popup_post_detail posting">
+{#                       {% if profile_post_list %}#}
+{#            {% for each_post in profile_post_list %}#}
+{#                {% if each_post ==  %}#}
+                <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
                 <div class="posting_txt">
                     <i class="fas fa-paw posting_like fa-2x"></i>
                     <i class="far fa-comments posting_like fa-2x"></i>
@@ -298,7 +296,19 @@
                 <p class="user_id">{{ each_post.author }}</p>
                 <p class="posting_cont">{{ each_post.content }}</p>
                 <p>{{ each_post.time_interval }} <small>전...</small></p>
+{#            {% endfor %}#}
+{#            {% endif %}#}
             </section>
+
+
+
+            {% endfor %}
+            {% endif %}
+        </div>
+
+    </div>
+
+
 
             <section id="popup1" class="popup_content">
             <h2>Followers</h2>
@@ -351,10 +361,12 @@
     pagecontainer: '#page',
     escape: false
     });
-    $('#popup3').popup({
+    {% for each_post in profile_post_list %}
+    $('#{{ each_post }}').popup({
     pagecontainer: '#page',
     escape: false
     });
+    {% endfor %}
 
 </script>
 
