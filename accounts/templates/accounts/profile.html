@@ -34,12 +34,30 @@
     }
 
     .popup_content {
+        border-radius: 5px;
   margin: 10px;
-  padding: 0 10px;
-  max-width: 60%;
-  border: 2px solid #444;
+  padding: 30px;
+  max-width: 100%;
+  {#border: 2px solid #444;#}
   background: white;
 }
+    .popup_content h2 {
+        margin-bottom: 20px;
+    }
+
+    .f_img {
+        border-radius: 100%;
+        width: 30px;
+        margin-right: 15px;
+    }
+    .f_list {
+        list-style: none;
+        padding-left: 0px;
+    }
+
+    .f_list li {
+        margin-bottom: 10px;
+    }
 </style>
 
 
@@ -69,8 +87,8 @@
                         <li>email : {{ profile_user.email }}</li>
                         <li>date_joined : {{ profile_user.date_joined }}</li>
                         <li>phone_number : {{ profile_user.phone_number }}</li>
-                        <li>follower : <a class="popup1_open">{{ real_profile_user.follows.count }}</a></li>
-                        <li>follow : <a class="popup2_open">{{ profile_user.followed_by.count }}</a></li>
+                        <li><a class="popup1_open">follower : {{ real_profile_user.follows.count }}</a></li>
+                        <li><a class="popup2_open">follow : {{ profile_user.followed_by.count }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -98,24 +116,37 @@
         </div>
 
 
-{#        <button class="popup1_open">click me!</button>#}
         <section id="popup1" class="popup_content">
             <h2>Followers</h2>
-            <ul>
+            <ul class="f_list">
             {% for each_follower in real_profile_user.follows.all %}
                 <li>
+                    {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
+                        <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img"/>
+                    {% else %}
+                        <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img">
+                    {% endif %}
                     <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower }}</a>
                 </li>
             {% endfor %}
+            </ul>
         </section>
+
+
         <section id="popup2" class="popup_content">
             <h2>Follows</h2>
-            <ul>
+            <ul class="f_list">
             {% for each_follower in profile_user.followed_by.all %}
                 <li>
+                    {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
+                        <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img"/>
+                    {% else %}
+                        <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img">
+                    {% endif %}
                     <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower.user }}</a>
                 </li>
             {% endfor %}
+            </ul>
         </section>
 
 
