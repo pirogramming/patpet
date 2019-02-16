@@ -1,6 +1,4 @@
 from django.urls import path, re_path
-
-import accounts
 from my_profile import views
 
 app_name = 'my_profile'

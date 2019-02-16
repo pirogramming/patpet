@@ -10,13 +10,15 @@
                 <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
                 {% endif %}
                 <div class="posting_txt">
-                    <i class="fas fa-paw posting_like fa-2x"></i>
-                    <i class="far fa-comments posting_like fa-2x"></i>
-                    <i class="far fa-save posting_like fa-2x"></i>
+                    <div class="bar">
+                        <i class="fas fa-paw posting_like fa-2x"></i>
+                        <i class="far fa-comments posting_like fa-2x"></i>
+                        <i class="far fa-save posting_like fa-2x"></i>
+                    </div>
+                    <p class="user_id">{{ each_post.author }}</p>
+                    <p class="posting_cont">{{ each_post.content }}</p>
+                    <p>{{ each_post.time_interval }} <small>전...</small></p>
                 </div>
-                <p class="user_id">{{ each_post.author }}</p>
-                <p class="posting_cont">{{ each_post.content }}</p>
-                <p>{{ each_post.time_interval }} <small>전...</small></p>
             </article>
         {% endfor %}
     </section>
