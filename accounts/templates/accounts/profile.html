@@ -2,7 +2,7 @@
     .profile_head {
         text-align: center;
         margin-top: 50px;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
     #profile_img {
         width: 200px;
@@ -24,13 +24,21 @@
     }
 
     #profile_title {
-
+        text-align: center;
+        margin-bottom: 20px;
     }
     .button_center {
+        text-align: center;
         margin: 0 auto;
     }
     .new_post_button:hover {
         text-decoration: none;
+    }
+
+    .btn_p {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 135px;
     }
 
     .popup_content {
@@ -58,6 +66,33 @@
     .f_list li {
         margin-bottom: 10px;
     }
+    .profile_unit {
+        font-size: 20px;
+    }
+    .profile_unit_head {
+        font-size: 15px;
+    }
+
+    .profile_list {
+        list-style: none;
+        display: block;
+        width: 100%;
+        text-align: center;
+
+    }
+
+    .profile_list_d {
+        width: 300px;
+        height: 60px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile_list li {
+        text-align: center;
+        float: left;
+        width: 100px;
+    }
 </style>
 
 
@@ -80,40 +115,63 @@
 
             <div class="col-md-12">
                 <div class="profile_info">
-                    <h2 id="profile_title">{{ profile_user }}'s profile</h2>
+                    <h2 id="profile_title">{{ profile_user }}</h2>
+                        <ul class="profile_list">
+                            <div class="profile_list_d">
+                            <li>
+                                <a class="profile_unit">231</a>
+                            <div class="profile_unit_head">
+                                Post
+                            </div></li>
+                            <li>
+                                <a class="popup1_open profile_unit">{{ real_profile_user.follows.count }}</a>
+                            <div class="profile_unit_head">
+                                Followers
+                            </div></li>
+                            <li>
+                                <a class="popup2_open profile_unit">{{ profile_user.followed_by.count }}</a>
+                            <div class="profile_unit_head">
+                                Followings
+                            </div></li>
+                            </div>
+                        </ul>
 
-                    <ul>
-                        <li>username : {{ profile_user.username }}</li>
-                        <li>email : {{ profile_user.email }}</li>
-                        <li>date_joined : {{ profile_user.date_joined }}</li>
-                        <li>phone_number : {{ profile_user.phone_number }}</li>
-                        <li><a class="popup1_open">follower : {{ real_profile_user.follows.count }}</a></li>
-                        <li><a class="popup2_open">follow : {{ profile_user.followed_by.count }}</a></li>
-                    </ul>
+                        {% if profile_user.id == request_user %}
+                            <div class="button_center">
+                                <a href="{% url "my_profile:post_new" %}" class="new_post_button">
+                                    <button class="btn btn-primary btn_p">New Post</button>
+                                </a>
+                                <a href="{% url "my_profile:my_post_list" user.username %}">
+                                    <button class="btn btn-secondary btn_p">My Post</button>
+                                </a>
+                            </div>
+                        {% else %}
+                        {% endif %}
+{#                    <ul>#}
+{#                        <li>username : {{ profile_user.username }}</li>#}
+{#                        <li>email : {{ profile_user.email }}</li>#}
+{#                        <li>date_joined : {{ profile_user.date_joined }}</li>#}
+{#                        <li>phone_number : {{ profile_user.phone_number }}</li>#}
+{#                        <li><a class="popup1_open">follower : {{ real_profile_user.follows.count }}</a></li>#}
+{#                        <li><a class="popup2_open">follow : {{ profile_user.followed_by.count }}</a></li>#}
+{#                    </ul>#}
                 </div>
             </div>
-                {% if profile_user.id == request_user %}
-
-            <div class="button_center">
-                <a href="{% url "my_profile:post_new" %}" class="new_post_button">
-                    <button class="btn btn-secondary">New Post</button>
-                </a>
-                <a href="{% url "my_profile:my_post_list" user.username %}">
-                    <button class="btn btn-secondary">My Post</button>
-                </a>
-            </div>
-        {% else %}
-        {% endif %}
 
 
-       <div>
-        {{ profile_user.id }}
-        {{ request.user }}
-           나를 팔로우 한사람
-        {{ real_profile_user.follows.all }}
-           내가 팔로우 한사람
-           {{ profile_user.followed_by.all }}
-        </div>
+
+
+
+
+{##}
+{#       <div>#}
+{#        {{ profile_user.id }}#}
+{#        {{ request.user }}#}
+{#           나를 팔로우 한사람#}
+{#        {{ real_profile_user.follows.all }}#}
+{#           내가 팔로우 한사람#}
+{#           {{ profile_user.followed_by.all }}#}
+{#        </div>#}
 
 
         <section id="popup1" class="popup_content">
