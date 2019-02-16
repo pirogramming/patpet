@@ -367,7 +367,15 @@
     escape: false
     });
     {% endfor %}
+    var page = 2;
 
+    $(window).scroll(function() {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+          console.log(++page);
+          $("body").append('<div class="col-md-4"></div>');
+
+        }
+});
 </script>
 
 {% endblock %}
