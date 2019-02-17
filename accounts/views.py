@@ -167,14 +167,9 @@ def recommendation(request):
     all_profile = Profile.objects.all()
     my_all_following = request.user.followed_by.all() #요청 유저 팔로잉 유저목록
     profile_user = get_object_or_404(Profile, id=request.user.id)
-    profile_user.recommend.clear()
-    # for each_following in my_all_following: #내 팔로잉
-    #     pk = each_following.id
-    #     each_profile = get_object_or_404(Profile, id=pk)
-    #
-    #     each_profile_all = each_profile.follows.all()
-    #
-    #     for
+
+    profile_user.recommend.clear() #field 초기화
+
     common_list = [] #공통 친구 리스트
     my_following_list = [] #내 팔로잉 리스트
 
