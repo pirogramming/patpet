@@ -19,7 +19,7 @@ class Post(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.content
+        return f'Post (PK: {self.pk}, Author: {self.author.username})'
 
     def get_absolute_url(self):
         return reverse('home:post_list')
@@ -57,4 +57,4 @@ class Comment(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.content
+        return f'Comment (PK: {self.pk}, Author: {self.author.username})'

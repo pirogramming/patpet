@@ -17,6 +17,13 @@
                     </div>
                     <p class="user_id">{{ each_post.author }}</p>
                     <p class="posting_cont">{{ each_post.content }}</p>
+                    <!--댓글-->
+                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST">
+                       {% csrf_token %}
+                       <input type="text" name="content" placeholder="댓글 달기...">
+                       <span><input type="submit" /></span>
+                   </form>
+
                     <p>{{ each_post.time_interval }} <small>전...</small></p>
                 </div>
             </article>
