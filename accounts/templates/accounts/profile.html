@@ -87,6 +87,7 @@
     .f_img {
         border-radius: 100%;
         width: 30px;
+        height: 30px;
         margin-right: 15px;
     }
     .f_list {
@@ -211,156 +212,146 @@
             <div class="col-md-12">
                 <div class="profile_info">
                     <h2 id="profile_title">{{ profile_user }}</h2>
-                        <ul class="profile_list">
-                            <div class="profile_list_d">
+                    <ul class="profile_list">
+                        <div class="profile_list_d">
                             <li>
                                 {% if profile_user.id == request_user  %}
                                     <a href="{% url "my_profile:my_post_list" user.username %}" class="profile_unit post_list" >{{ post_list.count }}</a>
                                 {% else %}
                                     <div class="profile_unit post_list" >{{ post_list.count }}</div>
                                 {% endif %}
-                            <div class="profile_unit_head">
-                                Posts
-                            </div></li>
+                                <div class="profile_unit_head">
+                                    Posts
+                                </div>
+                            </li>
                             <li>
                                 <a class="popup1_open profile_unit">{{ real_profile_user.follows.count }}</a>
-                            <div class="profile_unit_head">
-                                Followers
-                            </div></li>
+                                <div class="profile_unit_head">
+                                    Followers
+                                </div>
+                            </li>
                             <li>
                                 <a class="popup2_open profile_unit">{{ profile_user.followed_by.count }}</a>
-                            <div class="profile_unit_head">
-                                Followings
-                            </div></li>
-                            </div>
-                        </ul>
+                                <div class="profile_unit_head">
+                                    Followings
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
 
-                        {% if profile_user.id == request_user %}
-                            <div class="button_center">
-                                <a href="{% url "my_profile:post_new" %}" class="new_post_button">
-                                    <button class="btn btn-primary btn_p">New Post</button>
-                                </a>
-                                <a href="{% url "accounts:profile_edit" user.id %}">
-                                    <button class="btn btn-secondary btn_p">Profile Edit</button>
-                                </a>
-                            </div>
-                        {% elif request.user in real_profile_user.follows.all %}
-                            <div class="button_center">
+                    {% if profile_user.id == request_user %}
+                        <div class="button_center">
+                            <a href="{% url "my_profile:post_new" %}" class="new_post_button">
+                                <button class="btn btn-primary btn_p">New Post</button>
+                            </a>
+                            <a href="{% url "accounts:profile_edit" user.id %}">
+                                <button class="btn btn-secondary btn_p">Profile Edit</button>
+                            </a>
+                        </div>
+                    {% elif request.user in real_profile_user.follows.all %}
+                        <div class="button_center">
                             <button class="follow-button btn btn-outline-danger btn_f" type="button"><a href="{% url 'accounts:unfollow' profile_user.id %}">UnFollow</a></button>
-                            </div>
-                        {% else %}
-                            <div class="button_center">
+                        </div>
+                    {% else %}
+                        <div class="button_center">
                             <button class="follow-button btn btn-outline-danger btn_f" type="button"><a href="{% url 'accounts:follow' profile_user.id %}">Follow</a></button>
-                            </div>
-                        {% endif %}
+                        </div>
+                    {% endif %}
 
 
-                        <div class="profile_intro">
+                    <div class="profile_intro">
                         {% if real_profile_user.introduce %}
                             <p>{{ real_profile_user.introduce }}</p>
                         {% endif %}
+                    </div>
+                    {% if messages %}
+                        <div class="container">
+                            {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message.message }}
                         </div>
-                        {% if messages %}
-                          <div class="container">
-                              {% for message in messages %}
-                                  <div class="alert alert-{{ message.tags }}">
-                                    {{ message.message }}
-                                  </div>
-                              {% endfor %}
-                          </div>
-                        {% endif %}
-
-
-
-
-{#                    <ul>#}
-{#                        <li>username : {{ profile_user.username }}</li>#}
-{#                        <li>email : {{ profile_user.email }}</li>#}
-{#                        <li>date_joined : {{ profile_user.date_joined }}</li>#}
-{#                        <li>phone_number : {{ profile_user.phone_number }}</li>#}
-{#                        <li><a class="popup1_open">follower : {{ real_profile_user.follows.count }}</a></li>#}
-{#                        <li><a class="popup2_open">follow : {{ profile_user.followed_by.count }}</a></li>#}
-{#                    </ul>#}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
+
+
         <div class="row post-container">
             {% if profile_post_list %}
-            {% for each_post in profile_post_list %}
-            {#                                {{ each_post.photo.url }}#}
-            <div class="col-md-4">
-                <a class="{{ each_post.id }}_open pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a></div>
+                {% for each_post in profile_post_list %}
+                    <div class="col-md-4">
+                        <a class="{{ each_post.id }}_open pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a>
+                    </div>
 
 
-            <section id="{{ each_post.id }}" class="popup_post_detail posting">
-{#                       {% if profile_post_list %}#}
-{#            {% for each_post in profile_post_list %}#}
-{#                {% if each_post ==  %}#}
-                <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
-                <div class="posting_txt">
-                    <i class="fas fa-paw posting_like fa-2x"></i>
-                    <i class="far fa-comments posting_like fa-2x"></i>
-                    <i class="far fa-save posting_like fa-2x"></i>
-                </div>
-                <p class="user_id">{{ each_post.author }}</p>
-                <p class="posting_cont">{{ each_post.content }}</p>
-                <p>{{ each_post.time_interval }} <small>전...</small></p>
-{#            {% endfor %}#}
-{#            {% endif %}#}
-            </section>
+                    <section id="{{ each_post.id }}" class="popup_post_detail posting">
+                        <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
+                        <div class="posting_txt">
+                            <i class="fas fa-paw posting_like fa-2x"></i>
+                            <i class="far fa-comments posting_like fa-2x"></i>
+                            <i class="far fa-save posting_like fa-2x"></i>
+                        </div>
+                        <p class="user_id">{{ each_post.author }}</p>
+                        <p class="posting_cont">{{ each_post.content }}</p>
+                        <p>{{ each_post.time_interval }} <small>전...</small></p>
+                    </section>
 
-
-
-            {% endfor %}
+                {% endfor %}
             {% endif %}
         </div>
-
     </div>
 
+{#    ------------------ popup section ------------------#}
 
-
-            <section id="popup1" class="popup_content">
-            <h2>Followers</h2>
-            <ul class="f_list">
-            {% for each_follower in real_profile_user.follows.all %}
-                <li>
-                    {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
-                        <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img"/>
-                    {% else %}
-                        <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img">
+<section id="popup1" class="popup_content">
+    <h2>Followers</h2>
+    <ul class="f_list">
+        {% for each_follower in real_profile_user.follows.all %}
+            <li>
+                {% for each_profile_base in all_profile %}
+                    {% if each_profile_base.id == each_follower.id %}
+                        {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
+                            <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img" />
+                        {% elif each_profile_base.pic %}
+                            <img src="{{ each_profile_base.pic.url }}" class="f_img"/>
+                        {% else %}
+                            <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img"/>
+                        {% endif %}
+                        <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower }}</a>
                     {% endif %}
-                    <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower }}</a>
-                </li>
-            {% endfor %}
-            </ul>
-        </section>
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>
 
 
-        <section id="popup2" class="popup_content">
-            <h2>Followings</h2>
-            <ul class="f_list">
-            {% for each_follower in profile_user.followed_by.all %}
-                <li>
-                    {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
-                        <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img"/>
-                    {% else %}
-                        <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img">
+<section id="popup2" class="popup_content">
+    <h2>Followings</h2>
+    <ul class="f_list">
+        {% for each_follower in profile_user.followed_by.all %}
+            <li>
+                {% for each_profile_base in all_profile %}
+                    {% if each_profile_base.id == each_follower.id %}
+                        {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
+                            <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img" />
+                        {% elif each_profile_base.pic %}
+                            <img src="{{ each_profile_base.pic.url }}" class="f_img"/>
+                        {% else %}
+                            <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img"/>
+                        {% endif %}
+                        <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower.user }}</a>
                     {% endif %}
-                    <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower.user }}</a>
-                </li>
-            {% endfor %}
-            </ul>
-        </section>
-{#    #}
-{#<form action="{% url 'accounts:search' %}?next={{ request.path }}" method="get">#}
-{#  <input type="text" name="q" value="{{ q }}">#}
-{#  <input type="submit" value="검색">#}
-{#</form>#}
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
-
-
 <script>
     $('#popup1').popup({
     pagecontainer: '#page',
@@ -376,15 +367,6 @@
     escape: false
     });
     {% endfor %}
-    var page = 2;
-
-    $(window).scroll(function() {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-          console.log(++page);
-          $("body").append('<div class="col-md-4"></div>');
-
-        }
-});
 </script>
 
 {% endblock %}
