@@ -206,15 +206,18 @@ def recommendation(request):
     legnth = len(common_list)
 
     # print('1')
-    print(common_list)
+    # print(common_list)
 
-    if len(common_list) > 10:   #그결과가 10명 이상일시 8명만 표시
-        print(8)
+    if len(common_list) > 10:   #그결과가 10명 이상일시 5명만 표시
+        for i in range(0, 4):    #10명 이하일 시 그냥 전체 표시
+            # print(common_list[i]['user'])
+            # print(common_list[i]['intersection'])
+            profile_user.recommend.add(common_list[i]['user'])
     else:
         # print(int(len(common_list)/2))
         for i in range(0, int(len(common_list))):    #10명 이하일 시 그냥 전체 표시
-            print(common_list[i]['user'])
-            print(common_list[i]['intersection'])
+            # print(common_list[i]['user'])
+            # print(common_list[i]['intersection'])
             profile_user.recommend.add(common_list[i]['user'])
 
     common = profile_user.recommend.all()
