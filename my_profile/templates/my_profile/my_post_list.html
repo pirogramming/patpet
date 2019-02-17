@@ -1,11 +1,20 @@
+<link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
 <style>
 .header {
+    font-family: 'Abel', sans-serif;
     text-align: center;
     margin-bottom: 30px;
+
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: #03867B 4px solid;
+    border-right: #03867B 4px solid;
 }
 </style>
 {% extends "layout.html" %}
-
+{% load humanize %}
 {% block content %}
 <section class="posting_list">
     <h1 class="header"><strong>My Post</strong></h1>
@@ -18,7 +27,7 @@
                 <div class="posting_txt">
                     <div class="bar">
                         <i class="fas fa-paw posting_like fa-2x"></i>
-                        <i class="far fa-comments posting_like fa-2x"></i>
+                        <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input()"></i>
                         <i class="far fa-save posting_like fa-2x"></i>
                         <span class="edit_and_delete">
                             <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_post.id %}" class="edit">수정</a></button>
@@ -30,8 +39,36 @@
                     </div>
                     <p class="user_id">{{ each_post.author }}</p>
                     <p class="posting_cont">{{ each_post.content }}</p>
+                    <!--댓글 보여주기-->
+                    <div class="comment">
+                        {% for comment in each_post.comment_set.all %}
+                        <div>
+                            <span class="comment-username"><strong>{{ comment.author }}</strong></span> {{ comment.content }}
+                            {% if user == comment.author %}
+                                <form action="{% url "my_profile:comment_delete" comment.pk %}" method="post" style="display: inline-block;margin-bottom: 0;">
+                                    {% csrf_token %}
+                                    <span><input type="submit" value="삭제" class="button_c button_c_d" /></span>
+                                </form>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--댓글 입력-->
+                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" class="comment-form">
+                       {% csrf_token %}
+                       {{ comment_form }}
+                       <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
+                   </form>
+                    {{ each_post.created_at|naturaltime }}
+
                 </div>
             </article>
         {% endfor %}
     </section>
+
+     <script>
+    function comment_input() {
+            $('.comment-form').css('display', 'inline-block');
+    }
+    </script>
 {% endblock %}

@@ -26,10 +26,12 @@ def post_new(request):
 def my_post_list(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     post_list = user.post_set.all()
+    comment_form = CommentForm()
 
     return render(request, 'my_profile/my_post_list.html', {
         'post_list': post_list,
         'username': username,
+        'comment_form': comment_form,
     })
 
 @login_required
