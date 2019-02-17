@@ -94,7 +94,8 @@
 }
 .comment-form {
     margin: 3px 0;
+    display: none;
 }
 .comment {
-    margin-top: 3px;
+    margin: 5px 0;
 }

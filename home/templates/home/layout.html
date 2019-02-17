@@ -12,7 +12,7 @@
                 <div class="posting_txt">
                     <div class="bar">
                         <i class="fas fa-paw posting_like fa-2x"></i>
-                        <i class="far fa-comments posting_like fa-2x"></i>
+                        <i class="far fa-comments posting_like fa-2x" onclick="comment_input()"></i>
                         <i class="far fa-save posting_like fa-2x"></i>
                     </div>
                     <p class="user_id"><strong>{{ each_post.author }}</strong></p>
@@ -22,22 +22,33 @@
                         {% for comment in each_post.comment_set.all %}
                         <div>
                             <span class="comment-username"><strong>{{ comment.author }}</strong></span> {{ comment.content }}
+                            {% if user == comment.author %}
+{#                                <input type="button" class="del-comment" value="삭제" name="{{ comment.id }}">#}
+                                <form action="{% url "my_profile:comment_delete" comment.pk %}" method="post" style="display: inline-block; float: right">
+                                {% csrf_token %}
+                                    <span><button>삭제</button></span>
+                            </form>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     </div>
                     <!--댓글 입력-->
-                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" class="comment-form">
+                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" class="comment-form" style="float: right">
                        {% csrf_token %}
                        {{ comment_form }}
                        <span><input type="submit" value="게시" /></span>
                    </form>
+                    {{ each_post.created_at|naturaltime }}
 
-                    <div>
-                        {{ each_post.created_at|naturaltime }}
-                    </div>
                 </div>
             </article>
         {% endfor %}
     </section>
 
+
+    <script>
+    function comment_input() {
+            $('.comment-form').css('display', 'inline-block');
+    }
+    </script>
 {% endblock %}
