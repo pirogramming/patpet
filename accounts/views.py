@@ -162,11 +162,12 @@ def searchtest(request):
     return render(request, 'accounts/search_test_form.html')
 
 
-def recomendation(request):
-    all_user = User.objects.all()
-
+def recommendation(request):
+    all_user = User.objects.all()  #모든 유저
+    all_profile = Profile.objects.all()
     my_all_following = request.user.followed_by.all() #요청 유저 팔로잉 유저목록
-
+    profile_user = get_object_or_404(Profile, id=request.user.id)
+    profile_user.recommend.clear()
     # for each_following in my_all_following: #내 팔로잉
     #     pk = each_following.id
     #     each_profile = get_object_or_404(Profile, id=pk)
@@ -174,46 +175,56 @@ def recomendation(request):
     #     each_profile_all = each_profile.follows.all()
     #
     #     for
-    common_list = []
-    my_following_list = []
-    for each_follow in my_all_following:
+    common_list = [] #공통 친구 리스트
+    my_following_list = [] #내 팔로잉 리스트
+
+    for each_follow in my_all_following:  #내 팔로잉 리스트 추가
         id = int(each_follow.id)
-        print(id)
         my_following_list.append(id)
 
-    print(my_following_list)
-    for each_user in all_user : #모든유저 순차적
-        # for each_follow.id in my_all_following: #모든 내 팔로잉에서 하나
-        # each_follow.id
-        print(each_user)
-        # print(my_all_following)
-        if each_user.id in my_following_list:
-            pass
-        else: #팔로잉에서 하나뽑은 것과 유저 하나가 다르면
-            if each_user.id != request.user.id:
-                each_following = each_user.followed_by.all() #유저별 팔로잉 목록
+    # print(my_following_list)
 
+    for each_user in all_user : #모든유저 순차적
+        # print(each_user)
+        if each_user.id in my_following_list:  #내 팔로잉 리스트에 있으면 패스
+            # if each_user.id in profile_user
+            pass
+        else:
+            if each_user.id != request.user.id: #내와 같지 않으면 전개
+                each_following = each_user.followed_by.all() #유저별 팔로잉 목록
                 same_following = set(each_following).intersection(set(my_all_following)) #겹치는 팔로잉 set
-                if len(same_following) != 0:
+
+                if len(same_following) != 0: #겹치는 사람이 1명 이상일때
                     common_dict = {}
-                    common_dict['user'] = each_user.username
+                    common_dict['user'] = each_user.id
                     common_dict['intersection'] = len(same_following)
                     # print(common_dict)
-                    common_list.append(common_dict) #dictionary 에 유저별 겹치는 횟수 추가
-    def sortFunc(e):
+                    common_list.append(common_dict) #list 안에 dict (유저,유저별 겹치는 횟수) 추가
+
+    def sortFunc(e):        #intersection 기준 정렬
         return e['intersection']
 
     common_list.sort(key=sortFunc)
     common_list.reverse()
-    # common_list = reversed(common_list)
-    print('1')
+
+
+    legnth = len(common_list)
+
+    # print('1')
     print(common_list)
-    if len(common_list) > 10:
+
+    if len(common_list) > 10:   #그결과가 10명 이상일시 8명만 표시
         print(8)
     else:
         # print(int(len(common_list)/2))
-        for i in range(0,int(len(common_list))):
+        for i in range(0, int(len(common_list))):    #10명 이하일 시 그냥 전체 표시
             print(common_list[i]['user'])
             print(common_list[i]['intersection'])
+            profile_user.recommend.add(common_list[i]['user'])
 
-    pass
+    common = profile_user.recommend.all()
+    return render(request, 'accounts/search_test_form.html', {
+        'length': legnth,
+        'common': common,
+        'all_profile': all_profile,
+    })

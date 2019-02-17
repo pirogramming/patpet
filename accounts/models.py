@@ -13,10 +13,15 @@ class Profile(models.Model):
     introduce = models.TextField(max_length=200)
     follows = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='followed_by', symmetrical=False, blank=True)
     pic = models.ImageField(blank=True)
+    recommend = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='recommended', symmetrical=False, blank=True)
+
 
 
 User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
 
+
+# class Recomendation(models.Model):
+#     recomend = models.ManyToManyField(settings.AUTH_USER_MODEL, symmetrical=False, blank=True)
 #
 #
 #
