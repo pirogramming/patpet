@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.kakao',
     # 'allauth.socialaccount.providers.naver',
     'widget_tweaks',
+    'django.contrib.humanize', #naturaltime 사용 위해
 ]
 
 MIDDLEWARE = [

@@ -67,8 +67,8 @@ def comment_new(request, pk):
         post = get_object_or_404(Post, pk=pk)
         # request.POST에서 'content'키의 값을 가져옴
         content = request.POST.get('content')
-
-        # 'content'키가 없었거나 내용이 입력되지 않았을 경우
+        #
+        # # 'content'키가 없었거나 내용이 입력되지 않았을 경우
         if not content:
             # 400(BadRequest)로 응답을 전송
             return HttpResponse('댓글 내용을 입력하세요', status=400)
@@ -80,6 +80,8 @@ def comment_new(request, pk):
             author=request.user,
             content=content
         )
+
+
         # 정상적으로 Comment가 생성된 후
         # 'post'네임스페이스를 가진 url의 'post_list'이름에 해당하는 뷰로 이동
         return redirect('home:post_list')
