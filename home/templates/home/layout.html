@@ -15,19 +15,16 @@
                         <i class="far fa-comments posting_like fa-2x"></i>
                         <i class="far fa-save posting_like fa-2x"></i>
                     </div>
-                    <p class="user_id">{{ each_post.author }}</p>
+                    <p class="user_id"><strong>{{ each_post.author }}</strong></p>
                     <p class="posting_cont">{{ each_post.content }}</p>
                     <!--댓글 보여주기-->
-                    {% for comment in each_post.comment_set.all %}
-                    <div id="comment{{ comment.id }}">
-
-                      <span class="comment-username">{{ comment.author }}</span> {{ comment.content }}
-{#                      {% if user == comment.author %}#}
-{#                      <input type="button" class="del-comment" value="삭제" name="{{ comment.id }}">#}
-{#                      {% endif %}#}
-
+                    <div class="comment">
+                        {% for comment in each_post.comment_set.all %}
+                        <div>
+                            <span class="comment-username"><strong>{{ comment.author }}</strong></span> {{ comment.content }}
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                     <!--댓글 입력-->
                    <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" class="comment-form">
                        {% csrf_token %}

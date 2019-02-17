@@ -9,7 +9,7 @@ class PostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     content = forms.CharField(label='', widget=forms.TextInput(attrs={
         'class': 'comment-form',
-        'size': '55px',
+        'size': '63px',
         'placeholder': '댓글 달기...',
         'maxlength': '40', }))
 

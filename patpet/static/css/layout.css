@@ -42,7 +42,9 @@
 }
 
 .posting_txt p {
-    margin: 3px 0px;
+    /*margin: 3px 0px;*/
+    padding: 5px 0px;
+    margin: 0px;
 }
 
 .posting_txt i {
@@ -50,12 +52,14 @@
 }
 
 .posting_cont {
-    font-family: 'Nanum Gothic Coding', monospace;
+    /*font-family: 'Nanum Gothic Coding', monospace;*/
+    border-bottom: 1px dashed #848484;
 }
 
 .posting_txt {
     padding: 10px 16px;
-    font-weight: bold;
+    /*font-weight: bold;*/
+    font-family: 'Nanum Gothic Coding', monospace;
 }
 
 .posting_like:hover {
@@ -87,4 +91,10 @@
 }
 .user_id {
     font-size: 17px;
+}
+.comment-form {
+    margin: 3px 0;
+}
+.comment {
+    margin-top: 3px;
 }
