@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    <div class="">
+        <h1 class="">Profile Edit</h1>
+        {% csrf_token %}
+        <table style="width: 60%;height: 100px; margin: auto;text-align: center;">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" />
+    </div>
+</form>
+{% endblock %}

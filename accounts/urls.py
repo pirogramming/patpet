@@ -3,7 +3,6 @@ from django.shortcuts import redirect
 from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 from accounts import views
-from accounts.views import autocompleteModel
 
 app_name = 'accounts'
 
@@ -16,6 +15,9 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page=LOGIN_URL), name='logout'),
     path('follow/<user_profile_id>', views.follow_user, name='follow'),
     path('unfollow/<user_profile_id>', views.unfollow_user, name='unfollow'),
-    re_path(r'^ajax_calls/search/', autocompleteModel, name='search'),
+    path('search/', views.search, name='search'),
+    path('searchtest/', views.recommendation, name='searchtest'),
+    path('<pk>/profile_edit/', views.profile_edit, name='profile_edit'),
+    # path('test/', views.recommendation)
 
 ]

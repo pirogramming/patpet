@@ -40,3 +40,8 @@ class SignupForm(UserCreationForm):
 
         )
         return user
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['introduce', 'pic']

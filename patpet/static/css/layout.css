@@ -68,3 +68,23 @@
     margin: 0 30%;
 }
 
+.edit_and_delete {
+    float: right;
+}
+.delete {
+    display: inline-block;
+    margin-left: 5px;
+}
+.edit {
+    color: #D9831F;
+}
+.edit:hover {
+    text-decoration: none;
+    color: white;
+}
+.bar {
+    margin-bottom: 10px;
+}
+.user_id {
+    font-size: 17px;
+}

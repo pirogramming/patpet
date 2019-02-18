@@ -1,13 +1,33 @@
 <style>
+    * {
+        font-family: 'Abel', sans-serif;
+    }
+
+    .container {
+        margin-bottom: 100px;
+    }
     .profile_head {
         text-align: center;
         margin-top: 50px;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
-    #profile_img {
+    .profile_img {
+        text-align: center;
         width: 200px;
+        height: 200px;
         border-radius: 100%;
+        overflow: hidden;
+        margin-left: auto;
+        margin-right: auto;
+        vertical-align: middle;
 
+    }
+    .profile_img img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 100%;
+        vertical-align: middle;
     }
 
     .profile_info {
@@ -24,15 +44,147 @@
     }
 
     #profile_title {
-
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 40px;
     }
     .button_center {
+        text-align: center;
         margin: 0 auto;
     }
     .new_post_button:hover {
         text-decoration: none;
     }
 
+    .btn_p {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 135px;
+    }
+    .btn_f {
+        width: 280px;
+    }
+    .post_list {
+        text-decoration: none !important;
+        color: black !important;
+    }
+    .popup_content {
+        border-radius: 5px;
+        margin: 10px;
+        padding: 30px;
+        max-width: 100%;
+        {#border: 2px solid #444;#}
+        background: white;
+}
+    .popup_content h2 {
+        margin-bottom: 20px;
+    }
+
+    .popup_content li {
+        font-size: 17px;
+    }
+
+    .f_img {
+        border-radius: 100%;
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
+    }
+    .f_list {
+        list-style: none;
+        padding-left: 0px;
+    }
+
+    .f_list li {
+        margin-bottom: 10px;
+    }
+    .profile_unit {
+        font-size: 25px;
+        cursor:pointer;
+    }
+    .profile_unit_head {
+        font-size: 20px;
+    }
+
+    .profile_list {
+        list-style: none;
+        display: block;
+        width: 100%;
+        text-align: center;
+
+    }
+
+    .profile_list_d {
+        width: 300px;
+        height: 80px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile_list li {
+        text-align: center;
+        float: left;
+        width: 100px;
+    }
+
+    .profile_intro {
+        margin-top: 20px;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile_intro p {
+        font-size: 16px;
+
+    }
+    .pic {
+        width: 100%;
+
+        float: left;
+        position: relative;
+        overflow: hidden;
+        vertical-align: middle;
+
+    }
+
+    .pic-srs {
+        width: 100%;
+        height: 350px;
+
+    }
+    @media (min-width: 768px) {
+        .pic-srs {
+            width: 100%;
+            height: 210px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .pic-srs {
+            width: 100%;
+            height: 290px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .pic-srs {
+            width: 100%;
+            height: 350px;
+        }
+
+    }
+    .post_col {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 30px;
+    }
+    .post-container {
+        margin-top: 30px;
+    }
+    .popup_post_detail {
+        width: 500px;
+    }
 </style>
 
 
@@ -46,76 +198,175 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 profile_head">
+                <div class="profile_img">
                 {% if profile_user.socialaccount_set.all.first.get_avatar_url %}
-                <img src="{{ profile_user.socialaccount_set.all.first.get_avatar_url }}" id="profile_img"/>
+                    <img src="{{ profile_user.socialaccount_set.all.first.get_avatar_url }}" />
+                {% elif real_profile_user.pic %}
+                    <img src="{{ real_profile_user.pic.url }}"/>
                 {% else %}
-                    <img src="{% static 'images/default-user-icon-13.jpg' %}" id="profile_img">
+                    <img src="{% static 'images/default-user-icon-13.jpg' %}"/>
                 {% endif %}
+                </div>
             </div>
 
             <div class="col-md-12">
                 <div class="profile_info">
-                    <h2 id="profile_title">{{ profile_user }}'s profile</h2>
-
-                    <ul>
-                        <li>username : {{ profile_user.username }}</li>
-                        <li>email : {{ profile_user.email }}</li>
-                        <li>date_joined : {{ profile_user.date_joined }}</li>
-                        <li>phone_number : {{ profile_user.phone_number }}</li>
+                    <h2 id="profile_title">{{ profile_user }}</h2>
+                    <ul class="profile_list">
+                        <div class="profile_list_d">
+                            <li>
+                                {% if profile_user.id == request_user  %}
+                                    <a href="{% url "my_profile:my_post_list" user.username %}" class="profile_unit post_list" >{{ post_list.count }}</a>
+                                {% else %}
+                                    <div class="profile_unit post_list" >{{ post_list.count }}</div>
+                                {% endif %}
+                                <div class="profile_unit_head">
+                                    Posts
+                                </div>
+                            </li>
+                            <li>
+                                <a class="popup1_open profile_unit">{{ real_profile_user.follows.count }}</a>
+                                <div class="profile_unit_head">
+                                    Followers
+                                </div>
+                            </li>
+                            <li>
+                                <a class="popup2_open profile_unit">{{ profile_user.followed_by.count }}</a>
+                                <div class="profile_unit_head">
+                                    Followings
+                                </div>
+                            </li>
+                        </div>
                     </ul>
+
+                    {% if profile_user.id == request_user %}
+                        <div class="button_center">
+                            <a href="{% url "my_profile:post_new" %}" class="new_post_button">
+                                <button class="btn btn-primary btn_p">New Post</button>
+                            </a>
+                            <a href="{% url "accounts:profile_edit" user.id %}">
+                                <button class="btn btn-secondary btn_p">Profile Edit</button>
+                            </a>
+                        </div>
+                    {% elif request.user in real_profile_user.follows.all %}
+                        <div class="button_center">
+                            <button class="follow-button btn btn-outline-danger btn_f" type="button"><a href="{% url 'accounts:unfollow' profile_user.id %}">UnFollow</a></button>
+                        </div>
+                    {% else %}
+                        <div class="button_center">
+                            <button class="follow-button btn btn-outline-danger btn_f" type="button"><a href="{% url 'accounts:follow' profile_user.id %}">Follow</a></button>
+                        </div>
+                    {% endif %}
+
+
+                    <div class="profile_intro">
+                        {% if real_profile_user.introduce %}
+                            <p>{{ real_profile_user.introduce }}</p>
+                        {% endif %}
+                    </div>
+                    {% if messages %}
+                        <div class="container">
+                            {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message.message }}
+                        </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-
-        {% if profile_user.id == request_user %}
-            <div class="button_center">
-                <a href="{% url "my_profile:post_new" %}" class="new_post_button">
-                    <button class="btn btn-secondary">New Post</button>
-                </a>
-                <a href="{% url "my_profile:my_post_list" user.username %}">
-                    <button class="btn btn-secondary">My Post</button>
-                </a>
-            </div>
-        {% else %}
-        {% endif %}
-
-
-       <div>
-        {{ profile_user.id }}
-        {{ request.user }}
-        {{ real_profile_user.follows.all }}
         </div>
 
-        {% if profile_user.id == request_user %}
 
-        {% elif request.user in real_profile_user.follows.all %}
-            <button class="follow-button btn btn-outline-danger" type="button"><a href="{% url 'accounts:unfollow' profile_user.id %}">UnFollow</a></button>
-        {% else %}
-            <button class="follow-button btn btn-outline-danger" type="button"><a href="{% url 'accounts:follow' profile_user.id %}">Follow</a></button>
-        {% endif %}
+        <div class="row post-container">
+            {% if profile_post_list %}
+                {% for each_post in profile_post_list %}
+                    <div class="col-md-4">
+                        <a class="{{ each_post.id }}_open pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a>
+                    </div>
 
+
+                    <section id="{{ each_post.id }}" class="popup_post_detail posting">
+                        <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
+                        <div class="posting_txt">
+                            <i class="fas fa-paw posting_like fa-2x"></i>
+                            <i class="far fa-comments posting_like fa-2x"></i>
+                            <i class="far fa-save posting_like fa-2x"></i>
+                        </div>
+                        <p class="user_id">{{ each_post.author }}</p>
+                        <p class="posting_cont">{{ each_post.content }}</p>
+                        <p>{{ each_post.time_interval }} <small>전...</small></p>
+                    </section>
+
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
+{#    ------------------ popup section ------------------#}
 
-{#<form id="search" method="POST" action="{% url 'accounts:search' %}">#}
-{# {% csrf_token %}#}
-{# <input type="text" class="form-control" id="txtSearch" name="txtSearch">#}
-{# <button type="submit" class="btn btn-default btn-submit">Submit</button>#}
-{# </form>#}
-{#    <script>#}
-{#        $(document).ready(function(){#}
-{#            $("#txtSearch").autocomplete({#}
-{#                source: "/ajax_calls/search/",#}
-{#                minLength: 2,#}
-{#                open: function(){#}
-{#                    setTimeout(function () {#}
-{#                        $('.ui-autocomplete').css('z-index', 99);#}
-{#                    }, 0);#}
-{#                }#}
-{#              });#}
-{#        });#}
-{#</script>#}
+<section id="popup1" class="popup_content">
+    <h2>Followers</h2>
+    <ul class="f_list">
+        {% for each_follower in real_profile_user.follows.all %}
+            <li>
+                {% for each_profile_base in all_profile %}
+                    {% if each_profile_base.id == each_follower.id %}
+                        {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
+                            <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img" />
+                        {% elif each_profile_base.pic %}
+                            <img src="{{ each_profile_base.pic.url }}" class="f_img"/>
+                        {% else %}
+                            <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img"/>
+                        {% endif %}
+                        <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower }}</a>
+                    {% endif %}
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>
 
 
+<section id="popup2" class="popup_content">
+    <h2>Followings</h2>
+    <ul class="f_list">
+        {% for each_follower in profile_user.followed_by.all %}
+            <li>
+                {% for each_profile_base in all_profile %}
+                    {% if each_profile_base.id == each_follower.id %}
+                        {% if each_follower.socialaccount_set.all.first.get_avatar_url %}
+                            <img src="{{ each_follower.socialaccount_set.all.first.get_avatar_url }}" class="f_img" />
+                        {% elif each_profile_base.pic %}
+                            <img src="{{ each_profile_base.pic.url }}" class="f_img"/>
+                        {% else %}
+                            <img src="{% static 'images/default-user-icon-13.jpg' %}" class="f_img"/>
+                        {% endif %}
+                        <a href="{% url 'accounts:profile' user_profile_id=each_follower.id %}" class="s_font">{{ each_follower.user }}</a>
+                    {% endif %}
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
+<script>
+    $('#popup1').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+    $('#popup2').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+    {% for each_post in profile_post_list %}
+    $('#{{ each_post.id }}').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+    {% endfor %}
+</script>
 
 {% endblock %}
