@@ -8,6 +8,7 @@ from django.conf import settings
 class Reccomendation:
     pass
 
+
 class CommunicationPost(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
 
@@ -21,8 +22,8 @@ class CommunicationPost(models.Model):
                                 format='JPEG',
                                 options={'quality': 60})
 
-
-
+    class Meta:
+        ordering = ['-created_at']
 
     def get_absolute_url(self):
         return reverse('explore:post_detail', args=[self.id])
@@ -34,4 +35,3 @@ class CommunicationComment(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
