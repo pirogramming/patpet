@@ -2,23 +2,97 @@
 
 {% block content %}
 
-    <section class="posting_list">
-    <!-- 한 줄 세로로-->
+
+  <!-- Demo styles -->
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color:#000;
+      margin: 0;
+      padding: 0;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+
+  </style>
+
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
         {% for each_post in post %}
-            <article class="posting" style="width: 500px;">
-                {% if each_post.photo %}
-                <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
-                {% endif %}
-                <div class="posting_txt">
-                    <i class="fas fa-paw posting_like fa-2x"></i>
-                    <i class="far fa-comments posting_like fa-2x"></i>
-                    <i class="far fa-save posting_like fa-2x"></i>
-                </div>
-                <p class="user_id">{{ each_post.author }}</p>
-                <p class="posting_cont">{{ each_post.content }}</p>
-                <p>{{ each_post.time_interval }} <small>전...</small></p>
-            </article>
+      <div class="swiper-slide">
+          <section class="posting_list">
+            <!-- 한 줄 세로로-->
+
+                    <article class="posting">
+                        <img src="{{ each_post.photo.url }}" class="posting_img" /><br/>
+                        <div class="posting_txt">
+                            <i class="fas fa-paw posting_like fa-2x"></i>
+                            <i class="far fa-comments posting_like fa-2x"></i>
+                            <i class="far fa-save posting_like fa-2x"></i>
+                            <p>user_id</p>
+                            <p class="posting_cont">{{ each_post.content }}</p>
+                        </div>
+                    </article>
+
+          </section>
+      </div>
         {% endfor %}
-    </section>
+
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      mousewheel: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+    });
+  </script>
+</body>
+
+
 
 {% endblock %}
