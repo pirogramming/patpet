@@ -118,3 +118,11 @@
     color: #2E64FE;
     font-weight: bold;
 }
+.like_button {
+    color: black;
+    text-decoration: none;
+}
+.like_button2 {
+    color: red;
+    text-decoration: none;
+}

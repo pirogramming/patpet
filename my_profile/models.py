@@ -2,9 +2,12 @@ import re
 from datetime import datetime, timezone
 from django.conf import settings
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Thumbnail
+
+from accounts.models import Archive
 
 
 class Post(models.Model):
@@ -14,6 +17,8 @@ class Post(models.Model):
     tag_set = models.ManyToManyField('Tag', blank='True')
     created_at = models.DateTimeField(auto_now_add=True)  # 길이 제한 있는 문자열
     updated_at = models.DateTimeField(auto_now=True)  # 길이 제한 없는 문자열
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked', blank=True)
+    archive = models.ForeignKey(Archive, on_delete=models.CASCADE, related_name='saved', blank=True, null=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -38,6 +43,10 @@ class Post(models.Model):
         now = datetime.now(timezone.utc)
         time_interval = now - self.created_at
         return time_interval
+
+    def total_likes(self):
+        return self.likes.count()
+
 
 
 class Tag(models.Model):

@@ -20,15 +20,7 @@ class Profile(models.Model):
 User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
 
 
-# class Recomendation(models.Model):
-#     recomend = models.ManyToManyField(settings.AUTH_USER_MODEL, symmetrical=False, blank=True)
-#
-#
-#
-# class Follow(models.Model):
-#     user = models.ForeignKey('auth.User', related_name='friends', on_delete=models.CASCADE)
-#     target = models.ForeignKey('auth.User', related_name='followers', on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     class Meta:
-#         unique_together = ('user', 'target')
+
+class Archive(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
+    archive = models.CharField(max_length=18, blank=False)

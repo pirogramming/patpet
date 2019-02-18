@@ -87,3 +87,24 @@ def comment_delete(request, pk):
         comment.delete()
         messages.success(request, '삭제완료')
         return redirect('home:post_list')
+
+@login_required
+def like_post(request, pk):
+    post_to_like = get_object_or_404(Post, pk=pk)
+    act_user = request.user
+    print(post_to_like.likes.filter(pk=pk))
+    is_liked = post_to_like.likes.filter(id=act_user.id).exists()
+    print(is_liked)
+    if post_to_like.likes.filter(id=act_user.id).exists():
+        print('여기다여기')
+        # print(post_to_like.likes.filter(pk=pk))
+        post_to_like.likes.remove(act_user)
+    else:
+        post_to_like.likes.add(act_user)
+        messages.success(request, "Like this post")
+    # # print(data)
+    # t = user_profile.followed_by.all()
+    # # print(t)
+
+    return redirect('home:post_list')
+        # 'is_liked':is_liked,
