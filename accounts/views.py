@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.models import Profile, User
+from accounts.models import Profile, User, Archive
 from my_profile.forms import CommentForm
 from my_profile.models import Post
 from .forms import SignupForm, ProfileForm, ArchiveForm
@@ -245,3 +245,17 @@ def make_archive(request):
     return render(request, 'accounts/archive_form.html', {
         'form': form,
     })
+
+def archive_edit(request, pk):
+    arc = get_object_or_404(Archive, pk=pk)
+    if request.method == 'POST':
+        form = ArchiveForm(request.POST, instance=arc)
+        if form.is_valid():
+            arc = form.save()
+            return redirect('accounts:profile', user_profile_id=request.user.id)
+    else:
+        form = ArchiveForm(instance=arc)
+    return render(request, 'accounts/archive_edit.html', {
+        'form': form,
+    })
+

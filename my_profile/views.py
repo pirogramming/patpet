@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+
+from accounts.models import Archive
 from my_profile.models import Post, Comment
 from .forms import PostForm, CommentForm
 
@@ -108,3 +110,19 @@ def like_post(request, pk):
 
     return redirect('home:post_list')
         # 'is_liked':is_liked,
+
+def arc_add(request, post_id, arc_id):
+    post_to_add = get_object_or_404(Post, pk=post_id)
+    arc = get_object_or_404(Archive, pk=arc_id)
+    print(arc)
+    print(post_to_add)
+    print(post_to_add.archive.all())
+    if post_to_add.archive.filter(id=arc_id).exists():
+        post_to_add.archive.remove(arc)
+        print('삭제')
+    else:
+        post_to_add.archive.add(arc)
+        print('추가')
+
+    return redirect('home:post_list')
+

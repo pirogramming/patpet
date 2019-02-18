@@ -11,4 +11,5 @@ urlpatterns = [
     re_path(r'^(?P<pk>\d+)/comment/new/$', views.comment_new, name='comment_new'),
     re_path(r'^(?P<pk>\d+)/comment/delete/$', views.comment_delete, name='comment_delete'),
     re_path(r'^(?P<pk>\d+)/post/like/$', views.like_post, name='like_post'),
+    path('<post_id>/<arc_id>/post/arc/', views.arc_add, name='arc_add'),
 ]
