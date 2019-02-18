@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.forms import ModelForm
 from allauth.socialaccount.forms import SignupForm
 
-from .models import Profile
+from .models import Profile, Archive
 
 
 class CustomSocialSignupForm(SignupForm):
@@ -45,3 +45,8 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['introduce', 'pic']
+
+class ArchiveForm(forms.ModelForm):
+    class Meta:
+        model = Archive
+        fields = ['archive']

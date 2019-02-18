@@ -18,7 +18,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # 길이 제한 있는 문자열
     updated_at = models.DateTimeField(auto_now=True)  # 길이 제한 없는 문자열
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked', blank=True)
-    archive = models.ForeignKey(Archive, on_delete=models.CASCADE, related_name='saved', blank=True, null=True)
+    archive = models.ManyToManyField(Archive, related_name='saved', blank=True, null=True)
 
     class Meta:
         ordering = ['-created_at']

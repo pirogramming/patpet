@@ -18,6 +18,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('searchtest/', views.recommendation, name='searchtest'),
     path('<pk>/profile_edit/', views.profile_edit, name='profile_edit'),
+    path('arc/', views.make_archive, name='make_archive'),
     # path('test/', views.recommendation)
 
 ]

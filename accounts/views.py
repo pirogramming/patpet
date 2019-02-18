@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile, User
 from my_profile.forms import CommentForm
 from my_profile.models import Post
-from .forms import SignupForm, ProfileForm
+from .forms import SignupForm, ProfileForm, ArchiveForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
@@ -230,4 +230,18 @@ def recommendation(request):
         'length': legnth,
         'common': common,
         'all_profile': all_profile,
+    })
+
+def make_archive(request):
+    if request.method == 'POST':
+        form = ArchiveForm(request.POST)
+        if form.is_valid():
+            arc = form.save(commit=False)
+            arc.owner = request.user
+            arc.save()
+            return redirect('home:post_list')
+    else:
+        form = ArchiveForm()
+    return render(request, 'accounts/archive_form.html', {
+        'form': form,
     })
