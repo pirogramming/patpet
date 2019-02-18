@@ -27,7 +27,7 @@
                 <div class="posting_txt">
                     <div class="bar">
                         <i class="fas fa-paw posting_like fa-2x"></i>
-                        <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input()"></i>
+                        <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input({{each_post.pk}})" style="cursor: pointer"></i>
                         <i class="far fa-save posting_like fa-2x"></i>
                         <span class="edit_and_delete">
                             <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_post.id %}" class="edit">수정</a></button>
@@ -55,7 +55,7 @@
                         {% endfor %}
                     </div>
                     <!--댓글 입력-->
-                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" class="comment-form">
+                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" id="comment-form-{{ each_post.pk }}" style="display: none;margin: 5px 0;">
                        {% csrf_token %}
                        {{ comment_form }}
                        <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
@@ -70,8 +70,12 @@
     </section>
 
      <script>
-    function comment_input() {
-            $('.comment-form').css('display', 'inline-block');
-    }
-    </script>
+        function comment_input(postId){
+                var dp = document.getElementById("comment-form-" + postId).style.display;
+                if(dp == 'none')
+                    document.getElementById("comment-form-" + postId).style.display = 'block';
+                else
+                    document.getElementById("comment-form-" + postId).style.display = 'none';
+             }
+     </script>
 {% endblock %}
