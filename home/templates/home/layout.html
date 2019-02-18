@@ -17,7 +17,7 @@
                             <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button"></a></i>
                         {% endif %}
                         <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input()"></i>
-                        <i class="far fa-save posting_like fa-2x"></i>
+                        <i><a class="{{ each_post.id }}arc_open far fa-save posting_like fa-2x"></a></i>
                     </div>
                     <p class="user_id"><strong>{{ each_post.author }}</strong></p>
                     <p class="posting_cont">{{ each_post.content }}</p>
@@ -45,20 +45,31 @@
 
                 </div>
             </article>
-            <script>
-            </script>
+            <div id="{{ each_post.id }}arc" class="arc_container">
+                <ul>
+                {% for each_arc in all_arc %}
+                    <li><a href="{% url 'my_profile:arc_add' post_id=each_post.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
         {% endfor %}
     </section>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
 
-
-    <script>
+<script>
 {#            {% for each_post in post %}#}
 
     function comment_input() {
             $('.comment-form').css('display', 'inline-block');
     }
 
-
-    </script>
+    {% for each_post in post %}
+    $('#{{ each_post.id }}arc').popup({
+        pagecontainer: '#page',
+        escape: false
+    });
+    {% endfor %}
+</script>
 {#    {% endfor %}#}
 {% endblock %}

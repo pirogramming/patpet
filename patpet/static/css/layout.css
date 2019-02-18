@@ -126,3 +126,14 @@
     color: red;
     text-decoration: none;
 }
+.arc_container {
+    border-radius: 5px;
+    margin: 10px;
+    padding: 30px;
+    max-width: 100%;
+    background: white;
+}
+
+.arc_container li {
+    list-style: none;
+}

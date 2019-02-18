@@ -24,3 +24,7 @@ User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
 class Archive(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
     archive = models.CharField(max_length=18, blank=False)
+
+    def all_arc(self):
+        user_arc = Archive.objects.filter(owner__id=self.id)
+        return user_arc
