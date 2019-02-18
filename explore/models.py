@@ -2,13 +2,15 @@ from django.db import models
 from django.urls import reverse
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Thumbnail
+from django.conf import settings
 
 
 class Reccomendation:
     pass
 
 class CommunicationPost(models.Model):
-    author = models.CharField(max_length=20)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
+
     title = models.CharField(max_length=20)
     content = models.TextField(verbose_name='내용')
     created_at = models.DateTimeField(auto_now_add=True)

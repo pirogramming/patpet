@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 
@@ -57,3 +59,13 @@ def post_edit(request, id):
         'form': form,
     })
 
+
+@login_required
+def my_communication_list(request, username):
+    user = get_object_or_404(get_user_model(), username=username)
+    post_list = user.communicationpost_set.all()
+
+    return render(request, 'explore/my_communication_list.html', {
+        'post_list': post_list,
+        'username': username,
+    })

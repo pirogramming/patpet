@@ -45,6 +45,16 @@
             <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.path }}">로그인</a>
           </li>
             {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url "explore:my_communication_list" user.username %}">나의 소통해요</a>
+              <a class="dropdown-item" href="#">버튼2</a>
+              <a class="dropdown-item" href="#">버튼3</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="#">{{ user.username }}</a>
           </li>
@@ -67,7 +77,7 @@
               <a href="#" class="bottom_menu">SEARCH</a>
           </button>
           <button type="button" class="btn btn-secondary">
-              <a href="#"class="bottom_menu">EXPLORE</a>
+              <a href="{% url 'explore:post_list' %}"class="bottom_menu">EXPLORE</a>
           </button>
           <button type="button" class="btn btn-secondary">
               <a href="{% url 'accounts:profile' user_profile_id=user.id %}"class="bottom_menu">PROFILE</a>
