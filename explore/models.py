@@ -19,7 +19,7 @@ class CommunicationPost(models.Model):
     photo = ProcessedImageField(blank=True, upload_to='explore/post/%Y/%m/%d',
                                 processors=[Thumbnail(300, 300)],
                                 format='JPEG',
-                                options={'queality': 60})
+                                options={'quality': 60})
 
 
 
