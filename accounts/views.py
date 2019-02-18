@@ -6,7 +6,8 @@ from django.contrib.auth.views import LoginView
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile, User
-from my_profile.models import Post
+from my_profile.forms import CommentForm
+from my_profile.models import Post, Comment
 from .forms import SignupForm, ProfileForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
@@ -53,6 +54,7 @@ def profile(request, user_profile_id):
     post_list = profile.user.post_set
     post_user = get_object_or_404(get_user_model(), pk=user_profile_id)
     profile_post = post_user.post_set.all()
+    comment_form = CommentForm()
     return render(request, 'accounts/profile.html', {
         'profile_user': user,
         'request_user': request.user.id,
@@ -60,6 +62,7 @@ def profile(request, user_profile_id):
         'post_list': post_list,
         'profile_post_list': profile_post,
         'all_profile':all_profile,
+        'comment_form': comment_form,
     })
 
 @login_forbidden
