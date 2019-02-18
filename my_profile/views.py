@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from my_profile.models import Post, Comment
 from .forms import PostForm, CommentForm
@@ -74,9 +74,11 @@ def comment_new(request, pk):
             author=request.user,
             content=content
         )
-
+        print(request.path)
         return redirect('home:post_list')
 
+        # return HttpResponseRedirect(request.POST['path'])
+        # return HttpResponseRedirect(request.POST.get('path'))
 
 @login_required
 def comment_delete(request, pk):

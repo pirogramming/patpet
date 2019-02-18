@@ -48,6 +48,7 @@
                                 <form action="{% url "my_profile:comment_delete" comment.pk %}" method="post" style="display: inline-block;margin-bottom: 0;">
                                     {% csrf_token %}
                                     <span><input type="submit" value="삭제" class="button_c button_c_d" /></span>
+{#                                    <input type="hidden" name="path" value="{{ request.path }}" />#}
                                 </form>
                             {% endif %}
                         </div>
@@ -58,6 +59,8 @@
                        {% csrf_token %}
                        {{ comment_form }}
                        <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
+{#                        #}
+{#                       <input type="hidden" name="path" value="{{ request.path }}" />#}
                    </form>
                     {{ each_post.created_at|naturaltime }}
 
