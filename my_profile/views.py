@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from my_profile.models import Post
+from my_profile.models import Post, Comment
 from .forms import PostForm, CommentForm
 
 @login_required
@@ -25,10 +26,12 @@ def post_new(request):
 def my_post_list(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     post_list = user.post_set.all()
+    comment_form = CommentForm()
 
     return render(request, 'my_profile/my_post_list.html', {
         'post_list': post_list,
         'username': username,
+        'comment_form': comment_form,
     })
 
 @login_required
@@ -59,17 +62,28 @@ def post_delete(request, pk):
         return redirect('my_profile:my_post_list', request.user)
 
 @login_required
-def comment_new(request):
-    pk = request.POST.get('pk')
-    post = get_object_or_404(Post, pk=pk)
+def comment_new(request, pk):
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = post
-            comment.save()
-            return render(request, 'home:post_list', {
-                'comment': comment,
-            })
-    return redirect('/home/post_list/')
+        post = get_object_or_404(Post, pk=pk)
+        content = request.POST.get('content')
+        if not content:
+            return HttpResponse('댓글 내용을 입력하세요', status=400)
+
+        Comment.objects.create(
+            post=post,
+            author=request.user,
+            content=content
+        )
+        print(request.path)
+        return redirect('home:post_list')
+
+        # return HttpResponseRedirect(request.POST['path'])
+        # return HttpResponseRedirect(request.POST.get('path'))
+
+@login_required
+def comment_delete(request, pk):
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, pk=pk)
+        comment.delete()
+        messages.success(request, '삭제완료')
+        return redirect('home:post_list')

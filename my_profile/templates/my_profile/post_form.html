@@ -23,10 +23,11 @@
     <div class="new_post_content">
         <h1 class="new_post_head">New Post</h1>
         {% csrf_token %}
-        <table style="width: 60%;height: 100px; margin: auto;text-align: center;">
+        <table style="width: 60%;height: 100px; margin: auto;">
             {{ form.as_table }}
         </table>
         <input type="submit" />
     </div>
 </form>
+
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-
+{% load humanize %}
 {% block content %}
 
     <section class="posting_list">
@@ -10,15 +10,44 @@
                 <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
                 {% endif %}
                 <div class="posting_txt">
-                    <i class="fas fa-paw posting_like fa-2x"></i>
-                    <i class="far fa-comments posting_like fa-2x"></i>
-                    <i class="far fa-save posting_like fa-2x"></i>
+                    <div class="bar">
+                        <i class="fas fa-paw posting_like fa-2x"></i>
+                        <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input()"></i>
+                        <i class="far fa-save posting_like fa-2x"></i>
+                    </div>
+                    <p class="user_id"><strong>{{ each_post.author }}</strong></p>
+                    <p class="posting_cont">{{ each_post.content }}</p>
+                    <!--댓글 보여주기-->
+                    <div class="comment">
+                        {% for comment in each_post.comment_set.all %}
+                        <div>
+                            <span class="comment-username"><strong>{{ comment.author }}</strong></span> {{ comment.content }}
+                            {% if user == comment.author %}
+                                <form action="{% url "my_profile:comment_delete" comment.pk %}" method="post" style="display: inline-block;">
+                                    {% csrf_token %}
+                                    <span><input type="submit" value="삭제" class="button_c button_c_d" /></span>
+                                </form>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--댓글 입력-->
+                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" class="comment-form">
+                       {% csrf_token %}
+                       {{ comment_form }}
+                       <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
+                   </form>
+                    {{ each_post.created_at|naturaltime }}
+
                 </div>
-                <p class="user_id">{{ each_post.author }}</p>
-                <p class="posting_cont">{{ each_post.content }}</p>
-                <p>{{ each_post.time_interval }} <small>전...</small></p>
             </article>
         {% endfor %}
     </section>
 
+
+    <script>
+    function comment_input() {
+            $('.comment-form').css('display', 'inline-block');
+    }
+    </script>
 {% endblock %}
