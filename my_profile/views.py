@@ -16,7 +16,7 @@ def post_new(request):
             post.save()
             post.tag_save()
             messages.success(request, 'posts successfully uploaded')
-            return redirect('my_profile:my_post_list', request.user)
+            return redirect('home:post_list')
     else:
         form = PostForm()
     return render(request, 'my_profile/post_form.html', {

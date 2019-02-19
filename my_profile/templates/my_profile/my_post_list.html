@@ -50,7 +50,7 @@
                         {% endif %}
                     </div>
                     <p class="user_id"><strong>{{ each_post.author }}</strong></p>
-                    <p class="posting_cont">{{ each_post.content }}</p>
+                    <p class="posting_cont">{{ each_post.content|linebreaksbr }}</p>
                     <!--댓글 보여주기-->
                     <div class="comment">
                         {% for comment in each_post.comment_set.all %}

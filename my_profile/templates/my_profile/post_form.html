@@ -1,7 +1,6 @@
 <style>
 .new_post_content {
     width: 500px;
-    height: 360px;
     margin: 60px auto;
     text-align: center;
     background-color: #F2F2F2;
@@ -14,12 +13,13 @@
     margin: 0;
 }
 .new_post_button{
-    margin-top: 50px;
+    margin-top: 20px;
+    margin-bottom: 40px;
     background:#E2A9F3;
     color:#fff;
     border:none;
     position:relative;
-    height:30px;
+    height:35px;
     font-size:1.2em;
     padding:0 2em;
     cursor:pointer;
@@ -50,21 +50,82 @@
     width:100%;
     transition:800ms ease all;
 }
+.preview {
+  text-align: center;
+  position: relative;
+  color: #3897f0;
+  margin-bottom: 50px;
+}
+
+.preview .upload {
+  cursor: pointer;
+}
+
+.preview .preview-bg {
+  width: 80px;
+  height: 80px;
+  display: inline-block;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  background-size: 413px 391px;
+  background-position: -93px -52px;
+}
+
+.preview .preview-title {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -65%);
+}
 </style>
 
 {% extends "layout.html" %}
-
+{% load static %}
 
 {% block content %}
+<section style="height: 100%;margin-top: 80px;margin-bottom: 170px;">
 <form action="" method="post" enctype="multipart/form-data">
     <div class="new_post_content">
         <h1 class="new_post_head"><strong>New Post</strong></h1>
+        <div class="preview">
+          <div class="upload">
+              <span class="preview-bg"><img src="{% static 'images/capture.PNG' %}" style="width: 100%;height: 100%;"></span>
+            <p class="preview-title">포스트 이미지 추가</p>
+            {% if post %}
+            <p><img id="img_id" src="{{ post.photo.url }}" style="width: 300px; height: 300px; object-fit: cover" ></p>
+            {% else %}
+            <p><img id="img_id" src="" style="width: 300px; height: 300px; object-fit: cover" ></p>
+            {% endif %}
+          </div>
+        </div>
         {% csrf_token %}
-        <table style="width: 60%;height: 100px; margin: auto;">
-            {{ form.as_table }}
-        </table>
+            {{ form.as_p }}
         <button type="submit" class="new_post_button">Upload</button>
     </div>
 </form>
+</section>
 
+
+    <script type="text/javascript">
+    function upload_img(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $('#img_id').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+      $(".preview-bg").remove();
+      $(".preview-title").remove();
+    }
+    $("#id_photo").change(function(){
+      upload_img(this);
+    });
+    $(document).on('click', '.upload', function(){
+      $("#id_photo").click();
+    });
+    $('#id_photo').attr("required", true);
+</script>
 {% endblock %}
