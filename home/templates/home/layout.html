@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load widget_tweaks %}
 {% load humanize %}
 {% block content %}
 
@@ -59,12 +60,12 @@
     <div id="arcmake" class="poppoptest">
         <form action="{% url 'home:make_archive' %}" method="POST">
             <div>
-                <h1>New Archiffdfadfve</h1>
+                <h1>NEW ARCHIVE</h1>
                 {% csrf_token %}
-                <table style="width: 60%;height: 100px; margin: auto;">
-                    {{ form.as_table }}
-                </table>
-                <input type="submit" />
+                <div id="arc_popup">
+                    {% render_field form.archive|add_class:'add-test' placeholder='ARCHIVE NAME' %}
+                <input type="submit" class="btn btn-outline-dark" value="ADD" />
+                </div>
             </div>
         </form>
     </div>

@@ -28,6 +28,7 @@
         margin-right: auto;
         height: 100%;
         vertical-align: middle;
+        object-fit: cover;
     }
 
     .profile_info {
@@ -193,6 +194,11 @@
     .overfit {
         object-fit: cover;
     }
+    .setting-but {
+        margin-left: 10px;
+        font-size: 30px;
+        color: #1b1e21;
+    }
 </style>
 
 
@@ -218,8 +224,8 @@
 
             <div class="col-md-12">
                 <div class="profile_info">
-                    <h2 id="profile_title">{{ profile_user }}</h2>
-                    <a class="fas fa-cog" href="{% url 'accounts:main_setting' %}">12312</a>
+                    <h2 id="profile_title">{{ profile_user }}<a class="fas fa-cog setting-but" href="{% url 'accounts:main_setting' %}"></a>
+                    </h2>
                     <ul class="profile_list">
                         <div class="profile_list_d">
                             <li>
