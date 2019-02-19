@@ -47,7 +47,7 @@ def post_edit(request, pk):
             post.ip = request.META['REMOTE_ADDR']
             post.save()
             messages.success(request, 'posts successfully edited')
-            redirect('my_profile:my_post_list', request.user)
+            return redirect('my_profile:my_post_list', request.user)
     else:
         form = PostForm(instance=post)
     return render(request, 'my_profile/post_form.html', {
