@@ -7,7 +7,7 @@
         {% for each_post in post %}
             <article class="posting" style="width: 500px;">
                 {% if each_post.photo %}
-                <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
+                <img src="{{ each_post.photo.url }}" class="posting_img overfit" style="width: 100%;height: 400px;"/><br/>
                 {% endif %}
                 <div class="posting_txt">
                     <div class="bar">
@@ -50,10 +50,25 @@
                 {% for each_arc in all_arc %}
                     <li><a href="{% url 'my_profile:arc_add' post_id=each_post.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>
                 {% endfor %}
+                    <li><a class="fas fa-plus plusbutton arcmake_open"></a></li>
                 </ul>
             </div>
         {% endfor %}
     </section>
+
+    <div id="arcmake" class="poppoptest">
+        <form action="{% url 'home:make_archive' %}" method="POST">
+            <div>
+                <h1>New Archiffdfadfve</h1>
+                {% csrf_token %}
+                <table style="width: 60%;height: 100px; margin: auto;">
+                    {{ form.as_table }}
+                </table>
+                <input type="submit" />
+            </div>
+        </form>
+    </div>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
 
@@ -70,6 +85,12 @@
         escape: false
     });
     {% endfor %}
+{#{% for each_arc in all_arc %}#}
+    $('#arcmake').popup({
+        pagecontainer: '#page',
+        escape: false
+    });
+{#{% endfor %}#}
 </script>
 {#    {% endfor %}#}
 {% endblock %}

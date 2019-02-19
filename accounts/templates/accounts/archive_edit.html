@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Arc Edit</title>
-</head>
-<body>
+{% extends "accounts/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
 <form action="" method="post">
     <div>
         <h1>Edit Archive</h1>
@@ -15,5 +12,5 @@
         <input type="submit" />
     </div>
 </form>
-</body>
-</html>
+<a type="button" href="{% url 'accounts:archive_delete' pk=pk %}">delete</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "accounts/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<ul>
+{% for each_arc in all_arc %}
+    <li><a href="{% url 'accounts:arc_all' pk=each_arc.id%}">{{ each_arc.archive }}</a>
+        <a type='button' href="{% url 'accounts:archive_edit' pk=each_arc.id%}">edit</a>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

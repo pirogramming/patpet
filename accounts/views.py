@@ -56,6 +56,7 @@ def profile(request, user_profile_id):
     profile_post = post_user.post_set.all()
     comment_form = CommentForm()
     like_post = request.user.liked.all()
+    arc = Archive.objects.filter(owner=request.user)
     return render(request, 'accounts/profile.html', {
         'profile_user': user,
         'request_user': request.user.id,
@@ -65,6 +66,7 @@ def profile(request, user_profile_id):
         'all_profile':all_profile,
         'comment_form':comment_form,
         'like_post': like_post,
+        'all_arc': arc,
     })
 
 @login_forbidden
@@ -242,6 +244,7 @@ def make_archive(request):
             return redirect('home:post_list')
     else:
         form = ArchiveForm()
+    print(form)
     return render(request, 'accounts/archive_form.html', {
         'form': form,
     })
@@ -257,5 +260,27 @@ def archive_edit(request, pk):
         form = ArchiveForm(instance=arc)
     return render(request, 'accounts/archive_edit.html', {
         'form': form,
+        'pk': pk,
     })
 
+def archive_delete(request, pk):
+    arc = get_object_or_404(Archive, pk=pk)
+    if arc.owner.id != request.user.id:
+        return redirect('home:post_list')
+    else:
+        arc.delete()
+        return redirect('accounts:arc_setting')
+
+def arc_setting(request):
+    arc = Archive.objects.filter(owner=request.user)
+    return render(request, 'accounts/arc_setting.html', {
+        'all_arc': arc,
+    })
+
+def arc_all(request, pk):
+    arc = get_object_or_404(Archive, pk=pk)
+    arc_post_all =  arc.saved.all()
+    print(arc_post_all)
+    return render(request, 'accounts/archive_all.html', {
+        'all_post':arc_post_all,
+    })

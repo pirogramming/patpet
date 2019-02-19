@@ -1,0 +1,8 @@
+{% extends "accounts/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+    {% for each_post in all_post %}
+        {{ each_post }}
+    {% endfor %}
+{% endblock %}

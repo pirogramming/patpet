@@ -76,7 +76,7 @@ def comment_new(request, pk):
             author=request.user,
             content=content
         )
-        print(request.path)
+        # print(request.path)
         return redirect('home:post_list')
 
         # return HttpResponseRedirect(request.POST['path'])
@@ -94,11 +94,11 @@ def comment_delete(request, pk):
 def like_post(request, pk):
     post_to_like = get_object_or_404(Post, pk=pk)
     act_user = request.user
-    print(post_to_like.likes.filter(pk=pk))
+    # print(post_to_like.likes.filter(pk=pk))
     is_liked = post_to_like.likes.filter(id=act_user.id).exists()
-    print(is_liked)
+    # print(is_liked)
     if post_to_like.likes.filter(id=act_user.id).exists():
-        print('여기다여기')
+        # print('여기다여기')
         # print(post_to_like.likes.filter(pk=pk))
         post_to_like.likes.remove(act_user)
     else:
@@ -114,9 +114,9 @@ def like_post(request, pk):
 def arc_add(request, post_id, arc_id):
     post_to_add = get_object_or_404(Post, pk=post_id)
     arc = get_object_or_404(Archive, pk=arc_id)
-    print(arc)
-    print(post_to_add)
-    print(post_to_add.archive.all())
+    # print(arc)
+    # print(post_to_add)
+    # print(post_to_add.archive.all())
     if post_to_add.archive.filter(id=arc_id).exists():
         post_to_add.archive.remove(arc)
         print('삭제')

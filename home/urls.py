@@ -5,4 +5,6 @@ app_name = 'home'
 
 urlpatterns = [
     path('post_list/', views.post_list, name='post_list'),
-    ]
+    path('arc/', views.make_archive, name='make_archive'),
+
+]
