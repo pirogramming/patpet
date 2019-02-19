@@ -61,7 +61,7 @@
     font-family: 'Nanum Gothic Coding', monospace;
 }
 
-.posting_like:hover {
+.posting_like:not(:first-child):hover {
     color: #F3F781;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: orange;

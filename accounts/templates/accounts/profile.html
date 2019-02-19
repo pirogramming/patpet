@@ -265,10 +265,11 @@
                             <p>{{ real_profile_user.introduce }}</p>
                         {% endif %}
                     </div>
+                    <!--메세지 중앙 정렬-->
                     {% if messages %}
                         <div class="container">
                             {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
+                        <div class="alert alert-{{ message.tags }} text-center" style="margin-bottom: 20px;">
                             {{ message.message }}
                         </div>
                             {% endfor %}
@@ -296,16 +297,16 @@
                         <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input({{each_post.pk}})" style="cursor: pointer"></i>
                         <i class="far fa-save posting_like fa-2x"></i>
                         {% if profile_user.id == request_user %}
-                        <span class="edit_and_delete">
-                            <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_post.id %}" class="edit">수정</a></button>
-                            <form class="delete" action="{% url "my_profile:post_delete" each_post.pk %}" method="post">
-                                {% csrf_token %}
-                                <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">삭제</button>
-                            </form>
-                        </span>
+                            <span class="edit_and_delete">
+                                <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_post.id %}" class="edit">수정</a></button>
+                                <form class="delete" action="{% url "my_profile:post_delete" each_post.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">삭제</button>
+                                </form>
+                            </span>
                         {% endif %}
                     </div>
-                    <p class="user_id">{{ each_post.author }}</p>
+                    <p class="user_id"><strong>{{ each_post.author }}</strong></p>
                     <p class="posting_cont">{{ each_post.content }}</p>
                     <!--댓글 보여주기-->
                     <div class="comment">
@@ -316,7 +317,7 @@
                                 <form action="{% url "my_profile:comment_delete" comment.pk %}" method="post" style="display: inline-block;margin-bottom: 0;">
                                     {% csrf_token %}
                                     <span><input type="submit" value="삭제" class="button_c button_c_d" /></span>
-{#                                    <input type="hidden" name="path" value="{{ request.path }}" />#}
+                                    <input type="hidden" name="next-d" value="{{ request.path }}" />
                                 </form>
                             {% endif %}
                         </div>
@@ -327,8 +328,7 @@
                        {% csrf_token %}
                        {{ comment_form }}
                        <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
-{#                        #}
-{#                       <input type="hidden" name="path" value="{{ request.path }}" />#}
+                       <input type="hidden" name="next-e" value="{{ request.path }}" />
                    </form>
                     <p>{{ each_post.created_at|naturaltime }}</p>
 
