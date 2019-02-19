@@ -275,6 +275,7 @@ def archive_delete(request, pk):
         arc.delete()
         return redirect('accounts:arc_setting')
 
+
 @login_required
 def arc_setting(request):
     arc = Archive.objects.filter(owner=request.user)
@@ -285,14 +286,25 @@ def arc_setting(request):
 def arc_all(request, pk):
     arc = get_object_or_404(Archive, pk=pk)
     arc_post_all =  arc.saved.all()
+    like_post = request.user.liked.all()
+    arc = Archive.objects.filter(owner=request.user)
+    pk=int(pk)
+
+
     return render(request, 'accounts/archive_all.html', {
         'all_post':arc_post_all,
+        'like_post': like_post,
+        'all_arc':arc,
+        'pk':pk,
     })
 
 @login_required
 def liked_all(request):
     liked_post_all = request.user.liked.all()
+    like_post = request.user.liked.all()
+
     return render(request, 'accounts/liked_all.html', {
+        'like_post': like_post,
         'all_post': liked_post_all,
     })
 

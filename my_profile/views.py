@@ -128,3 +128,12 @@ def arc_add(request, post_id, arc_id):
 
     return redirect('home:post_list')
 
+def arc_relocate(request, post_id, arc_id, target_id):
+    post_to_relocate = get_object_or_404(Post, pk=post_id)
+    arc = get_object_or_404(Archive, pk=arc_id)
+    target = get_object_or_404(Archive, pk=target_id)
+
+    post_to_relocate.archive.remove(arc)
+    post_to_relocate.archive.add(target)
+
+    return redirect('accounts:arc_all', arc_id)

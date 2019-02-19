@@ -32,7 +32,7 @@
             <li class="arc-list">
                 <a href="{% url 'accounts:arc_all' pk=each_arc.id%}" class="arc-name">{{ each_arc.archive }}</a>
                 <a href="{% url 'accounts:archive_edit' pk=each_arc.id%}" class="fas fa-edit"></a>
-                <a href="{% url 'accounts:archive_delete' pk=each_arc.id %}" class="fas fa-trash"></a>
+                <a onclick="return confirm('ARE YOU SURE?')" href="{% url 'accounts:archive_delete' pk=each_arc.id %}" class="fas fa-trash"></a>
             </li>
         {% endfor %}
     </ul>
