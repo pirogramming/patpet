@@ -1,7 +1,7 @@
-{% extends "accounts/layout.html" %}
+{% extends "accounts/main_setting.html" %}
 {% load static %}
 {% load humanize %}
-{% block content %}
+{% block setting %}
 <form action="" method="post">
     <div>
         <h1>Edit Archive</h1>
@@ -12,5 +12,4 @@
         <input type="submit" />
     </div>
 </form>
-<a type="button" href="{% url 'accounts:archive_delete' pk=pk %}">delete</a>
 {% endblock %}

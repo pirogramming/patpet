@@ -1,13 +1,42 @@
-{% extends "accounts/layout.html" %}
+<style>
+    .arc-title {
+        {#padding-left: 30px;#}
+    }
+    .arc-container {
+        border-left: #00a5bb solid 0.5px;
+    }
+    .arc-name {
+        font-size: 28px!important;
+        margin-right: 20px;
+    }
+    .arc-list a{
+        text-decoration: none;
+        color: #1b1e21;
+        font-size: 18px;
+    }
+    .arc-list a:hover{
+        text-decoration: none;
+        color: #d33f8d;
+    }
+
+</style>
+
+
+{% extends "accounts/main_setting.html" %}
 {% load static %}
-{% load humanize %}
-{% block content %}
-<ul>
-{% for each_arc in all_arc %}
-    <li><a href="{% url 'accounts:arc_all' pk=each_arc.id%}">{{ each_arc.archive }}</a>
-        <a type='button' href="{% url 'accounts:archive_edit' pk=each_arc.id%}">edit</a>
-    </li>
-{% endfor %}
-</ul>
+{% block setting %}
+
+    <h1 class="arc-title">MY ARCHIVE - TOTAL {{ all_arc.count }}</h1>
+    <ul class="arc-container">
+        {% for each_arc in all_arc %}
+            <li class="arc-list">
+                <a href="{% url 'accounts:arc_all' pk=each_arc.id%}" class="arc-name">{{ each_arc.archive }}</a>
+                <a href="{% url 'accounts:archive_edit' pk=each_arc.id%}" class="fas fa-edit"></a>
+                <a href="{% url 'accounts:archive_delete' pk=each_arc.id %}" class="fas fa-trash"></a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% block arc %}{% endblock %}
 
 {% endblock %}

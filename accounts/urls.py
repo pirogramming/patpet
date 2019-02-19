@@ -21,10 +21,15 @@ urlpatterns = [
     path('arc/', views.make_archive, name='make_archive'),
     path('<pk>/arc_edit/', views.archive_edit, name='archive_edit'),
     path('<pk>/arc_delete/', views.archive_delete, name='archive_delete'),
+    path('setting/', views.main_setting, name='main_setting'),
     path('setting/arc', views.arc_setting, name='arc_setting'),
-    path('all_arc/<pk>/', views.arc_all, name='arc_all')
+    path('all_arc/<pk>/', views.arc_all, name='arc_all'),
+    path('setting/all_liked/', views.liked_all, name='liked_all'),
+
 
 
     # path('test/', views.recommendation)
 
 ]
+
+

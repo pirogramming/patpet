@@ -52,6 +52,7 @@ def post_edit(request, pk):
         'form': form,
         })
 
+@login_required
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if post.author != request.user or request.method == 'GET':
@@ -111,6 +112,7 @@ def like_post(request, pk):
     return redirect('home:post_list')
         # 'is_liked':is_liked,
 
+@login_required
 def arc_add(request, post_id, arc_id):
     post_to_add = get_object_or_404(Post, pk=post_id)
     arc = get_object_or_404(Archive, pk=arc_id)

@@ -165,10 +165,11 @@ def profile_edit(request, pk):
         'form': form,
         })
 
+@login_required
 def searchtest(request):
     return render(request, 'accounts/search_test_form.html')
 
-
+@login_required
 def recommendation(request):
     all_user = User.objects.all()  #모든 유저
     all_profile = Profile.objects.all()
@@ -234,6 +235,7 @@ def recommendation(request):
         'all_profile': all_profile,
     })
 
+@login_required
 def make_archive(request):
     if request.method == 'POST':
         form = ArchiveForm(request.POST)
@@ -249,6 +251,7 @@ def make_archive(request):
         'form': form,
     })
 
+@login_required
 def archive_edit(request, pk):
     arc = get_object_or_404(Archive, pk=pk)
     if request.method == 'POST':
@@ -263,6 +266,7 @@ def archive_edit(request, pk):
         'pk': pk,
     })
 
+@login_required
 def archive_delete(request, pk):
     arc = get_object_or_404(Archive, pk=pk)
     if arc.owner.id != request.user.id:
@@ -271,16 +275,31 @@ def archive_delete(request, pk):
         arc.delete()
         return redirect('accounts:arc_setting')
 
+@login_required
 def arc_setting(request):
     arc = Archive.objects.filter(owner=request.user)
     return render(request, 'accounts/arc_setting.html', {
         'all_arc': arc,
     })
-
+@login_required
 def arc_all(request, pk):
     arc = get_object_or_404(Archive, pk=pk)
     arc_post_all =  arc.saved.all()
-    print(arc_post_all)
     return render(request, 'accounts/archive_all.html', {
         'all_post':arc_post_all,
     })
+
+@login_required
+def liked_all(request):
+    liked_post_all = request.user.liked.all()
+    return render(request, 'accounts/liked_all.html', {
+        'all_post': liked_post_all,
+    })
+
+def main_setting(request):
+    arc = Archive.objects.filter(owner=request.user)
+
+    return render(request, 'accounts/main_setting.html', {
+        'all_arc': arc
+    })
+
