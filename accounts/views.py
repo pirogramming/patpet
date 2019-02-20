@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.models import Profile, User
-from my_profile.models import Post
-from .forms import SignupForm, ProfileForm
+from accounts.models import Profile, User, Archive
+from my_profile.forms import CommentForm
+from my_profile.models import Post, Comment
+from .forms import SignupForm, ProfileForm, ArchiveForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
@@ -53,6 +54,9 @@ def profile(request, user_profile_id):
     post_list = profile.user.post_set
     post_user = get_object_or_404(get_user_model(), pk=user_profile_id)
     profile_post = post_user.post_set.all()
+    comment_form = CommentForm()
+    like_post = request.user.liked.all()
+    arc = Archive.objects.filter(owner=request.user)
     return render(request, 'accounts/profile.html', {
         'profile_user': user,
         'request_user': request.user.id,
@@ -60,6 +64,9 @@ def profile(request, user_profile_id):
         'post_list': post_list,
         'profile_post_list': profile_post,
         'all_profile':all_profile,
+        'comment_form':comment_form,
+        'like_post': like_post,
+        'all_arc': arc,
     })
 
 @login_forbidden
@@ -158,10 +165,11 @@ def profile_edit(request, pk):
         'form': form,
         })
 
+@login_required
 def searchtest(request):
     return render(request, 'accounts/search_test_form.html')
 
-
+@login_required
 def recommendation(request):
     all_user = User.objects.all()  #모든 유저
     all_profile = Profile.objects.all()
@@ -225,4 +233,91 @@ def recommendation(request):
         'length': legnth,
         'common': common,
         'all_profile': all_profile,
+    })
+
+@login_required
+def make_archive(request):
+    if request.method == 'POST':
+        form = ArchiveForm(request.POST)
+        if form.is_valid():
+            arc = form.save(commit=False)
+            arc.owner = request.user
+            arc.save()
+            return redirect('home:post_list')
+    else:
+        form = ArchiveForm()
+    print(form)
+    return render(request, 'accounts/archive_form.html', {
+        'form': form,
+    })
+
+@login_required
+def archive_edit(request, pk):
+    arc = get_object_or_404(Archive, pk=pk)
+    if request.method == 'POST':
+        form = ArchiveForm(request.POST, instance=arc)
+        if form.is_valid():
+            arc = form.save()
+            return redirect('accounts:profile', user_profile_id=request.user.id)
+    else:
+        form = ArchiveForm(instance=arc)
+    return render(request, 'accounts/archive_edit.html', {
+        'form': form,
+        'pk': pk,
+    })
+
+@login_required
+def archive_delete(request, pk):
+    arc = get_object_or_404(Archive, pk=pk)
+    if arc.owner.id != request.user.id:
+        return redirect('home:post_list')
+    else:
+        arc.delete()
+        return redirect('accounts:arc_setting')
+
+
+@login_required
+def arc_setting(request):
+    arc = Archive.objects.filter(owner=request.user)
+    return render(request, 'accounts/arc_setting.html', {
+        'all_arc': arc,
+    })
+@login_required
+def arc_all(request, pk):
+    arc = get_object_or_404(Archive, pk=pk)
+    arc_post_all = arc.saved.all()
+    like_post = request.user.liked.all()
+    arc = Archive.objects.filter(owner=request.user)
+    pk = int(pk)
+
+
+    return render(request, 'accounts/archive_all.html', {
+        'all_post': arc_post_all,
+        'like_post': like_post,
+        'all_arc': arc,
+        'pk': pk,
+    })
+
+@login_required
+def liked_all(request):
+    liked_post_all = request.user.liked.all()
+    like_post = request.user.liked.all()
+
+    return render(request, 'accounts/liked_all.html', {
+        'like_post': like_post,
+        'all_post': liked_post_all,
+    })
+
+def main_setting(request):
+    arc = Archive.objects.filter(owner=request.user)
+
+    return render(request, 'accounts/main_setting.html', {
+        'all_arc': arc
+    })
+
+def comment_setting(request):
+    comment = Comment.objects.filter(author=request.user)
+
+    return render(request, 'accounts/comments_setting.html', {
+        'all_com': comment,
     })

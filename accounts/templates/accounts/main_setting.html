@@ -1,0 +1,84 @@
+<style>
+    * {
+        font-family: 'Abel', sans-serif;
+    }
+    .set-nav {
+        border: #b9bbbe solid 0.5px;
+        padding: 10px;
+        text-align: center;
+        font-size: 17px;
+    }
+    .nav-title a {
+        text-decoration: none;
+        color: #1b1e21;
+    }
+    .nav-title a:hover{
+            text-decoration: none;
+
+    }
+
+    .nav-title:hover {
+        background-color: blanchedalmond;
+    }
+    .set-content {
+        padding-top: 30px;
+        padding-left: 30px!important;
+        padding-right: 30px!important;
+        height: 100%;
+        margin-bottom: 100px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        text-align: left;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .l {
+        border-top-left-radius: 10px;
+    }
+
+    .r {
+        border-top-right-radius: 10px;
+    }
+
+</style>
+
+{% extends "accounts/layout.html" %}
+{% load static %}
+{% block content %}
+
+    <dev class="container">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-2 set-nav l nav-title">
+                <a href="{% url 'accounts:arc_setting' %}">ARCHIVE</a>
+            </div>
+            <div class="col-md-2 set-nav nav-title">
+                <a href="{% url 'accounts:liked_all' %}">LIKED</a>
+            </div>
+            <div class="col-md-2 set-nav nav-title">
+                <a href="{% url 'accounts:comment_setting' %}">COMMENTS</a>
+            </div>
+            <div class="col-md-2 set-nav r nav-title">
+                <a>STATISTIC</a>
+            </div>
+            <div class="col-md-2">
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8 set-nav set-content">
+                {% block setting %}{% endblock %}
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </dev>
+
+
+{% endblock %}
