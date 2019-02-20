@@ -125,28 +125,28 @@ def unfollow_user(request, user_profile_id):
 def profile_redirect(request):
     return redirect('/home/post_list')
 
-@login_required
-def search(request):
-    qs = User.objects.all()
-    # print(qs)
-    q = request.GET.get('q', '')
-    # print(q)
-
-    if q:
-        profile = []
-        qs = qs.filter(username__icontains=q)
-        for qp in qs:
-
-            profile.append(get_object_or_404(Profile, pk=qp.id))
-        #     print(profile)
-        # print(profile)
-        return render(request, 'accounts/search.html', {
-            'user_result': qs,
-            'q': q,
-            'profile_user': profile
-        })
-    else:
-        return redirect('accounts:searchtest')
+# @login_required
+# def search(request):
+#     qs = User.objects.all()
+#     # print(qs)
+#     q = request.GET.get('q', '')
+#     # print(q)
+#
+#     if q:
+#         profile = []
+#         qs = qs.filter(username__icontains=q)
+#         for qp in qs:
+#
+#             profile.append(get_object_or_404(Profile, pk=qp.id))
+#         #     print(profile)
+#         # print(profile)
+#         return render(request, 'accounts/search.html', {
+#             'user_result': qs,
+#             'q': q,
+#             'profile_user': profile,
+#         })
+#     else:
+#         return redirect('accounts:searchtest')
 
 
 @login_required
@@ -321,3 +321,55 @@ def comment_setting(request):
     return render(request, 'accounts/comments_setting.html', {
         'all_com': comment,
     })
+
+
+
+@login_required
+def search(request):
+    category = request.GET.get('choices-single-default','')
+    print(category)
+    comment_form = CommentForm()
+
+
+    if category == 'Tag':
+        qs = Post.objects.all()
+        q = request.GET.get('q', '')
+        like_all = request.user.liked.all()
+        # print(like_all)
+        arc = Archive.objects.filter(owner=request.user)
+        arcform = ArchiveForm()
+        if q:
+            tag = []
+            qs = qs.filter(tag_set__name__contains=q).distinct()
+            for qp in qs:
+                tag.append(get_object_or_404(Post, pk=qp.id))
+            return render(request, 'accounts/search_tag.html', {
+                'user_result': qs,
+                'q': q,
+                'profile_user': tag,
+                'comment_form': comment_form,
+                'like_all': like_all,
+                'all_arc': arc,
+                'form': arcform,
+            })
+        else:
+            return redirect('accounts:searchtest')
+
+    elif category == 'User ID':
+        qs = User.objects.all()
+        q = request.GET.get('q', '')
+
+        if q:
+            profile = []
+            qs = qs.filter(username__icontains=q)
+            for qp in qs:
+                profile.append(get_object_or_404(Profile, pk=qp.id))
+            return render(request, 'accounts/search.html', {
+                'user_result': qs,
+                'q': q,
+                'profile_user': profile,
+            })
+        else:
+            return redirect('accounts:searchtest')
+    else:
+        return redirect('accounts:searchtest')

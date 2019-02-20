@@ -16,6 +16,7 @@ def post_list(request):
     arc = Archive.objects.filter(owner=request.user)
     arcform = ArchiveForm()
 
+
     context = {
         'post': post,
         'comment_form': comment_form,
