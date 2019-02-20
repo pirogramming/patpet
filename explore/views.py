@@ -65,7 +65,6 @@ def post_delete(request,id):
 
     if request.method == 'POST':
         post.delete()
-        messages.success(request, '삭제완료')
         return redirect('/explore/', request.user)
 
 

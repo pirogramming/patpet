@@ -17,6 +17,7 @@
 
     <hr/>
 
+
     <ul>
         {% for comment in post.comment_set.all %}
             <li>
@@ -27,12 +28,16 @@
             </li>
         {% endfor %}
     </ul>
+
+
     <a href="{% url "explore:post_list" %}" class="btn btn-primary">글 목록</a>
+    {% if post.author.id == request.user.id %}
     <a href="{% url "explore:post_edit" post.id %}" class="btn btn-default">EDIT</a>
     <form class="delete" action="{% url "explore:post_delete" post.id %}" method="post">
         {% csrf_token %}
-        <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">DELETE</button>
+        <button class="btn btn-outline-danger">DELETE</button>
     </form>
-
+    {% else %}
+    {% endif %}
 
 {% endblock %}
