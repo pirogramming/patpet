@@ -3,31 +3,36 @@
 
 
 {% block content %}
-<br><br><br><br><br>
-<h2>{{ post.title }}</h2><br><br>
-{% if post.photo %}
-    {% thumbnail "300x300" post.photo -- style="" onclick="" class="" %}
-{% endif %}
-<br><br>
-<h1>{{ post.content|linebreaks }}</h1>
-<hr/>
-<h3>Comments</h3>
+    <br><br><br><br><br>
+    <h2>{{ post.title }}</h2><br><br>
+    {% if post.photo %}
+        {% thumbnail "300x300" post.photo -- style="" onclick="" class="" %}
+    {% endif %}
+    <br><br>
+    <h1>{{ post.content|linebreaks }}</h1>
+    <hr/>
+    <h3>Comments</h3>
 
 
 
-<hr/>
+    <hr/>
 
-                <ul>
-                {% for comment in post.comment_set.all %}
-                    <li>
-                        {{ comment.message }}
-                        <small>by {{ comment.author }}</small>
-                        <small>at {{ comment.updated_at }}</small>kk
-                    </li>
-                {% endfor %}
-                </ul>
+    <ul>
+        {% for comment in post.comment_set.all %}
+            <li>
+                {{ comment.message }}
+                <small>by {{ comment.author }}</small>
+                <small>at {{ comment.updated_at }}</small>
+                kk
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url "explore:post_list" %}" class="btn btn-primary">글 목록</a>
+    <a href="{% url "explore:post_edit" post.id %}" class="btn btn-default">EDIT</a>
+    <form class="delete" action="{% url "explore:post_delete" post.id %}" method="post">
+        {% csrf_token %}
+        <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">DELETE</button>
+    </form>
 
-<a href="{% url "explore:post_list" %}" class="btn btn-primary">글 목록</a>
-<a href="{% url "explore:post_edit" post.id %}" class="btn btn-default">수정</a>
 
 {% endblock %}

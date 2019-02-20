@@ -60,6 +60,14 @@ def post_edit(request, id):
         'form': form,
     })
 
+def post_delete(request,id):
+    post = get_object_or_404(CommunicationPost, id=id)
+
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, '삭제완료')
+        return redirect('/explore/', request.user)
+
 
 @login_required
 def my_communication_list(request, username):
