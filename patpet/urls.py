@@ -16,9 +16,12 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.shortcuts import redirect
+from django.urls import path, include, re_path
 
 urlpatterns = [
+
+    re_path(r'^$', lambda r: redirect('home:post_list'), name='root'),
     path('admin/', admin.site.urls),
     path('home/', include(('home.urls', 'home'), namespace='home')),
     path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),

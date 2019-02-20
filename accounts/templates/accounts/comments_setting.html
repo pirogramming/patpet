@@ -1,0 +1,47 @@
+<style>
+    .arc-title {
+        padding-left: 30px;
+    }
+    .arc-container {
+        border-left: #00a5bb solid 0.5px;
+    }
+    .arc-name {
+        font-size: 28px!important;
+        margin-right: 20px;
+    }
+    .arc-list a{
+        text-decoration: none;
+        color: #1b1e21;
+        font-size: 18px;
+    }
+    .arc-list a:hover{
+        text-decoration: none;
+        color: #d33f8d;
+    }
+    h1 {
+        padding-left: 0!important;
+    }
+</style>
+
+
+{% extends "accounts/main_setting.html" %}
+{% load static %}
+{% block setting %}
+
+    <h1 class="arc-title">MY COMMENTS - TOTAL {{ all_com.count }}</h1>
+    <ul class="arc-container">
+        {% for each_com in all_com %}
+            <li class="arc-list">
+                <div>{{ each_com.created_at }}</div>
+                <a href="#" class="arc-name">{{ each_com.content }}</a>
+{#                <a href="{% url 'my_profile:comments_edit' pk=each_com.id%}" class="fas fa-edit"></a>#}
+                <form action="{% url "my_profile:comment_delete" pk=each_com.id %}" method="post" style="display: inline-block;">
+                    {% csrf_token %}
+                    <span><input type="submit" value="DEL" class="fas fa-trash" onclick="return confirm('ARE YOU SURE?')"/></span>
+                </form>
+{#                <a onclick="return confirm('ARE YOU SURE?')" href="{% url 'my_profile:comment_delete' pk=each_com.id %}" class="fas fa-trash"></a>#}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile, User, Archive
 from my_profile.forms import CommentForm
-from my_profile.models import Post
+from my_profile.models import Post, Comment
 from .forms import SignupForm, ProfileForm, ArchiveForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
@@ -285,17 +285,17 @@ def arc_setting(request):
 @login_required
 def arc_all(request, pk):
     arc = get_object_or_404(Archive, pk=pk)
-    arc_post_all =  arc.saved.all()
+    arc_post_all = arc.saved.all()
     like_post = request.user.liked.all()
     arc = Archive.objects.filter(owner=request.user)
-    pk=int(pk)
+    pk = int(pk)
 
 
     return render(request, 'accounts/archive_all.html', {
-        'all_post':arc_post_all,
+        'all_post': arc_post_all,
         'like_post': like_post,
-        'all_arc':arc,
-        'pk':pk,
+        'all_arc': arc,
+        'pk': pk,
     })
 
 @login_required
@@ -315,3 +315,9 @@ def main_setting(request):
         'all_arc': arc
     })
 
+def comment_setting(request):
+    comment = Comment.objects.filter(author=request.user)
+
+    return render(request, 'accounts/comments_setting.html', {
+        'all_com': comment,
+    })

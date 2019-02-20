@@ -25,6 +25,7 @@ urlpatterns = [
     path('setting/arc', views.arc_setting, name='arc_setting'),
     path('all_arc/<pk>/', views.arc_all, name='arc_all'),
     path('setting/all_liked/', views.liked_all, name='liked_all'),
+    path('setting/comments/', views.comment_setting, name='comment_setting')
 
 
 
