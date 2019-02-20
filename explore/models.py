@@ -9,6 +9,10 @@ class Reccomendation:
     pass
 
 
+class New:
+    pass
+
+
 class CommunicationPost(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
 

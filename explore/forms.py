@@ -5,7 +5,7 @@ from .models import CommunicationPost, CommunicationComment
 class PostForm(forms.ModelForm):
     class Meta:
         model = CommunicationPost
-        fields = '__all__'
+        fields = ['title', 'content', 'photo']
 
 
 class CommentForm(forms.ModelForm):
