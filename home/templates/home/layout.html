@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load widget_tweaks %}
 {% load humanize %}
 {% block content %}
 
@@ -18,14 +19,17 @@
         {% for each_post in post %}
             <article class="posting" style="width: 500px;">
                 {% if each_post.photo %}
-                <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
+                <img src="{{ each_post.photo.url }}" class="posting_img overfit" style="width: 100%;height: 400px;"/><br/>
                 {% endif %}
                 <div class="posting_txt">
                     <div class="bar">
-{#                        <i class="fas fa-paw posting_like fa-2x"></i>#}
-                        <i class="fas fa-paw posting_like fa-2x" id="heart-{{ each_post.pk }}" onclick="like({{each_post.pk}})" style="cursor: pointer"></i>
+                        {% if each_post in like_all %}
+                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button2"></a></i>
+                        {% else %}
+                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button"></a></i>
+                        {% endif %}
                         <i class="far fa-comments posting_like fa-2x" onclick="comment_input({{each_post.pk}})" style="cursor: pointer"></i>
-                        <i class="far fa-save posting_like fa-2x" style="cursor: pointer"></i>
+                        <i><a class="{{ each_post.id }}arc_open far fa-save posting_like fa-2x"></a></i>
                     </div>
                     <p class="user_id"><strong>{{ each_post.author }}</strong></p>
                     <p class="posting_cont">{{ each_post.content|linebreaksbr }}</p>
@@ -56,25 +60,64 @@
 
                 </div>
             </article>
+            <div id="{{ each_post.id }}arc" class="arc_container">
+                <ul>
+                {% for each_arc in all_arc %}
+                    <li><a href="{% url 'my_profile:arc_add' post_id=each_post.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>
+                {% endfor %}
+                    <li><a class="fas fa-plus plusbutton arcmake_open"></a></li>
+                </ul>
+            </div>
         {% endfor %}
     </section>
 
+    <div id="arcmake" class="poppoptest">
+        <form action="{% url 'home:make_archive' %}" method="POST">
+            <div>
+                <h1>NEW ARCHIVE</h1>
+                {% csrf_token %}
+                <div id="arc_popup">
+                    {% render_field form.archive|add_class:'add-test' placeholder='ARCHIVE NAME' %}
+                <input type="submit" class="btn btn-outline-dark" value="ADD" />
+                </div>
+            </div>
+        </form>
+    </div>
 
-    <script>
-        function comment_input(postId){
-            var dp = document.getElementById("comment-form-" + postId).style.display;
-            if(dp == 'none')
-                document.getElementById("comment-form-" + postId).style.display = 'block';
-            else
-                document.getElementById("comment-form-" + postId).style.display = 'none';
-         }
-         
-        function like(postId) {
-            var dp = document.getElementById("heart-" + postId).style.color;
-            if(dp == 'rgb(243, 247, 129)')
-                document.getElementById("heart-" + postId).style.color = '#212529';
-            else
-                document.getElementById("heart-" + postId).style.color = '#F3F781';
-         }
-    </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
+
+
+<script>
+    function comment_input(postId){
+        var dp = document.getElementById("comment-form-" + postId).style.display;
+        if(dp == 'none')
+            document.getElementById("comment-form-" + postId).style.display = 'block';
+        else
+            document.getElementById("comment-form-" + postId).style.display = 'none';
+     }
+
+    {#function like(postId) {#}
+    {#    var dp = document.getElementById("heart-" + postId).style.color;#}
+    {#    if(dp == 'rgb(243, 247, 129)')#}
+    {#        document.getElementById("heart-" + postId).style.color = '#212529';#}
+    {#    else#}
+    {#        document.getElementById("heart-" + postId).style.color = '#F3F781';#}
+    {# }#}
+</script>
+<script>
+    {% for each_post in post %}
+    $('#{{ each_post.id }}arc').popup({
+        pagecontainer: '#page',
+        escape: false
+    });
+    {% endfor %}
+{#{% for each_arc in all_arc %}#}
+    $('#arcmake').popup({
+        pagecontainer: '#page',
+        escape: false
+    });
+{#{% endfor %}#}
+</script>
+{#    {% endfor %}#}
 {% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from accounts.models import Archive
 from my_profile.models import Post, Comment
 from .forms import PostForm, CommentForm
 
@@ -57,7 +58,6 @@ def post_edit(request, pk):
         'form': form,
         })
 
-
 @login_required
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -89,7 +89,6 @@ def comment_new(request, pk):
         return HttpResponseRedirect(next)
 
 
-
 @login_required
 def comment_delete(request, pk):
     if request.method == 'POST':
@@ -98,3 +97,50 @@ def comment_delete(request, pk):
         comment.delete()
         messages.success(request, 'comments successfully deleted')
         return HttpResponseRedirect(next)
+
+@login_required
+def like_post(request, pk):
+    post_to_like = get_object_or_404(Post, pk=pk)
+    act_user = request.user
+    # print(post_to_like.likes.filter(pk=pk))
+    is_liked = post_to_like.likes.filter(id=act_user.id).exists()
+    # print(is_liked)
+    if post_to_like.likes.filter(id=act_user.id).exists():
+        # print('여기다여기')
+        # print(post_to_like.likes.filter(pk=pk))
+        post_to_like.likes.remove(act_user)
+    else:
+        post_to_like.likes.add(act_user)
+        messages.success(request, "Like this post")
+    # # print(data)
+    # t = user_profile.followed_by.all()
+    # # print(t)
+
+    return redirect('home:post_list')
+        # 'is_liked':is_liked,
+
+@login_required
+def arc_add(request, post_id, arc_id):
+    post_to_add = get_object_or_404(Post, pk=post_id)
+    arc = get_object_or_404(Archive, pk=arc_id)
+    # print(arc)
+    # print(post_to_add)
+    # print(post_to_add.archive.all())
+    if post_to_add.archive.filter(id=arc_id).exists():
+        post_to_add.archive.remove(arc)
+        print('삭제')
+    else:
+        post_to_add.archive.add(arc)
+        print('추가')
+
+    return redirect('home:post_list')
+
+def arc_relocate(request, post_id, arc_id, target_id):
+    post_to_relocate = get_object_or_404(Post, pk=post_id)
+    arc = get_object_or_404(Archive, pk=arc_id)
+    target = get_object_or_404(Archive, pk=target_id)
+
+    post_to_relocate.archive.remove(arc)
+    post_to_relocate.archive.add(target)
+
+    return redirect('accounts:arc_all', arc_id)

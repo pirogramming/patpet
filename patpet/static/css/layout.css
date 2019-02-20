@@ -60,7 +60,9 @@
     padding: 10px 16px;
     font-family: 'Nanum Gothic Coding', monospace;
 }
-
+.overfit {
+    object-fit: cover;
+}
 .posting_like:not(:first-child):hover {
     color: #F3F781;
     -webkit-text-stroke-width: 1px;
@@ -117,4 +119,72 @@
 .post-new-photo {
     position: relative;
     left: -35px;
+}
+.like_button {
+    color: black;
+    text-decoration: none;
+}
+.like_button2 {
+    color: red;
+    text-decoration: none;
+}
+.arc_container {
+    border-radius: 5px;
+    margin: 10px;
+    padding: 30px 30px 0px 30px;
+    max-width: 100%;
+    background: white;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.arc_container li {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.arc_container ul {
+    padding: 0px;
+}
+
+.arc_container a:hover {
+    text-decoration: none;
+}
+
+.plusbutton {
+    cursor:pointer;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: black;
+    text-decoration: none;
+}
+
+.poppoptest {
+    width: 300px;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 30px 30px 30px 30px;
+    max-width: 100%;
+    background: bisque;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.poppoptest h1{
+    text-align: center;
+}
+
+.add-test {
+    height: 33px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#arc_popup {
+    vertical-align: middle;
+    text-align: center;
 }

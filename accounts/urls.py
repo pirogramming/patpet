@@ -18,6 +18,19 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('searchtest/', views.recommendation, name='searchtest'),
     path('<pk>/profile_edit/', views.profile_edit, name='profile_edit'),
+    path('arc/', views.make_archive, name='make_archive'),
+    path('<pk>/arc_edit/', views.archive_edit, name='archive_edit'),
+    path('<pk>/arc_delete/', views.archive_delete, name='archive_delete'),
+    path('setting/', views.main_setting, name='main_setting'),
+    path('setting/arc', views.arc_setting, name='arc_setting'),
+    path('all_arc/<pk>/', views.arc_all, name='arc_all'),
+    path('setting/all_liked/', views.liked_all, name='liked_all'),
+    path('setting/comments/', views.comment_setting, name='comment_setting')
+
+
+
     # path('test/', views.recommendation)
 
 ]
+
+

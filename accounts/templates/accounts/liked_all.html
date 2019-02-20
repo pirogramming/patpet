@@ -1,0 +1,119 @@
+<style>
+    .aaa {
+        width: 100%;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .arc-photo-con {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        {#padding-left: 3%;#}
+        {#padding-right: 3%;#}
+
+
+    }
+    .arc-photo {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin: 5px;
+        float: left;
+    }
+    .popup_post_detail {
+        width: 500px;
+    }
+</style>
+
+
+{% extends "accounts/main_setting.html" %}
+{% load static %}
+{% load humanize %}
+{% block setting %}
+
+    <div class="aaa">
+    <div class="arc-photo-con">
+    {% for each_post in all_post %}
+        <a class="A{{ each_post.id }}_open">
+            <img class="arc-photo" src="{{ each_post.photo.url }}" alt="photo">
+        </a>
+
+
+            <section id="A{{ each_post.id }}" class="popup_post_detail posting">
+                        {% if each_post.photo %}
+                <img src="{{ each_post.photo.url }}" class="posting_img overfit" style="width: 100%;height: 400px;" /><br/>
+                {% endif %}
+                <div class="posting_txt">
+                    <div class="bar">
+                        {% if each_post in like_post %}
+                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button2"></a></i>
+                        {% else %}
+                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button"></a></i>
+                        {% endif %}                        <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input()"></i>
+                        <i class="far fa-save posting_like fa-2x"></i>
+                    {% if each_post.user.id == request.user.id %}
+                        <span class="edit_and_delete">
+                            <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_post.id %}" class="edit">수정</a></button>
+                            <form class="delete" action="{% url "my_profile:post_delete" each_post.pk %}" method="post">
+                                {% csrf_token %}
+                                <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">삭제</button>
+                            </form>
+                        </span>
+                    {% endif %}
+
+                    </div>
+                    <p class="user_id">{{ each_post.author }}</p>
+                    <p class="posting_cont">{{ each_post.content }}</p>
+                    <!--댓글 보여주기-->
+                    <div class="comment">
+                        {% for comment in each_post.comment_set.all %}
+                        <div>
+                            <span class="comment-username"><strong>{{ comment.author }}</strong></span> {{ comment.content }}
+                            {% if user == comment.author %}
+                                <form action="{% url "my_profile:comment_delete" comment.pk %}" method="post" style="display: inline-block;margin-bottom: 0;">
+                                    {% csrf_token %}
+                                    <span><input type="submit" value="삭제" class="button_c button_c_d" /></span>
+{#                                    <input type="hidden" name="path" value="{{ request.path }}" />#}
+                                </form>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--댓글 입력-->
+                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" class="comment-form">
+                       {% csrf_token %}
+                       {{ comment_form }}
+                       <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
+{#                        #}
+{#                       <input type="hidden" name="path" value="{{ request.path }}" />#}
+                   </form>
+                    <p>{{ each_post.created_at|naturaltime }}</p>
+
+                </div>
+
+                    </section>
+
+
+
+
+
+
+    {% endfor %}
+    </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
+<script>
+    {% for each_post in all_post %}
+    $('#A{{ each_post.id }}').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+    {% endfor %}
+    function comment_input() {
+            $('.comment-form').css('display', 'inline-block');
+    }
+</script>
+{% endblock %}
