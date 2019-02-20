@@ -11,14 +11,12 @@ from .forms import CommentForm
 from django.contrib import messages
 
 
-
 def post_list(request):
     post = CommunicationPost.objects.all()
 
     return render(request, "explore/post_list.html", {
         'post_list': post,
     })
-
 
 
 def post_detail(request, id):
@@ -34,6 +32,9 @@ def post_new(request):
         form = PostForm(request.POST, request.FILES)
 
         if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             form.save()
             return redirect('/explore/')
     else:
