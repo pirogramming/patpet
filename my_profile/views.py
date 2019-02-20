@@ -43,14 +43,17 @@ def post_edit(request, pk):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            post = form.save(commit=False)
+            post = form.save()
             post.ip = request.META['REMOTE_ADDR']
-            post.save()
+            post.tag_set.clear()
+            post.tag_save()
             messages.success(request, 'posts successfully edited')
             return redirect('my_profile:my_post_list', request.user)
     else:
+        print(post.photo)
         form = PostForm(instance=post)
-    return render(request, 'my_profile/post_form.html', {
+    return render(request, 'my_profile/post_edit.html', {
+        'post': post,
         'form': form,
         })
 
