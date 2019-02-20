@@ -61,7 +61,7 @@
     font-family: 'Nanum Gothic Coding', monospace;
 }
 
-.posting_like:hover {
+.posting_like:not(:first-child):hover {
     color: #F3F781;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: orange;
@@ -93,10 +93,6 @@
 .user_id {
     font-size: 17px;
 }
-.comment-form {
-    margin: 3px 0;
-    display: none;
-}
 .comment {
     margin: 5px 0;
 }
@@ -117,4 +113,8 @@
 .button_c_n:hover {
     color: #2E64FE;
     font-weight: bold;
+}
+.post-new-photo {
+    position: relative;
+    left: -35px;
 }

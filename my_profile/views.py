@@ -15,12 +15,14 @@ def post_new(request):
             post.author = request.user
             post.save()
             post.tag_save()
-            return redirect(post)
+            messages.success(request, 'posts successfully uploaded')
+            return redirect('home:post_list')
     else:
         form = PostForm()
     return render(request, 'my_profile/post_form.html', {
         'form': form,
         })
+
 
 @login_required
 def my_post_list(request, username):
@@ -34,22 +36,29 @@ def my_post_list(request, username):
         'comment_form': comment_form,
     })
 
+
 @login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            post = form.save(commit=False)
+            post = form.save()
             post.ip = request.META['REMOTE_ADDR']
-            post.save()
-            return redirect('/home/post_list/') #namespace:name
+            post.tag_set.clear()
+            post.tag_save()
+            messages.success(request, 'posts successfully edited')
+            return redirect('my_profile:my_post_list', request.user)
     else:
+        print(post.photo)
         form = PostForm(instance=post)
-    return render(request, 'my_profile/post_form.html', {
+    return render(request, 'my_profile/post_edit.html', {
+        'post': post,
         'form': form,
         })
 
+
+@login_required
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if post.author != request.user or request.method == 'GET':
@@ -58,8 +67,9 @@ def post_delete(request, pk):
 
     if request.method == 'POST':
         post.delete()
-        messages.success(request, '삭제완료')
+        messages.success(request, 'posts successfully deleted')
         return redirect('my_profile:my_post_list', request.user)
+
 
 @login_required
 def comment_new(request, pk):
@@ -74,16 +84,17 @@ def comment_new(request, pk):
             author=request.user,
             content=content
         )
-        print(request.path)
-        return redirect('home:post_list')
+        messages.success(request, 'comments successfully uploaded')
+        next = request.POST.get('next-e','/')
+        return HttpResponseRedirect(next)
 
-        # return HttpResponseRedirect(request.POST['path'])
-        # return HttpResponseRedirect(request.POST.get('path'))
+
 
 @login_required
 def comment_delete(request, pk):
     if request.method == 'POST':
+        next = request.POST.get('next-d', '/')
         comment = get_object_or_404(Comment, pk=pk)
         comment.delete()
-        messages.success(request, '삭제완료')
-        return redirect('home:post_list')
+        messages.success(request, 'comments successfully deleted')
+        return HttpResponseRedirect(next)

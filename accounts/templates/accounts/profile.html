@@ -189,6 +189,7 @@
 
 
 {% extends "accounts/layout.html" %}
+{% load humanize %}
 {% load static %}
 {% block content %}
 
@@ -264,10 +265,11 @@
                             <p>{{ real_profile_user.introduce }}</p>
                         {% endif %}
                     </div>
+                    <!--메세지 중앙 정렬-->
                     {% if messages %}
                         <div class="container">
                             {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
+                        <div class="alert alert-{{ message.tags }} text-center" style="margin-bottom: 20px;">
                             {{ message.message }}
                         </div>
                             {% endfor %}
@@ -277,8 +279,7 @@
             </div>
         </div>
 
-
-        <div class="row post-container">
+    <div class="row post-container">
             {% if profile_post_list %}
                 {% for each_post in profile_post_list %}
                     <div class="col-md-4">
@@ -287,15 +288,51 @@
 
 
                     <section id="{{ each_post.id }}" class="popup_post_detail posting">
-                        <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
-                        <div class="posting_txt">
-                            <i class="fas fa-paw posting_like fa-2x"></i>
-                            <i class="far fa-comments posting_like fa-2x"></i>
-                            <i class="far fa-save posting_like fa-2x"></i>
+                        {% if each_post.photo %}
+                <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;" /><br/>
+                {% endif %}
+                <div class="posting_txt">
+                    <div class="bar">
+                        <i class="fas fa-paw posting_like fa-2x"></i>
+                        <i class="far fa-comments posting_like fa-2x posting_like_c" onclick="comment_input({{each_post.pk}})" style="cursor: pointer"></i>
+                        <i class="far fa-save posting_like fa-2x"></i>
+                        {% if profile_user.id == request_user %}
+                            <span class="edit_and_delete">
+                                <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_post.id %}" class="edit">수정</a></button>
+                                <form class="delete" action="{% url "my_profile:post_delete" each_post.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">삭제</button>
+                                </form>
+                            </span>
+                        {% endif %}
+                    </div>
+                    <p class="user_id"><strong>{{ each_post.author }}</strong></p>
+                    <p class="posting_cont">{{ each_post.content|linebreaksbr }}</p>
+                    <!--댓글 보여주기-->
+                    <div class="comment">
+                        {% for comment in each_post.comment_set.all %}
+                        <div>
+                            <span class="comment-username"><strong>{{ comment.author }}</strong></span> {{ comment.content }}
+                            {% if user == comment.author %}
+                                <form action="{% url "my_profile:comment_delete" comment.pk %}" method="post" style="display: inline-block;margin-bottom: 0;">
+                                    {% csrf_token %}
+                                    <span><input type="submit" value="삭제" class="button_c button_c_d" /></span>
+                                    <input type="hidden" name="next-d" value="{{ request.path }}" />
+                                </form>
+                            {% endif %}
                         </div>
-                        <p class="user_id">{{ each_post.author }}</p>
-                        <p class="posting_cont">{{ each_post.content }}</p>
-                        <p>{{ each_post.time_interval }} <small>전...</small></p>
+                        {% endfor %}
+                    </div>
+                    <!--댓글 입력-->
+                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" id="comment-form-{{ each_post.pk }}" style="display: none;margin: 5px 0;">
+                       {% csrf_token %}
+                       {{ comment_form }}
+                       <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
+                       <input type="hidden" name="next-e" value="{{ request.path }}" />
+                   </form>
+                    <p>{{ each_post.created_at|naturaltime }}</p>
+
+                </div>
                     </section>
 
                 {% endfor %}
@@ -367,6 +404,15 @@
     escape: false
     });
     {% endfor %}
+
+    function comment_input(postId){
+            var dp = document.getElementById("comment-form-" + postId).style.display;
+            if(dp == 'none')
+                document.getElementById("comment-form-" + postId).style.display = 'block';
+            else
+                document.getElementById("comment-form-" + postId).style.display = 'none';
+         }
+
 </script>
 
 {% endblock %}
