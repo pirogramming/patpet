@@ -25,7 +25,11 @@ urlpatterns = [
     path('setting/arc', views.arc_setting, name='arc_setting'),
     path('all_arc/<pk>/', views.arc_all, name='arc_all'),
     path('setting/all_liked/', views.liked_all, name='liked_all'),
-    path('setting/comments/', views.comment_setting, name='comment_setting')
+    path('setting/comments/', views.comment_setting, name='comment_setting'),
+    path('messages/', views.message_list, name='message_list'),
+    path('messages/<pk>/', views.message_detail, name='message_detail'),
+    path('newmessage/', views.send_message, name='send_message'),
+    # path('messages/<pk>/write/', views.send_message2, name='send_message2'),
 
 
 
