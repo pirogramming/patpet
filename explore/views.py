@@ -8,7 +8,7 @@ from explore.models import CommunicationPost, CommunicationComment
 from .forms import PostForm
 
 from my_profile.models import Post
-from .forms import CommentForm
+from explore.forms import CommentForm
 from django.contrib import messages
 
 
@@ -22,11 +22,11 @@ def post_list(request):
 
 def post_detail(request, id):
     post = get_object_or_404(CommunicationPost, id=id)
-    form = CommentForm
+    comment_form = CommentForm()
 
     return render(request, 'explore/post_detail.html', {
         'post': post,
-        'form': form,
+        'comment_form': comment_form,
     })
 
 
@@ -86,7 +86,7 @@ def my_communication_list(request, username):
 @login_required
 def comment_new(request, id):
     if request.method == 'POST':
-        post = get_object_or_404(Post, id=id)
+        post = get_object_or_404(CommunicationPost, id=id)
         content = request.POST.get('content')
         if not content:
             return HttpResponse('댓글 내용을 입력하세요', status=400)
@@ -94,18 +94,8 @@ def comment_new(request, id):
         CommunicationComment.objects.create(
             post=post,
             author=request.user,
-            content=content
+            content=contentc
         )
-        form = CommentForm()
-        return redirect(request, 'post:post_detail', {
-            'form':form
-        })
-
-
-@login_required
-def comment_delete(request, id):
-    if request.method == 'POST':
-        next = request.POST.get('next-d', '/')
-        comment = get_object_or_404(CommunicationComment, id=id)
-        comment.delete()
+        messages.success(request, 'comments successfully uploaded')
+        next = request.POST.get('next-e','/')
         return HttpResponseRedirect(next)

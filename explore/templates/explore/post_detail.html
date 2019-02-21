@@ -26,16 +26,6 @@
         <hr/>
 
 
-        <div class="panel panel-default post-item">
-
-            <div class="panel-body">
-                <form action="{% url 'explore:comment_new' id=post.id %}" method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" name="content">
-                </form>
-            </div>
-        </div>
 
 
         <ul>
@@ -48,6 +38,14 @@
                 </li>
             {% endfor %}
         </ul>
+
+
+        <form action="{% url 'explore:comment_new' id=post.id %}" method="POST" id="comment-form-{{ post.id }}" style="display: none;margin: 5px 0;">
+            {% csrf_token %}
+            {{ comment_form }}
+            <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
+            <input type="hidden" name="next-e" value="{{ request.path }}" />
+        </form>
 
 
         <a href="{% url "explore:post_list" %}" class="btn btn-primary">글 목록</a>

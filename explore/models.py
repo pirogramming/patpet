@@ -3,6 +3,7 @@ from django.urls import reverse
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Thumbnail
 from django.conf import settings
+from accounts.models import User
 
 
 class Reccomendation:
@@ -35,7 +36,7 @@ class CommunicationPost(models.Model):
 
 class CommunicationComment(models.Model):
     post = models.ForeignKey(CommunicationPost, on_delete=models.CASCADE, related_name='comment_set')
-    author = models.ForeignKey(CommunicationPost, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False)
     content = models.TextField(verbose_name='내용')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

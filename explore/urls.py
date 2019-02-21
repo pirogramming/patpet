@@ -10,6 +10,5 @@ urlpatterns = [
     path('<int:id>/edit/', views.post_edit, name='post_edit'),
     re_path(r'^(?P<username>\w+)/list/$', views.my_communication_list, name='my_communication_list'),
     re_path(r'^(?P<id>\d+)/post/delete/$', views.post_delete, name='post_delete'),
-    re_path(r'^(?P<id>\d+)/comment/new/$', views.comment_new, name='comment_new'),
-    re_path(r'^(?P<id>\d+)/comment/delete/$', views.comment_delete, name='comment_delete'),
-]
+    path('<int:id>/comment/new/', views.comment_new, name='comment_new'),
+    ]

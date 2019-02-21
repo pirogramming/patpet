@@ -11,11 +11,10 @@ class PostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     content = forms.CharField(label='', widget=forms.TextInput(attrs={
         'class': 'comment-form',
-        'size': '40px',
-        'placeholder': '내용을 입력하세요.',
-        'rows': '4',
-        'cols': '50',}))
+        'size': '63px',
+        'placeholder': '댓글 달기...',
+        'maxlength': '40', }))
 
     class Meta:
         model = CommunicationComment
-        fields = ['author', 'content']
+        fields = ['content']
