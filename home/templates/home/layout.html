@@ -24,9 +24,9 @@
                 <div class="posting_txt">
                     <div class="bar">
                         {% if each_post in like_all %}
-                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button2"></a></i>
+                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button2 like"></a></i>
                         {% else %}
-                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button"></a></i>
+                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button like"></a></i>
                         {% endif %}
                         <i class="far fa-comments posting_like fa-2x" onclick="comment_input({{each_post.pk}})" style="cursor: pointer"></i>
                         <i><a class="{{ each_post.id }}arc_open far fa-save posting_like fa-2x" style="cursor: pointer"></a></i>
