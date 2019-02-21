@@ -11,7 +11,7 @@ from my_profile.models import Post, Comment
 from .forms import SignupForm, ProfileForm, ArchiveForm
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
-
+from django.db.models import Q
 
 LOGGED_IN_HOME = '/home/post_list'
 
@@ -340,7 +340,7 @@ def search(request):
         arcform = ArchiveForm()
         if q:
             tag = []
-            qs = qs.filter(tag_set__name__contains=q).distinct()
+            qs = qs.filter(Q(tag_set__name=q)).distinct()
             for qp in qs:
                 tag.append(get_object_or_404(Post, pk=qp.id))
             return render(request, 'accounts/search_tag.html', {

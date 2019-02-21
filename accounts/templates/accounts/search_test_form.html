@@ -53,6 +53,15 @@
   </head>
   <body>
   <div class="container">
+  {% if messages %}
+        <div class="container" style="width: 500px;">
+            {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} text-center" style="margin-top: 50px;">
+            {{ message.message }}
+        </div>
+            {% endfor %}
+        </div>
+  {% endif %}
     <div clas="row">
 
     <div class="s003 sss">

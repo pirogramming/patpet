@@ -80,41 +80,25 @@
 
                 </div>
             </article>
-            <div id="{{ each_profile.id }}arc" class="arc_container">
-                <ul>
-                {% for each_arc in all_arc %}
-                    <li><a href="{% url 'my_profile:arc_add' post_id=each_profile.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>
-                {% endfor %}
-                    <li><a class="fas fa-plus plusbutton arcmake_open"></a></li>
-                </ul>
-            </div>
+{#            <div id="{{ each_profile.id }}arc" class="arc_container">#}
+{#                <ul>#}
+{#                {% for each_arc in all_arc %}#}
+{#                    <li><a href="{% url 'my_profile:arc_add' post_id=each_profile.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>#}
+{#                {% endfor %}#}
+{#                    <li><a class="fas fa-plus plusbutton arcmake_open"></a></li>#}
+{#                </ul>#}
+{#            </div>#}
         {% endfor %}
 
     {% else %}
+        <div style="text-align: center;">
         <h1>NO RESULT FOUND</h1>
         <div class="no_result">
             Please check your input(#{{ q }})
         </div>
+        </div>
     {% endif %}
 </section>
-
-
-<div id="arcmake" class="poppoptest">
-        <form action="{% url 'home:make_archive' %}" method="POST">
-            <div>
-                <h1>NEW ARCHIVE</h1>
-                {% csrf_token %}
-                <div id="arc_popup">
-                    {% render_field form.archive|add_class:'add-test' placeholder='ARCHIVE NAME' %}
-                <input type="submit" class="btn btn-outline-dark" value="ADD" />
-                </div>
-            </div>
-        </form>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
-
 
 <script>
     function comment_input(postId){
@@ -125,21 +109,14 @@
             document.getElementById("comment-form-" + postId).style.display = 'none';
      }
 
-    {#function like(postId) {#}
-    {#    var dp = document.getElementById("heart-" + postId).style.color;#}
-    {#    if(dp == 'rgb(243, 247, 129)')#}
-    {#        document.getElementById("heart-" + postId).style.color = '#212529';#}
-    {#    else#}
-    {#        document.getElementById("heart-" + postId).style.color = '#F3F781';#}
-    {# }#}
 </script>
 <script>
-    {% for each_profile in qs %}
+{#    {% for each_profile in qs %}#}
     $('#{{ each_profile.id }}arc').popup({
         pagecontainer: '#page',
         escape: false
     });
-    {% endfor %}
+{#    {% endfor %}#}
 {#{% for each_arc in all_arc %}#}
     $('#arcmake').popup({
         pagecontainer: '#page',
