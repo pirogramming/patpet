@@ -126,7 +126,7 @@
     text-decoration: none;
 }
 .like_button2 {
-    color: #F3F781;
+    color: #ffd700;
     text-decoration: none;
 }
 .arc_container {
@@ -197,6 +197,7 @@
 .like-num {
     color: black;
     font-size: 15px;
+}
 .profile-photo {
     position: relative;
     left: -35px;
