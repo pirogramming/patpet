@@ -120,7 +120,7 @@ def like_post(request, pk):
         post_to_like.likes.remove(act_user)
     else:
         post_to_like.likes.add(act_user)
-        messages.success(request, "Like this post")
+        # messages.success(request, "Like this post")
     # # print(data)
     # t = user_profile.followed_by.all()
     # # print(t)
