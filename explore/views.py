@@ -1,14 +1,19 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 
+from accounts.models import Profile
 from explore.models import CommunicationPost
 from .forms import PostForm
 
 from my_profile.models import Post
 from .forms import CommentForm
 from django.contrib import messages
+
+from accounts.models import User
+
 
 
 
@@ -69,3 +74,14 @@ def my_communication_list(request, username):
         'post_list': post_list,
         'username': username,
     })
+
+
+def whats_new(request):
+    all_profile = Profile.objects.all()  #모든 프로필
+
+    return render(request, 'explore/whatsnew_test.html', {
+        'profile_list': all_profile,
+    })
+
+
+

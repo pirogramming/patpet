@@ -1,16 +1,11 @@
 {% extends "layout.html" %}
-
-
 {% block content %}
 
-
-    <!-- Demo styles -->
     <style>
         html, body {
             position: relative;
             height: 100%;
         }
-
         body {
             background: #eee;
             font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -19,12 +14,10 @@
             margin: 0;
             padding: 0;
         }
-
         .swiper-container {
             width: 100%;
             height: 100%;
         }
-
         .swiper-slide {
             text-align: center;
             font-size: 18px;
@@ -44,15 +37,12 @@
             -webkit-align-items: center;
             align-items: center;
         }
-
         .swiper-container-v {
             background: #eee;
         }
-
         .container {
             padding-top: 80px;
         }
-
         .fab {
             width: 70px;
             height: 70px;
@@ -60,22 +50,18 @@
             border-radius: 50%;
             box-shadow: 0 6px 10px 0 #666;
             transition: all 0.1s ease-in-out;
-
             font-size: 50px;
             color: white;
             text-align: center;
             line-height: 70px;
-
             position: fixed;
             right: 50px;
             bottom: 50px;
         }
-
         .fab:hover {
             box-shadow: 0 6px 14px 0 #666;
             transform: scale(1.05);
         }
-
         .fab a {
             text-decoration: none;
             color: white;
@@ -85,26 +71,24 @@
     <!-- Swiper -->
     <div class="swiper-container swiper-container-h">
         <div class="swiper-wrapper">
-
             <div class="swiper-slide">
                 <div class="swiper-container swiper-container-v">
                     <div class="swiper-wrapper">
-
                         <div class="swiper-slide">
-
                             <div class="container">
                                 <p>소통해요</p>
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
-
                                             <div class="card" style="width: 18rem;">
                                                 {% if post.photo %}
-                                                    <img src="{{ post.photo.url }}" class="card-img-top" alt="..."
-                                                         width:atuo; height="200px" ;>
+                                                    <a class="{{ post.id }}_open pic post_col">
+                                                        <img src="{{ post.photo.url }}" class="card-img-top" alt="photo" height="200px" ;>
+                                                    </a>
                                                 {% else %}
-                                                    <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..."
-                                                         height="200px" ;>
+                                                    <a class="{{ post.id }}_open pic post_col">
+                                                        <img src="/media/사자댕댕.jpg" class="card-img-top" alt="photo" height="200px" ;>
+                                                    </a>
                                                 {% endif %}
                                                 <div class="card-body">
                                                     <p class="card-text"><a
@@ -113,10 +97,11 @@
                                                 </div>
                                             </div>
                                             </br>
-
                                         </div>
-
                                     {% endfor %}
+
+
+
                                 </div>
                             </div>
                             <div class="fab"><a href="{% url "explore:post_new" %}">+</a></div>
@@ -226,6 +211,9 @@
     </div>
 
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
+
     <!-- Initialize Swiper -->
     <script>
         var swiperH = new Swiper('.swiper-container-h', {
@@ -250,6 +238,8 @@
                 el: '.swiper-scrollbar',
             },
         });
+
+
     </script>
 
 

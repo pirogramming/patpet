@@ -1,7 +1,33 @@
+<style>
+.new_post_content {
+    width: 500px;
+    height: 360px;
+    margin: 60px auto;
+    text-align: center;
+    background-color: #F2F2F2;
+    border-radius: 20px;
+    color: #6E6E6E;
+    font-family: 'Varela Round', sans-serif;
+}
+.new_post_head {
+    padding: 15px 0;
+    margin: 0;
+}
+</style>
+
+{% extends "layout.html" %}
+
+
+{% block content %}
 <form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" />
+    <div class="new_post_content">
+        <h1 class="new_post_head">NEW 소통해요</h1>
+        {% csrf_token %}
+        <table style="width: 60%;height: 100px; margin: auto;">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" />
+    </div>
 </form>
+
+{% endblock %}
