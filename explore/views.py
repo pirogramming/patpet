@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 
-from explore.models import CommunicationPost
+from explore.models import CommunicationPost, CommunicationComment
 from .forms import PostForm
 
 from my_profile.models import Post
@@ -21,9 +22,11 @@ def post_list(request):
 
 def post_detail(request, id):
     post = get_object_or_404(CommunicationPost, id=id)
+    form = CommentForm
 
     return render(request, 'explore/post_detail.html', {
         'post': post,
+        'form': form,
     })
 
 
@@ -60,7 +63,8 @@ def post_edit(request, id):
         'form': form,
     })
 
-def post_delete(request,id):
+
+def post_delete(request, id):
     post = get_object_or_404(CommunicationPost, id=id)
 
     if request.method == 'POST':
@@ -77,3 +81,31 @@ def my_communication_list(request, username):
         'post_list': post_list,
         'username': username,
     })
+
+
+@login_required
+def comment_new(request, id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=id)
+        content = request.POST.get('content')
+        if not content:
+            return HttpResponse('댓글 내용을 입력하세요', status=400)
+
+        CommunicationComment.objects.create(
+            post=post,
+            author=request.user,
+            content=content
+        )
+        form = CommentForm()
+        return redirect(request, 'post:post_detail', {
+            'form':form
+        })
+
+
+@login_required
+def comment_delete(request, id):
+    if request.method == 'POST':
+        next = request.POST.get('next-d', '/')
+        comment = get_object_or_404(CommunicationComment, id=id)
+        comment.delete()
+        return HttpResponseRedirect(next)

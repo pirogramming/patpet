@@ -56,7 +56,7 @@
         .fab {
             width: 70px;
             height: 70px;
-            background-color: #82dcdd;
+            background-color: #dd5e61;
             border-radius: 50%;
             box-shadow: 0 6px 10px 0 #666;
             transition: all 0.1s ease-in-out;
@@ -80,6 +80,10 @@
             text-decoration: none;
             color: white;
         }
+
+        .bottom-space {
+            margin-bottom: 100px;
+        }
     </style>
 
     <!-- Swiper -->
@@ -92,7 +96,7 @@
 
                         <div class="swiper-slide">
 
-                            <div class="container">
+                            <div class="container bottom-space">
                                 <p>소통해요</p>
                                 <div class="row">
                                     {% for post in post_list %}
@@ -135,7 +139,7 @@
 
                         <div class="swiper-slide">
 
-                            <div class="container">
+                            <div class="container bottom-space">
                                 <p>What's New</p>
                                 <div class="row">
                                     {% for post in post_list %}
@@ -179,7 +183,7 @@
 
                         <div class="swiper-slide">
 
-                            <div class="container">
+                            <div class="container bottom-space">
                                 <p>Today's Pick</p>
                                 <div class="row">
                                     {% for post in post_list %}

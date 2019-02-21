@@ -5,27 +5,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>LOG IN</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="{% static "images/icons/favicon.ico" %}" />
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" />
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static "fonts/font-awesome-4.7.0/css/font-awesome.min.css" %}" />
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static "fonts/Linearicons-Free-v1.0.0/icon-font.min.css" %}" >
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static "vendor/animate/animate.css" %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static "vendor/css-hamburgers/hamburgers.min.css" %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static "vendor/select2/select2.min.css"%}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static "css/util.css"%}">
-	<link rel="stylesheet" type="text/css" href="{% static "css/main.css"%}">
-<!--===============================================================================================-->
+    <title>PATPET</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static "images/icons/favicon.ico" %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "fonts/font-awesome-4.7.0/css/font-awesome.min.css" %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "fonts/Linearicons-Free-v1.0.0/icon-font.min.css" %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/animate/animate.css" %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/css-hamburgers/hamburgers.min.css" %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/select2/select2.min.css" %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/util.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
+    <!--===============================================================================================-->
 </head>
 {#{% block content %}#}
 
@@ -33,10 +33,10 @@
     <div class="container-login100">
         <div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
             <form action="" method="post">
-            {% csrf_token %}
+                {% csrf_token %}
 
                 <span class="login100-form-title p-b-55">
-                    Login
+                    <img src="{% static "images/main_logo.png" %}" width="90%"/>
                 </span>
 
                 {% for error in form.non_field_errors %}
@@ -49,23 +49,23 @@
                     {{ field }}
                 {% endfor %}
 
-{#                {% for field in form.visible_fields %}#}
-                    <div class="wrap-input100 validate-input m-b-16">
-                        {% render_field form.username|add_class:'input100' placeholder="ID" %}
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
+                {#                {% for field in form.visible_fields %}#}
+                <div class="wrap-input100 validate-input m-b-16">
+                    {% render_field form.username|add_class:'input100' placeholder="ID" %}
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
 							<span class="lnr lnr-user"></span>
                         </span>
-                    </div>
+                </div>
 
-                    <div class="wrap-input100 validate-input m-b-16">
-                        {% render_field form.password|add_class:'input100' placeholder="PASSWORD" %}
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
+                <div class="wrap-input100 validate-input m-b-16">
+                    {% render_field form.password|add_class:'input100' placeholder="PASSWORD" %}
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
 							<span class="lnr lnr-lock"></span>
                         </span>
-                    </div>
-{#                {% endfor %}#}
+                </div>
+                {#                {% endfor %}#}
                 <div class="contact100-form-checkbox m-l-4">
                     <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
                     <label class="label-checkbox100" for="ckb1">
@@ -83,14 +83,14 @@
                     </span>
                 </div>
                 {% for provider in providers %}
-                <a href="{% provider_login_url provider.id %}" class="btn-face m-b-10">
-                    <i class="fa fa-facebook-official"></i>
-                    Facebook
-                </a>
+                    <a href="{% provider_login_url provider.id %}" class="btn-face m-b-10">
+                        <i class="fa fa-facebook-official"></i>
+                        Facebook
+                    </a>
                 {% endfor %}
 
                 <a href="#" class="btn-google m-b-10">
-                    <img src="{% static "images/icons/icon-google.png"%}" alt="GOOGLE">
+                    <img src="{% static "images/icons/icon-google.png" %}" alt="GOOGLE">
                     Google
                 </a>
 
@@ -112,11 +112,11 @@
 {#{% endblock %}#}
 
 <!--===============================================================================================-->
-	<script src="{% static "vendor/jquery/jquery-3.2.1.min.js"%}"></script>
+<script src="{% static "vendor/jquery/jquery-3.2.1.min.js" %}"></script>
 <!--===============================================================================================-->
-	<script src="{% static "vendor/bootstrap/js/popper.js"%}"></script>
-	<script src="{% static "vendor/bootstrap/js/bootstrap.min.js"%}"></script>
+<script src="{% static "vendor/bootstrap/js/popper.js" %}"></script>
+<script src="{% static "vendor/bootstrap/js/bootstrap.min.js" %}"></script>
 <!--===============================================================================================-->
-	<script src="{% static "vendor/select2/select2.min.js"%}"></script>
+<script src="{% static "vendor/select2/select2.min.js" %}"></script>
 <!--===============================================================================================-->
-	<script src="{% static "js/main.js"%}"></script>
+<script src="{% static "js/main.js" %}"></script>
