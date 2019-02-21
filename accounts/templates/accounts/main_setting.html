@@ -2,28 +2,32 @@
     * {
         font-family: 'Abel', sans-serif;
     }
+
     .set-nav {
         border: #b9bbbe solid 0.5px;
         padding: 10px;
         text-align: center;
         font-size: 17px;
     }
+
     .nav-title a {
         text-decoration: none;
         color: #1b1e21;
     }
-    .nav-title a:hover{
-            text-decoration: none;
+
+    .nav-title a:hover {
+        text-decoration: none;
 
     }
 
     .nav-title:hover {
         background-color: blanchedalmond;
     }
+
     .set-content {
         padding-top: 30px;
-        padding-left: 30px!important;
-        padding-right: 30px!important;
+        padding-left: 30px !important;
+        padding-right: 30px !important;
         height: 100%;
         margin-bottom: 100px;
         border-bottom-left-radius: 10px;
@@ -43,13 +47,16 @@
         border-top-right-radius: 10px;
     }
 
+    .top-space {
+        margin-top: 120px;
+    }
 </style>
 
 {% extends "accounts/layout.html" %}
 {% load static %}
 {% block content %}
 
-    <dev class="container">
+    <div class="container top-space">
         <div class="row">
             <div class="col-md-2">
             </div>
@@ -78,7 +85,7 @@
             <div class="col-md-2">
             </div>
         </div>
-    </dev>
+    </div>
 
 
 {% endblock %}

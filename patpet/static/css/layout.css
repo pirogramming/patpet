@@ -3,6 +3,10 @@
     font-family: 'Nanum Gothic Coding', monospace;
 }
 
+body {
+    margin-top: 50px;
+}
+
 .nav-bottom {
     /*background-color: yellow;*/
     border-top: solid 1px;
