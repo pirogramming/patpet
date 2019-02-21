@@ -423,7 +423,7 @@ def message_list(request):
 
 def message_detail(request, pk):
     user = request.user.id
-    target = get_object_or_404(User, pk=pk)
+    target = get_object_or_404(Profile, pk=pk)
     message = Message.objects.filter((Q(sender=pk) | Q(receiver=pk)) & (Q(sender_id=user) | Q(receiver_id=user))).order_by('send_at')
     if request.method == 'POST':
         form = MessageForm2(request.POST)

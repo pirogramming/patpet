@@ -74,6 +74,23 @@
         color:#f9b8c8;
         font-size: 30px;
     }
+    .m_img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        object-fit: cover;
+        border-radius: 100%;
+    }
+    .ffff {
+        display: inline-block;
+        height: 50px;
+        margin-bottom: 0;
+        vertical-align: bottom;
+        padding-top: 5px;
+    }
+    .qqqqq {
+        vertical-align: text-bottom;
+    }
 </style>
 
 {% extends "accounts/layout.html" %}
@@ -86,7 +103,15 @@
     <div class="row">
         <div class="col-md-4"></div>
             <div class="col-md-4 chat-container">
-                <h1>{{ target }}</h1>
+            <div class="qqqqq">
+                                {% if target.socialaccount_set.all.first.get_avatar_url %}
+                    <img src="{{ target.socialaccount_set.all.first.get_avatar_url }}" class="m_img"/>
+                {% elif target.pic %}
+                    <img src="{{ target.pic.url }}" class="m_img"/>
+                {% else %}
+                    <img src="{% static 'images/default-user-icon-13.jpg' %}" class="m_img"/>
+                {% endif %}
+                <h1 class="ffff">{{ target.user }}</h1></div>
                 <hr/>
                     <ul class="chat" id="chatbottom">
                         <div id="mydiv" class="mydiv">
