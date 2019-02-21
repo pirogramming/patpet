@@ -48,7 +48,6 @@ class Post(models.Model):
         return self.likes.count()
 
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=140, unique=True)
 

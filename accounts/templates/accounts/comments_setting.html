@@ -32,13 +32,19 @@
     <ul class="arc-container">
         {% for each_com in all_com %}
             <li class="arc-list">
-                <div>{{ each_com.created_at }}</div>
-                <a href="#" class="arc-name">{{ each_com.content }}</a>
+                {% for each_post in all_post %}
+                    {% if each_post == each_com.post %}
+                <div>{{ each_post.content|truncatechars:10 }}</div>
+                    {% endif %}
+                {% endfor %}
+                <a href="#" class="arc-name">{{ each_com.content|truncatechars:15 }}</a>
 {#                <a href="{% url 'my_profile:comments_edit' pk=each_com.id%}" class="fas fa-edit"></a>#}
                 <form action="{% url "my_profile:comment_delete" pk=each_com.id %}" method="post" style="display: inline-block;">
                     {% csrf_token %}
                     <span><input type="submit" value="DEL" class="fas fa-trash" onclick="return confirm('ARE YOU SURE?')"/></span>
                 </form>
+                <span>{{ each_com.created_at }}</span>
+
 {#                <a onclick="return confirm('ARE YOU SURE?')" href="{% url 'my_profile:comment_delete' pk=each_com.id %}" class="fas fa-trash"></a>#}
             </li>
         {% endfor %}

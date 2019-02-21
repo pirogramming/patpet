@@ -134,15 +134,21 @@
     {% for each_post in all_post %}
     $('#A{{ each_post.id }}').popup({
     pagecontainer: '#page',
-    escape: false
+    escape: false,
+    transition: 'all 0.4s'
     });
     $('#{{ each_post.id }}arc').popup({
     pagecontainer: '#page',
-    escape: false
+    escape: false,
+    transition: 'all 0.4s'
     });
     {% endfor %}
-    function comment_input() {
-            $('.comment-form').css('display', 'inline-block');
-    }
+    function comment_input(postId){
+        var dp = document.getElementById("comment-form-" + postId).style.display;
+        if(dp == 'none')
+            document.getElementById("comment-form-" + postId).style.display = 'block';
+        else
+            document.getElementById("comment-form-" + postId).style.display = 'none';
+     }
 </script>
 {% endblock %}

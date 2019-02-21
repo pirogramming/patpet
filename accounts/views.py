@@ -317,7 +317,9 @@ def main_setting(request):
 
 def comment_setting(request):
     comment = Comment.objects.filter(author=request.user)
+    all_post = Post.objects.all()
 
     return render(request, 'accounts/comments_setting.html', {
         'all_com': comment,
+        'all_post': all_post,
     })

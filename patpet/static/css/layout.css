@@ -188,3 +188,13 @@
     vertical-align: middle;
     text-align: center;
 }
+
+.like-count {
+    padding: 0!important;
+    font-size: 10px;
+    color: #555555!important;
+}
+.like-num {
+    color: black;
+    font-size: 15px;
+}
