@@ -54,9 +54,24 @@
 
         h3 {
             font-size: 20px;
-            
             padding-left: 15px;
             padding-right: 15px;
+        }
+
+        .sub-title {
+            padding-left: 20px;
+            padding-right: 20px;
+            font-size: 20px;
+            margin-top: 0;
+            color: #dd5e61;
+        }
+
+        .sub-title a {
+            text-decoration: none;
+        }
+
+        .sub-title:hover {
+            text-decoration: none;
         }
 
         .image-box {
@@ -67,6 +82,8 @@
 
     <div class="large-box bottom-space">
 
+        <a class="sub-title" href="{% url "explore:post_list" %}">▶PLAYGROUND</a>
+        <hr/>
         <h1>{{ post.title }}</h1><br><br>
         <div class="image-box">
             {% if post.photo %}
@@ -107,7 +124,7 @@
         </ul>
 
         <div class="button">
-            <a href="{% url "explore:post_list" %}" class="btn btn-default">글 목록</a>
+            <a href="{% url "explore:post_list" %}" class="btn btn-default">BACK</a>
             {% if post.author.id == request.user.id %}
                 <a href="{% url "explore:post_edit" post.id %}" class="btn btn-default">EDIT</a>
                 <form class="delete" action="{% url "explore:post_delete" post.id %}" method="post">

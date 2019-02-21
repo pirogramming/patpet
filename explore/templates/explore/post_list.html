@@ -50,7 +50,7 @@
         }
 
         .container {
-            padding-top: 80px;
+            padding-top: 20px;
         }
 
         .fab {
@@ -82,7 +82,16 @@
         }
 
         .bottom-space {
-            margin-bottom: 100px;
+            margin-bottom: 120px;
+        }
+
+        h1 {
+            text-align: left;
+            font-weight: bold;
+            font-size: 30px;
+            font-family: 'Abel', sans-serif;
+            color: #dd5e61;
+            padding-bottom: 20px;
         }
     </style>
 
@@ -97,7 +106,7 @@
                         <div class="swiper-slide">
 
                             <div class="container bottom-space">
-                                <p>소통해요</p>
+                                <h1>▶PLAYGROUND</h1>
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
@@ -140,7 +149,7 @@
                         <div class="swiper-slide">
 
                             <div class="container bottom-space">
-                                <p>What's New</p>
+                                <h1>▶What's New</h1>
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
@@ -184,7 +193,7 @@
                         <div class="swiper-slide">
 
                             <div class="container bottom-space">
-                                <p>Today's Pick</p>
+                                <h1>▶Today's Pick</h1>
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
