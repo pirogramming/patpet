@@ -79,6 +79,7 @@
                 <div id="arc_popup">
                     {% render_field form.archive|add_class:'add-test' placeholder='ARCHIVE NAME' %}
                 <input type="submit" class="btn btn-outline-dark" value="ADD" />
+                <input type="hidden" name="next-m-a" value="{{ request.path }}" />
                 </div>
             </div>
         </form>

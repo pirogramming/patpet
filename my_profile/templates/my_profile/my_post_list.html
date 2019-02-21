@@ -14,6 +14,7 @@
 }
 </style>
 {% extends "layout.html" %}
+{% load widget_tweaks %}
 {% load humanize %}
 {% block content %}
 <section class="posting_list">
@@ -81,9 +82,34 @@
 
                 </div>
             </article>
+            <div id="{{ each_post.id }}arc" class="arc_container">
+                <ul>
+                {% for each_arc in all_arc %}
+                    <li><a href="{% url 'my_profile:arc_add' post_id=each_post.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>
+                {% endfor %}
+                    <li><a class="fas fa-plus plusbutton arcmake_open"></a></li>
+                </ul>
+            </div>
         {% endfor %}
     </section>
 
+    <div id="arcmake" class="poppoptest">
+        <form action="{% url 'home:make_archive' %}" method="POST">
+            <div>
+                <h1>NEW ARCHIVE</h1>
+                {% csrf_token %}
+                <div id="arc_popup">
+                    {% render_field form.archive|add_class:'add-test' placeholder='ARCHIVE NAME' %}
+                <input type="submit" class="btn btn-outline-dark" value="ADD" />
+                <input type="hidden" name="next-m-a" value="{{ request.path }}" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
      <script>
         function comment_input(postId){
                 var dp = document.getElementById("comment-form-" + postId).style.display;
@@ -93,4 +119,18 @@
                     document.getElementById("comment-form-" + postId).style.display = 'none';
              }
      </script>
+    <script>
+    {% for each_post in post_list %}
+    $('#{{ each_post.id }}arc').popup({
+        pagecontainer: '#page',
+        escape: false
+    });
+    {% endfor %}
+{#{% for each_arc in all_arc %}#}
+    $('#arcmake').popup({
+        pagecontainer: '#page',
+        escape: false
+    });
+{#{% endfor %}#}
+</script>
 {% endblock %}

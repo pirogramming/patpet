@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from accounts.forms import ArchiveForm
@@ -35,4 +35,5 @@ def make_archive(request):
             owner=request.user,
             archive=arc,
         )
-        return redirect('home:post_list')
+        next = request.POST.get('next-m-a', '/')
+        return HttpResponseRedirect(next)

@@ -57,6 +57,7 @@ def profile(request, user_profile_id):
     comment_form = CommentForm()
     like_post = request.user.liked.all()
     arc = Archive.objects.filter(owner=request.user)
+    arcform = ArchiveForm()
     return render(request, 'accounts/profile.html', {
         'profile_user': user,
         'request_user': request.user.id,
@@ -67,6 +68,7 @@ def profile(request, user_profile_id):
         'comment_form':comment_form,
         'like_post': like_post,
         'all_arc': arc,
+        'form': arcform,
     })
 
 @login_forbidden
@@ -328,8 +330,6 @@ def comment_setting(request):
 def search(request):
     category = request.GET.get('choices-single-default','')
     print(category)
-    comment_form = CommentForm()
-
 
     if category == 'Tag':
         qs = Post.objects.all()
@@ -338,6 +338,7 @@ def search(request):
         # print(like_all)
         arc = Archive.objects.filter(owner=request.user)
         arcform = ArchiveForm()
+        comment_form = CommentForm()
         if q:
             tag = []
             qs = qs.filter(Q(tag_set__name=q)).distinct()
