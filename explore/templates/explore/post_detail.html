@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load imagekit %}
+{% load humanize %}
 
 
 {% block content %}
@@ -11,17 +12,30 @@
     <br><br>
     <h1>{{ post.content|linebreaks }}</h1>
     <hr/>
-    <h3>Comments</h3>
+    <h3>COMMENTS</h3>
 
 
 
     <hr/>
 
 
+        <div class="panel panel-default post-item">
+
+            <div class="panel-body">
+                <form action="{% url 'explore:comment_new' id=post.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" name="content">
+                </form>
+            </div>
+        </div>
+
+
+
     <ul>
         {% for comment in post.comment_set.all %}
             <li>
-                {{ comment.message }}
+                {{ comment.content }}
                 <small>by {{ comment.author }}</small>
                 <small>at {{ comment.updated_at }}</small>
                 kk
@@ -32,11 +46,11 @@
 
     <a href="{% url "explore:post_list" %}" class="btn btn-primary">글 목록</a>
     {% if post.author.id == request.user.id %}
-    <a href="{% url "explore:post_edit" post.id %}" class="btn btn-default">EDIT</a>
-    <form class="delete" action="{% url "explore:post_delete" post.id %}" method="post">
-        {% csrf_token %}
-        <button class="btn btn-outline-danger">DELETE</button>
-    </form>
+        <a href="{% url "explore:post_edit" post.id %}" class="btn btn-default">EDIT</a>
+        <form class="delete" action="{% url "explore:post_delete" post.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger">DELETE</button>
+        </form>
     {% else %}
     {% endif %}
 
