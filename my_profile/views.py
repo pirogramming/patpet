@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+
+from accounts.forms import ArchiveForm
 from accounts.models import Archive
 from my_profile.models import Post, Comment
 from .forms import PostForm, CommentForm
@@ -30,11 +32,18 @@ def my_post_list(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     post_list = user.post_set.all()
     comment_form = CommentForm()
+    like_all = request.user.liked.all()
+    # print(like_all)
+    arc = Archive.objects.filter(owner=request.user)
+    arcform = ArchiveForm()
 
     return render(request, 'my_profile/my_post_list.html', {
         'post_list': post_list,
         'username': username,
         'comment_form': comment_form,
+        'like_all': like_all,
+        'all_arc': arc,
+        'form': arcform,
     })
 
 

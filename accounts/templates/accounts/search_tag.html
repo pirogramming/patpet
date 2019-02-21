@@ -1,44 +1,61 @@
-{% extends "layout.html" %}
+<style>
+    * {
+        font-family: 'Abel', sans-serif;
+    }
+    .no_result {
+        font-size: 20px;
+    }
+    .header {
+    font-family: 'Abel', sans-serif;
+    text-align: center;
+    margin-bottom: 30px;
+    width: 500px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+</style>
+
+{% extends "accounts/layout.html" %}
+{% load static %}
 {% load widget_tweaks %}
 {% load humanize %}
+
 {% block content %}
 
-    <!--메세지 중앙 정렬, 사이즈 고정-->
-    {% if messages %}
-        <div class="container" style="width: 500px;">
-            {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} text-center" style="margin-top: 50px;">
-            {{ message.message }}
-        </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <section class="posting_list">
-    <!-- 한 줄 세로로-->
-        {% for each_post in post %}
+<section class="posting_list">
+    {% if user_result %}
+        <h1 class="header">Search Result - "#{{ q }}"</h1>
+        {% for each_profile in user_result %}
             <article class="posting" style="width: 500px;">
-                {% if each_post.photo %}
-                <img src="{{ each_post.photo.url }}" class="posting_img overfit" style="width: 100%;height: 400px;"/><br/>
+                {% if each_profile.photo %}
+                <img src="{{ each_profile.photo.url }}" class="posting_img overfit" style="width: 100%;height: 400px;"/><br/>
                 {% endif %}
                 <div class="posting_txt">
                     <div class="bar">
-                        {% if each_post in like_all %}
-                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button2 like"></a></i>
+                        {% if each_profile in like_all %}
+                            <i class=""><a href="{% url 'my_profile:like_post' each_profile.id %}" class="fas fa-paw posting_like fa-2x like_button2 like"></a></i>
                         {% else %}
-                            <i class=""><a href="{% url 'my_profile:like_post' each_post.id %}" class="fas fa-paw posting_like fa-2x like_button like"></a></i>
+                            <i class=""><a href="{% url 'my_profile:like_post' each_profile.id %}" class="fas fa-paw posting_like fa-2x like_button like"></a></i>
                         {% endif %}
-                        <i class="far fa-comments posting_like fa-2x" onclick="comment_input({{each_post.pk}})" style="cursor: pointer"></i>
-                        <i><a class="{{ each_post.id }}arc_open far fa-save posting_like fa-2x" style="cursor: pointer"></a></i>
+                        <i class="far fa-comments posting_like fa-2x" onclick="comment_input({{each_profile.pk}})" style="cursor: pointer"></i>
+                        <i><a class="{{ each_profile.id }}arc_open far fa-save posting_like fa-2x" style="cursor: pointer"></a></i>
                     </div>
-                    {% if each_post.total_likes > 0 %}
-                        <p class="like-count">발자꾹 <b class="like-num">{{ each_post.total_likes }}</b>멍!</p>
+                    {% if profile_user.id == request_user %}
+                        <span class="edit_and_delete">
+                            <button type="button" class="btn btn-outline-danger"><a href="{% url "my_profile:post_edit" each_profile.id %}" class="edit">수정</a></button>
+                            <form class="delete" action="{% url "my_profile:post_delete" each_profile.pk %}" method="post">
+                                {% csrf_token %}
+                                <button onclick="return confirm('정말 삭제하시겠어요?!!')" class="btn btn-outline-danger">삭제</button>
+                            </form>
+                        </span>
                     {% endif %}
-                    <p class="user_id"><strong>{{ each_post.author }}</strong></p>
-                    <p class="posting_cont">{{ each_post.content|linebreaksbr }}</p>
+                    <p class="user_id"><strong>{{ each_profile.author }}</strong></p>
+                    <p class="posting_cont">{{ each_profile.content|linebreaksbr }}</p>
                     <!--댓글 보여주기-->
                     <div class="comment">
-                        {% for comment in each_post.comment_set.all %}
+                        {% for comment in each_profile.comment_set.all %}
                         <div>
                             <span class="comment-username"><strong>{{ comment.author }}</strong></span> {{ comment.content }}
                             {% if user == comment.author %}
@@ -52,7 +69,7 @@
                         {% endfor %}
                     </div>
                     <!--댓글 입력-->
-                   <form action="{% url 'my_profile:comment_new' pk=each_post.pk %}" method="POST" id="comment-form-{{ each_post.pk }}" style="display: none;margin: 5px 0;">
+                   <form action="{% url 'my_profile:comment_new' pk=each_profile.pk %}" method="POST" id="comment-form-{{ each_profile.pk }}" style="display: none;margin: 5px 0;">
                        {% csrf_token %}
                        {{ comment_form }}
                        <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
@@ -63,18 +80,17 @@
 
                 </div>
             </article>
-            <div id="{{ each_post.id }}arc" class="arc_container">
+            <div id="{{ each_profile.id }}arc" class="arc_container">
                 <ul>
                 {% for each_arc in all_arc %}
-                    <li><a href="{% url 'my_profile:arc_add' post_id=each_post.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>
+                    <li><a href="{% url 'my_profile:arc_add' post_id=each_profile.id arc_id=each_arc.id %}">{{ each_arc.archive }}</a></li>
                 {% endfor %}
                     <li><a class="fas fa-plus plusbutton arcmake_open"></a></li>
                 </ul>
             </div>
         {% endfor %}
-    </section>
 
-    <div id="arcmake" class="poppoptest">
+        <div id="arcmake" class="poppoptest">
         <form action="{% url 'home:make_archive' %}" method="POST">
             <div>
                 <h1>NEW ARCHIVE</h1>
@@ -88,9 +104,20 @@
         </form>
     </div>
 
+
+    {% else %}
+        <div style="text-align: center;">
+        <h1>NO RESULT FOUND</h1>
+        <div class="no_result">
+            Please check your input(#{{ q }})
+        </div>
+        </div>
+    {% endif %}
+</section>
+
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
-
 
 <script>
     function comment_input(postId){
@@ -101,29 +128,21 @@
             document.getElementById("comment-form-" + postId).style.display = 'none';
      }
 
-    {#function like(postId) {#}
-    {#    var dp = document.getElementById("heart-" + postId).style.color;#}
-    {#    if(dp == 'rgb(243, 247, 129)')#}
-    {#        document.getElementById("heart-" + postId).style.color = '#212529';#}
-    {#    else#}
-    {#        document.getElementById("heart-" + postId).style.color = '#F3F781';#}
-    {# }#}
 </script>
 <script>
-    {% for each_post in post %}
-    $('#{{ each_post.id }}arc').popup({
+    {% for each_profile in user_result %}
+    $('#{{ each_profile.id }}arc').popup({
         pagecontainer: '#page',
         escape: false,
-        transition: 'all 0.4s'
+        transition: 'all 0.3s',
     });
     {% endfor %}
 {#{% for each_arc in all_arc %}#}
     $('#arcmake').popup({
         pagecontainer: '#page',
         escape: false,
-        transition: 'all 0.4s'
+        transition: 'all 0.3s',
     });
 {#{% endfor %}#}
 </script>
-{#    {% endfor %}#}
 {% endblock %}

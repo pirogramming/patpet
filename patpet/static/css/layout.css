@@ -63,10 +63,11 @@
 .overfit {
     object-fit: cover;
 }
-.posting_like:not(:first-child):hover {
+.posting_like:hover {
     color: #F3F781;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: orange;
+    text-decoration: none;
 }
 
 .posting_list {
@@ -121,11 +122,11 @@
     left: -35px;
 }
 .like_button {
-    color: black;
+    color: #212529;
     text-decoration: none;
 }
 .like_button2 {
-    color: red;
+    color: #F3F781;
     text-decoration: none;
 }
 .arc_container {
@@ -188,7 +189,6 @@
     vertical-align: middle;
     text-align: center;
 }
-
 .like-count {
     padding: 0!important;
     font-size: 10px;
@@ -197,4 +197,11 @@
 .like-num {
     color: black;
     font-size: 15px;
+.profile-photo {
+    position: relative;
+    left: -35px;
+}
+.like:hover {
+    color: #F3F781;
+    text-decoration: none;
 }

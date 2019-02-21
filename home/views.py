@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from accounts.forms import ArchiveForm
@@ -26,6 +25,7 @@ def post_list(request):
     follow_post = Post.objects.filter(author__in = t)
     # print(follow_post)
 
+
     context = {
         'post': follow_post,
         'comment_form': comment_form,
@@ -44,4 +44,5 @@ def make_archive(request):
             owner=request.user,
             archive=arc,
         )
-        return redirect('home:post_list')
+        next = request.POST.get('next-m-a', '/')
+        return HttpResponseRedirect(next)
