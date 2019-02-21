@@ -16,7 +16,10 @@ class Profile(models.Model):
     recommend = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='recommended', symmetrical=False, blank=True)
 
     def __str__(self):
-        return f'Archive (PK: {self.pk}, name: {self.user})'
+        return f'Profile (PK: {self.pk}, name: {self.user})'
+
+    def all_follows(self):
+        return self.follows.count()
 
 User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
 

@@ -104,7 +104,11 @@
             <div class="preview">
               <div class="upload">
                   {% if post %}
+                      {% if post.pic %}
                   <p><img id="img_id" src="{{ post.pic.url }}" style="width: 300px; height: 300px; object-fit: cover;border-radius: 100%;" ></p>
+                          {% else %}
+                    <p><img id='img_id' src="{% static 'images/default-user-icon-13.jpg' %}" style="width: 300px; height: 300px; object-fit: cover;border-radius: 100%;"/></p>
+                          {% endif %}
                   {% else %}
                   <span class="preview-bg"><img src="{% static 'images/capture.PNG' %}" style="width: 100%;height: 100%;"></span>
                   <p class="preview-title">프로필 이미지 추가</p>

@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 
+from accounts.models import Profile
 from explore.models import CommunicationPost
 from .forms import PostForm
-
+from random import shuffle, randint
 from my_profile.models import Post
 from .forms import CommentForm
 from django.contrib import messages
@@ -77,3 +78,12 @@ def my_communication_list(request, username):
         'post_list': post_list,
         'username': username,
     })
+
+
+def insider_user(request):
+    insa = Profile.objects.filter(all_follows__gt=5).order_by(['-follows'])[:7] #order_by 추가해야함
+    return print(insa)
+
+def random_user(request):
+    randuser = Profile.objects.order_by('?')[:7]
+    return print(randuser)
