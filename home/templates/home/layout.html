@@ -31,6 +31,9 @@
                         <i class="far fa-comments posting_like fa-2x" onclick="comment_input({{each_post.pk}})" style="cursor: pointer"></i>
                         <i><a class="{{ each_post.id }}arc_open far fa-save posting_like fa-2x"></a></i>
                     </div>
+                    {% if each_post.total_likes > 0 %}
+                        <p class="like-count">발자꾹 <b class="like-num">{{ each_post.total_likes }}</b>멍!</p>
+                    {% endif %}
                     <p class="user_id"><strong>{{ each_post.author }}</strong></p>
                     <p class="posting_cont">{{ each_post.content|linebreaksbr }}</p>
                     <!--댓글 보여주기-->
@@ -109,13 +112,15 @@
     {% for each_post in post %}
     $('#{{ each_post.id }}arc').popup({
         pagecontainer: '#page',
-        escape: false
+        escape: false,
+        transition: 'all 0.4s'
     });
     {% endfor %}
 {#{% for each_arc in all_arc %}#}
     $('#arcmake').popup({
         pagecontainer: '#page',
-        escape: false
+        escape: false,
+        transition: 'all 0.4s'
     });
 {#{% endfor %}#}
 </script>

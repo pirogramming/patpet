@@ -412,16 +412,19 @@
 <script>
     $('#popup1').popup({
     pagecontainer: '#page',
-    escape: false
+    escape: false,
+    transition: 'all 0.4s'
     });
     $('#popup2').popup({
     pagecontainer: '#page',
-    escape: false
+    escape: false,
+    transition: 'all 0.4s'
     });
     {% for each_post in profile_post_list %}
     $('#{{ each_post.id }}').popup({
     pagecontainer: '#page',
-    escape: false
+    escape: false,
+    transition: 'all 0.4s'
     });
     {% endfor %}
     function comment_input(postId){
