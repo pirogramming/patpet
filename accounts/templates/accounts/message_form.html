@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post">
+    <div>
+        <h1>New Message</h1>
+        {% csrf_token %}
+        <table style="width: 60%;height: 100px; margin: auto;">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" />
+    </div>
+</form>
+
+</body>
+</html>

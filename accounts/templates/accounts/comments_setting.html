@@ -21,6 +21,17 @@
     h1 {
         padding-left: 0!important;
     }
+    .bbbb {
+        border: none;
+        background-color: #f5c6cb;
+        padding: 5px 10px;
+        color: white;
+        border-radius: 7px;
+        margin-right: 10px;
+    }
+    .dddd {
+        text-align: right;
+    }
 </style>
 
 
@@ -41,9 +52,9 @@
 {#                <a href="{% url 'my_profile:comments_edit' pk=each_com.id%}" class="fas fa-edit"></a>#}
                 <form action="{% url "my_profile:comment_delete" pk=each_com.id %}" method="post" style="display: inline-block;">
                     {% csrf_token %}
-                    <span><input type="submit" value="DEL" class="fas fa-trash" onclick="return confirm('ARE YOU SURE?')"/></span>
+                    <span><input type="submit" value="DEL" class="fas fa-trash bbbb" onclick="return confirm('ARE YOU SURE?')"/></span>
                 </form>
-                <span>{{ each_com.created_at }}</span>
+                <span class="dddd">{{ each_com.created_at }}</span>
 
 {#                <a onclick="return confirm('ARE YOU SURE?')" href="{% url 'my_profile:comment_delete' pk=each_com.id %}" class="fas fa-trash"></a>#}
             </li>

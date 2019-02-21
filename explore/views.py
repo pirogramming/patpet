@@ -12,9 +12,10 @@ from .forms import CommentForm
 
 def post_list(request):
     post = CommunicationPost.objects.all()
-
+    randuser = CommunicationPost.objects.order_by('?')
     return render(request, "explore/post_list.html", {
         'post_list': post,
+        'rand_list': randuser,
     })
 
 
@@ -109,9 +110,13 @@ def comment_delete(request, id):
         return HttpResponseRedirect(next)
 
 def insider_user(request):
-    insa = Profile.objects.filter(all_follows__gt=5).order_by(['-follows'])[:7] #order_by 추가해야함
+    insa = Profile.objects.filter(all_follows__gt=5).order_by(['-all_follows'])[:7] #order_by 추가해야함
+    t = []
+    for i in insa:
+        t.append(i.id)
+    follow_post = CommunicationPost.objects.filter(author__in = t)
     return print(insa)
 
 def random_user(request):
-    randuser = Profile.objects.order_by('?')[:7]
+    randuser = CommunicationPost.objects.order_by('?')[:7]
     return print(randuser)

@@ -5,10 +5,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.models import Profile, User, Archive
+from accounts.models import Profile, User, Archive, Message
 from my_profile.forms import CommentForm
 from my_profile.models import Post, Comment
-from .forms import SignupForm, ProfileForm, ArchiveForm
+from .forms import SignupForm, ProfileForm, ArchiveForm, MessageForm, MessageForm2
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 from django.db.models import Q
@@ -382,3 +382,85 @@ def search(request):
             return redirect('accounts:searchtest')
     else:
         return redirect('accounts:searchtest')
+
+def message_list(request):
+    user = request.user.id
+    all_user = User.objects.all()
+    message = Message.objects.filter(Q(sender_id=user) | Q(receiver_id=user)).order_by('-send_at')
+    # user_list = Message.sender.filter(Q(sender_id=user) | Q(receiver_id=user)).order_by('-send_at')
+    list = []
+    for each_message in message:
+        if each_message.sender not in list and each_message.sender != request.user:
+            list.append(each_message.sender)
+        if each_message.receiver not in list and each_message.receiver != request.user:
+            list.append(each_message.receiver)
+
+    list_id = []
+    for each_message in message:
+        if each_message.sender.id not in list_id and each_message.sender.id != request.user.id:
+            list_id.append(each_message.sender.id)
+        if each_message.receiver.id not in list_id and each_message.receiver.id != request.user.id:
+            list_id.append(each_message.receiver.id)
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.save()
+            return redirect('accounts:message_list')
+    else:
+        form = MessageForm()
+
+
+    return render(request, 'accounts/message_list.html', {
+        'all_messages': message,
+        'user_list': list,
+        'user_id_list': list_id,
+        'all_user': all_user,
+        'form':form
+    })
+
+def message_detail(request, pk):
+    user = request.user.id
+    target = get_object_or_404(User, pk=pk)
+    message = Message.objects.filter((Q(sender=pk) | Q(receiver=pk)) & (Q(sender_id=user) | Q(receiver_id=user))).order_by('send_at')
+    if request.method == 'POST':
+        form = MessageForm2(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.receiver = target
+            message.save()
+            return redirect('accounts:message_detail', pk)
+    else:
+        form = MessageForm2()
+    print(form)
+    return render(request, 'accounts/message_detail.html', {
+        'form': form,
+        'all_messages': message,
+        'target': target,
+    })
+    # return render(request, 'accounts/message_detail.html', {
+    #     'all_messages': message,
+    #     'target':target,
+    # })
+
+
+def send_message(request):
+    user =request.user.id
+    follow = request.user.followed_by.all()
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.save()
+            return redirect('accounts:message_list')
+    else:
+        form = MessageForm()
+    print(form)
+    return render(request, 'accounts/message_list.html', {
+        'form': form,
+    })
+

@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from accounts.models import Profile
+from accounts.models import Profile, Message
+
 
 #
 # class CustomUserInline(admin.StackedInline):
@@ -24,3 +25,7 @@ class ProfileAdmin(admin.ModelAdmin):
 # @admin.register(Follow)
 # class FollowAdmin(admin.ModelAdmin):
 #     pass
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    pass
