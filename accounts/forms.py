@@ -42,9 +42,17 @@ class SignupForm(UserCreationForm):
         return user
 
 class ProfileForm(forms.ModelForm):
+    pic = forms.ImageField(label='', required=False, widget=forms.FileInput(attrs={
+        'class': 'profile-photo',
+    }))
+    introduce = forms.CharField(label='', widget=forms.Textarea(attrs={
+        'class': 'profile-introduce',
+        'rows': 5,
+        'cols': 50,
+        'placeholder': '140자 까지 등록 가능합니다.\n나를 소개하세요', }))
     class Meta:
         model = Profile
-        fields = ['introduce', 'pic']
+        fields = ['pic', 'introduce']
 
 class ArchiveForm(forms.ModelForm):
     class Meta:

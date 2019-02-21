@@ -158,12 +158,19 @@ def profile_edit(request, pk):
         form = ProfileForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save()
-            # post.ip = request.META['REMOTE_ADDR']
-            # post.save()
+            post.ip = request.META['REMOTE_ADDR']
+            messages.success(request, 'profile successfully edited')
             return redirect('accounts:profile', pk)
+        # if form.is_valid():
+        #     post = form.save()
+        #     # post.ip = request.META['REMOTE_ADDR']
+        #     # post.save()
+        #     return redirect('accounts:profile', pk)
     else:
+        print(post.pic)
         form = ProfileForm(instance=post)
     return render(request, 'accounts/profile_edit.html', {
+        'post': post,
         'form': form,
         })
 
