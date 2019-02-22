@@ -52,6 +52,7 @@
         .e_img {
             object-fit: cover;
         }
+
     </style>
 
     <div class="container bottom-space">
@@ -65,6 +66,7 @@
                             <img src="{{ post.photo.url }}" class="card-img-top e_img" alt="..." width:atuo; height="200px" ;>
                         {% else %}
                             <img src="/media/사자댕댕.jpg" class="card-img-top e_img" alt="..." height="200px" ;>
+
                         {% endif %}
                         <div class="card-body">
                             <p class="card-text"><a href="{% url "explore:post_detail" post.id %}">

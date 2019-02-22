@@ -1,9 +1,11 @@
+
 {% extends "layout.html" %}
 {% load imagekit %}
 {% load humanize %}
 
 
 {% block content %}
+
 
     <style>
         * {
@@ -24,7 +26,7 @@
         }
 
         .bottom-space {
-            margin-top: 50px;
+            margin-top: 120px;
             margin-bottom: 120px;
         }
 
@@ -100,16 +102,6 @@
         <hr/>
 
 
-        <div class="panel panel-default post-item">
-
-            <div class="panel-body">
-                <form action="{% url 'explore:comment_new' id=post.id %}" method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" name="content">
-                </form>
-            </div>
-        </div>
 
 
         <ul>
@@ -118,10 +110,21 @@
                     {{ comment.content }}
                     <small>by {{ comment.author }}</small>
                     <small>at {{ comment.updated_at }}</small>
-                    kk
+
+                    {% if comment.author == request.user %}
+                    <a href="{{ comment.get_edit_url }}">
+                        수정
+                    </a>
+                    <a href="{{ comment.get_delete_url }}" class="text-danger">
+                        삭제
+                    </a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
+
+
+        <a href="{% url "explore:comment_new" post_id=post.id %}" class="btn btn-primary">댓글 쓰기</a>
 
         <div class="button">
             <a href="{% url "explore:post_list" %}" class="btn btn-default">BACK</a>
@@ -134,9 +137,7 @@
             {% else %}
             {% endif %}
         </div>
-
     </div>
-
 
 
 {% endblock %}

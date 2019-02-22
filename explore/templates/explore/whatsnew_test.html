@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% load imagekit %}
+{% load static %}
+
+{% block content %}
+
+<h1>인싸리스트</h1>
+{% for each_profile in profile_list %}
+    {% if each_profile.follows.count > 5 %}
+        <img src="{% static 'images/default-user-icon-13.jpg' %}" class="s_img"/><br/>
+        {{ each_profile.user }} {{ each_profile.follows.count }}</br>
+
+        <div class="row post-container">
+                {% for each_post in each_profile.post_set.all() %}
+                    <div class="col-md-4">
+                        <a class="{{ each_post.id }}_open pic post_col"><img class="pic-srs" src="{{ each_post.photo.url }}" alt="photo"></a>
+                    </div>
+                    <section id="{{ each_post.id }}" class="popup_post_detail posting">
+                        <img src="{{ each_post.photo.url }}" class="posting_img" style="width: 100%;height: 400px;"/><br/>
+                        <div class="posting_txt">
+                            <i class="fas fa-paw posting_like fa-2x"></i>
+                            <i class="far fa-comments posting_like fa-2x"></i>
+                            <i class="far fa-save posting_like fa-2x"></i>
+                        </div>
+                        <p class="user_id">{{ each_post.author }}</p>
+                        <p class="posting_cont">{{ each_post.content }}</p>
+                        <p>{{ each_post.time_interval }} <small>전...</small></p>
+                    </section>
+                {% endfor %}
+            </div>
+
+    {% endif %}
+{% endfor %}
+
+{% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
+
+<script>
+
+    {% for each_post in profile_list %}
+    $('#{{ each_post.id }}').popup({
+    pagecontainer: '#page',
+    escape: false
+    });
+    {% endfor %}
+</script>
