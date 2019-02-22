@@ -2,25 +2,34 @@
     font-family: 'Varela Round', sans-serif;
     font-family: 'Nanum Gothic Coding', monospace;
 }
+
+body {
+    margin-top: 50px;
+}
+
 .nav-bottom {
     /*background-color: yellow;*/
-    border-top:solid 1px;
+    border-top: solid 1px;
     border-color: #A4A4A4;
 
 }
+
 .each_menu {
     height: 60px;
-    border-right:1px solid #A4A4A4;
+    border-right: 1px solid #A4A4A4;
     text-align: center;
     line-height: 60px;
 }
+
 .each_menu_a {
     color: black;
 }
+
 .nav_size {
     width: 100%;
     height: 60px;
 }
+
 .bottom_menu {
     color: #6E6E6E;
     font-family: 'Varela Round', sans-serif;
@@ -32,6 +41,8 @@
     margin-bottom: 40px;
     padding: 0px;
     box-shadow: 5px 5px 10px #6E6E6E;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .posting_img {
@@ -60,9 +71,11 @@
     padding: 10px 16px;
     font-family: 'Nanum Gothic Coding', monospace;
 }
+
 .overfit {
     object-fit: cover;
 }
+
 .posting_like:hover {
     color: #F3F781;
     -webkit-text-stroke-width: 1px;
@@ -79,56 +92,71 @@
 .edit_and_delete {
     float: right;
 }
+
 .delete {
     display: inline-block;
     margin-left: 5px;
 }
+
 .edit {
     color: #D9831F;
 }
+
 .edit:hover {
     text-decoration: none;
     color: white;
 }
+
 .bar {
     margin-bottom: 10px;
 }
+
 .user_id {
     font-size: 17px;
 }
+
 .comment {
     margin: 5px 0;
 }
+
 .button_c {
     background: transparent;
     border: none;
 }
+
 .button_c_d {
     color: #F78181;
 }
+
 .button_c_d:hover {
     color: #FA5858;
     font-weight: bold;
 }
+
 .button_c_n {
     color: #5882FA;
 }
+
 .button_c_n:hover {
     color: #2E64FE;
     font-weight: bold;
 }
+
 .post-new-photo {
     position: relative;
     left: -35px;
 }
+
 .like_button {
     color: #212529;
     text-decoration: none;
 }
+
 .like_button2 {
-    color: #F3F781;
+    color: #ffd700;
     text-decoration: none;
 }
+
 .arc_container {
     border-radius: 5px;
     margin: 10px;
@@ -155,7 +183,7 @@
 }
 
 .plusbutton {
-    cursor:pointer;
+    cursor: pointer;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -175,7 +203,7 @@
     text-align: center;
 }
 
-.poppoptest h1{
+.poppoptest h1 {
     text-align: center;
 }
 
@@ -189,18 +217,23 @@
     vertical-align: middle;
     text-align: center;
 }
+
 .like-count {
-    padding: 0!important;
+    padding: 0 !important;
     font-size: 10px;
-    color: #555555!important;
+    color: #555555 !important;
 }
+
 .like-num {
     color: black;
     font-size: 15px;
+}
+
 .profile-photo {
     position: relative;
     left: -35px;
 }
+
 .like:hover {
     color: #F3F781;
     text-decoration: none;

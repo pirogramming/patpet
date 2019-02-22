@@ -1,0 +1,112 @@
+<style>
+    * {
+        font-family: 'Abel', sans-serif;
+    }
+
+    .top-margin {
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+    .chat-container {
+        border: #e5e5e5 solid 1px;
+        border-radius: 20px;
+        padding: 30px!important;
+        height: 500px;
+    }
+    .message_list {
+        list-style: none;
+        font-size: 18px;
+        margin-top: 30px;
+        padding-left: 10px;
+        height: 300px;
+        overflow: auto;
+    }
+
+    .message_list li {
+        margin-bottom: 5px;
+    }
+    .send-button{
+        border: none;
+        padding: 5px 10px;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: #f5c6cb;
+        border-radius: 10px;
+    }
+    .button-right {
+        text-align: right;
+    }
+    .popmessage {
+        background-color: floralwhite;
+        padding: 30px;
+        border-radius: 20px;
+    }
+    .bbb {
+        border: none;
+        background-color: #f5c6cb;
+        color: white;
+        width: 170px;
+        border-radius: 20px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+</style>
+
+{% extends "accounts/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% block content %}
+
+<div class="container top-margin">
+    <div class="row">
+    <div class="col-md-4"></div>
+        <div class="col-md-4 chat-container">
+            <h1>MESSAGES</h1>
+            <hr/>
+        <ul class="message_list">
+            {% for user in user_id_list %}
+                {% for each_user in all_user %}
+                    {% if user == each_user.id %}
+                <li><a href="{% url 'accounts:message_detail' pk=each_user.id %}">{{ each_user }}</a><span></span></li>
+                    {% endif %}
+                    {% endfor %}
+            {% endfor %}
+        </ul>
+        <hr/>
+            <div class="button-right">
+            <a href="{% url 'accounts:send_message' %}"><button class="send-button messagepop_open">SEND NEW MESSAGE</button></a>
+            </div>
+        </div>
+    <div class="col-md-4"></div>
+    </div>
+</div>
+
+
+<div id="messagepop" class="popmessage">
+    <form action="{% url 'accounts:send_message' %}" method="post">
+        <div>
+            <h1>New Message</h1>
+            {% csrf_token %}
+            <table style="width: 60%;height: 100px; margin: auto;">
+                {{ form.as_p }}
+            </table>
+            <input type="submit" class="bbb" value="SEND"/>
+        </div>
+    </form>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
+<script>
+    $('#messagepop').popup({
+    pagecontainer: '#page',
+    escape: false,
+    transition: 'all 0.4s'
+    });
+</script>
+{% endblock %}

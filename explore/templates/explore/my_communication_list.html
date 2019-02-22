@@ -42,24 +42,29 @@
             margin-bottom: 30px;
             color: #dd5e61;
             font-size: 30px;
+            font-weight: bold;
         }
 
         .bottom-space {
+            margin-top: 100px;
             margin-bottom: 100px;
+        }
+        .e_img {
+            object-fit: cover;
         }
     </style>
 
     <div class="container bottom-space">
-        <h2>MY 소통해요</h2>
+        <h2>MY PLAYGROUND</h2>
         <div class="row">
             {% for post in post_list %}
                 <div class="col-4">
 
                     <div class="card" style="width: 18rem;">
                         {% if post.photo %}
-                            <img src="{{ post.photo.url }}" class="card-img-top" alt="..." width:atuo; height="200px" ;>
+                            <img src="{{ post.photo.url }}" class="card-img-top e_img" alt="..." width:atuo; height="200px" ;>
                         {% else %}
-                            <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..." height="200px" ;>
+                            <img src="/media/사자댕댕.jpg" class="card-img-top e_img" alt="..." height="200px" ;>
                         {% endif %}
                         <div class="card-body">
                             <p class="card-text"><a href="{% url "explore:post_detail" post.id %}">

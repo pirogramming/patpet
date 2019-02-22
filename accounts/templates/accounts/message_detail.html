@@ -1,0 +1,165 @@
+<style>
+    * {
+        font-family: 'Abel', sans-serif;
+    }
+
+    .sendmessage {
+        text-align: right;
+    }
+
+    .send {
+        color: white;
+        background-color: #dd5e61;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+
+    .mydiv li {
+        margin-bottom: 10px;
+    }
+
+    .mydiv li:first-child {
+        margin-top: 10px;
+    }
+
+    .receivemessage {
+
+    }
+
+    .receive {
+        color: #1d2124;
+        background-color: #e5e5e5;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+
+    .top-margin {
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    .chat-container {
+        border: #e5e5e5 solid 1px;
+        border-radius: 20px;
+        padding: 30px !important;
+        height: 500px;
+    }
+
+    .chat {
+
+    }
+
+    #chatbottom {
+        list-style: none;
+        margin-bottom: 10px;
+
+    }
+
+    #mydiv {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .input-container {
+        text-align: right;
+        vertical-align: center;
+    {#margin-top: 10px;#}
+    }
+
+    .input-message {
+        width: 250px;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .message-btn {
+        padding: 5px;
+        border-radius: 10px;
+        color: white;
+        background-color: #f9b8c8;
+    }
+
+    .eee {
+        background-color: transparent;
+        border: none;
+        vertical-align: bottom;
+        height: 33px;
+    }
+
+    .eef {
+        color: #f9b8c8;
+        font-size: 30px;
+    }
+    .m_img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        object-fit: cover;
+        border-radius: 100%;
+    }
+    .ffff {
+        display: inline-block;
+        height: 50px;
+        margin-bottom: 0;
+        vertical-align: bottom;
+        padding-top: 5px;
+    }
+    .qqqqq {
+        vertical-align: text-bottom;
+    }
+</style>
+
+{% extends "accounts/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% block content %}
+
+    <div class="container top-margin">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 chat-container">
+            <div class="qqqqq">
+                                {% if target.socialaccount_set.all.first.get_avatar_url %}
+                    <img src="{{ target.socialaccount_set.all.first.get_avatar_url }}" class="m_img"/>
+                {% elif target.pic %}
+                    <img src="{{ target.pic.url }}" class="m_img"/>
+                {% else %}
+                    <img src="{% static 'images/default-user-icon-13.jpg' %}" class="m_img"/>
+                {% endif %}
+                <h1 class="ffff">{{ target.user }}</h1></div>
+                <hr/>
+                <ul class="chat" id="chatbottom">
+                    <div id="mydiv" class="mydiv">
+                        {% for message in all_messages %}
+                            {% if message.sender.id == request.user.id %}
+                                <li class="sendmessage"><span class="send">{{ message.message }}</span></li>
+                            {% else %}
+                                <li class="receivemessage"><span class="receive">{{ message.message }}</span></li>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </ul>
+                <hr/>
+                <form action="" method="post">
+                    <div class="input-container">
+                        {% csrf_token %}
+                        {% render_field form.message|append_attr:"autofocus class:input-message" placeholder="type message" %}
+                        <button type="submit" class="eee"><i class="fas fa-comment-alt eef"></i></button>
+                        {#                    <input type="submit" value="SEND" class="message-btn"/>#}
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#mydiv").scrollTop($("#mydiv")[0].scrollHeight);
+        });
+    </script>
+
+{% endblock %}

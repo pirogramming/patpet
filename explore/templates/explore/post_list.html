@@ -50,7 +50,7 @@
         }
 
         .container {
-            padding-top: 80px;
+            padding-top: 20px;
         }
 
         .fab {
@@ -82,7 +82,20 @@
         }
 
         .bottom-space {
-            margin-bottom: 100px;
+            margin-top: 80px;
+            margin-bottom: 120px;
+        }
+
+        h1 {
+            text-align: left;
+            font-weight: bold;
+            font-size: 30px;
+            font-family: 'Abel', sans-serif;
+            color: #dd5e61;
+            padding-bottom: 20px;
+        }
+        .e_img {
+            object-fit: cover;
         }
     </style>
 
@@ -97,17 +110,17 @@
                         <div class="swiper-slide">
 
                             <div class="container bottom-space">
-                                <p>소통해요</p>
+                                <h1>▶PLAYGROUND</h1>
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
 
                                             <div class="card" style="width: 18rem;">
                                                 {% if post.photo %}
-                                                    <img src="{{ post.photo.url }}" class="card-img-top" alt="..."
+                                                    <img src="{{ post.photo.url }}" class="card-img-top e_img" alt="..."
                                                          width:atuo; height="200px" ;>
                                                 {% else %}
-                                                    <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..."
+                                                    <img src="/media/사자댕댕.jpg" class="card-img-top e_img" alt="..."
                                                          height="200px" ;>
                                                 {% endif %}
                                                 <div class="card-body">
@@ -140,17 +153,17 @@
                         <div class="swiper-slide">
 
                             <div class="container bottom-space">
-                                <p>What's New</p>
+                                <h1>▶What's New</h1>
                                 <div class="row">
-                                    {% for post in post_list %}
+                                    {% for post in rand_list %}
                                         <div class="col-4">
 
                                             <div class="card" style="width: 18rem;">
                                                 {% if post.photo %}
-                                                    <img src="{{ post.photo.url }}" class="card-img-top" alt="..."
+                                                    <img src="{{ post.photo.url }}" class="card-img-top e_img" alt="..."
                                                          width:atuo; height="200px" ;>
                                                 {% else %}
-                                                    <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..."
+                                                    <img src="/media/사자댕댕.jpg" class="card-img-top e_img" alt="..."
                                                          height="200px" ;>
                                                 {% endif %}
                                                 <div class="card-body">
@@ -184,17 +197,17 @@
                         <div class="swiper-slide">
 
                             <div class="container bottom-space">
-                                <p>Today's Pick</p>
+                                <h1>▶Today's Pick</h1>
                                 <div class="row">
-                                    {% for post in post_list %}
+                                    {% for post in rand_list %}
                                         <div class="col-4">
 
                                             <div class="card" style="width: 18rem;">
                                                 {% if post.photo %}
-                                                    <img src="{{ post.photo.url }}" class="card-img-top" alt="..."
+                                                    <img src="{{ post.photo.url }}" class="card-img-top e_img" alt="..."
                                                          width:atuo; height="200px" ;>
                                                 {% else %}
-                                                    <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..."
+                                                    <img src="/media/사자댕댕.jpg" class="card-img-top e_img" alt="..."
                                                          height="200px" ;>
                                                 {% endif %}
                                                 <div class="card-body">

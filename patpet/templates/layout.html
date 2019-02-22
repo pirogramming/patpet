@@ -34,44 +34,53 @@
 
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'home:post_list' %}">
-        <img src="{% static "images/main_logo.png" %}" width="150px"/>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
-            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home:post_list' %}">
+            <img src="{% static "images/main_logo.png" %}" width="150px"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+                aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarColor03">
-        <ul class="navbar-nav ml-auto">
-            {% if not user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.path }}">LOGIN</a>
-                </li>
-            {% else %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false">MY PATPET</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url "explore:my_communication_list" user.username %}">MY 소통해요</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url "accounts:main_setting" %}">MY Archive</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:profile' user_profile_id=request.user.pk %}">{{ user.username }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:logout' %}?next={{ request.path }}">LOGOUT</a>
-                </li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav ml-auto">
+                {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.path }}">LOGIN</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'accounts:profile' user_profile_id=request.user.pk %}">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false">MY PATPET</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url "explore:my_communication_list" user.username %}">My
+                                Playground</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'accounts:arc_setting' %}">My Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'accounts:message_list' %}">My Messages</a>
+                        </div>
+                    </li>
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="{% url 'accounts:message_list' %}"><i class="fas fa-paper-plane"></i></a>#}
+{#                    </li>#}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:logout' %}?next={{ request.path }}">LOGOUT</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</div>
 
 {% block content %}{% endblock %}
 
