@@ -1,9 +1,11 @@
+
 {% extends "layout.html" %}
 {% load imagekit %}
 {% load humanize %}
 
 
 {% block content %}
+
 
     <style>
         * {
@@ -108,10 +110,21 @@
                     {{ comment.content }}
                     <small>by {{ comment.author }}</small>
                     <small>at {{ comment.updated_at }}</small>
-                    kk
+
+                    {% if comment.author == request.user %}
+                    <a href="{{ comment.get_edit_url }}">
+                        수정
+                    </a>
+                    <a href="{{ comment.get_delete_url }}" class="text-danger">
+                        삭제
+                    </a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
+
+
+        <a href="{% url "explore:comment_new" post_id=post.id %}" class="btn btn-primary">댓글 쓰기</a>
 
         <div class="button">
             <a href="{% url "explore:post_list" %}" class="btn btn-default">BACK</a>
@@ -124,27 +137,7 @@
             {% else %}
             {% endif %}
         </div>
-
-        <form action="{% url 'explore:comment_new' id=post.id %}" method="POST" id="comment-form-{{ post.id }}" style="display: none;margin: 5px 0;">
-            {% csrf_token %}
-            {{ comment_form }}
-            <span><input type="submit" value="게시" class="button_c button_c_n" /></span>
-            <input type="hidden" name="next-e" value="{{ request.path }}" />
-        </form>
-
-
-        <a href="{% url "explore:post_list" %}" class="btn btn-primary">글 목록</a>
-        {% if post.author.id == request.user.id %}
-            <a href="{% url "explore:post_edit" post.id %}" class="btn btn-default">EDIT</a>
-            <form class="delete" action="{% url "explore:post_delete" post.id %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-outline-danger">DELETE</button>
-            </form>
-        {% else %}
-        {% endif %}
-
     </div>
-
 
 
 {% endblock %}

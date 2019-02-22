@@ -24,7 +24,7 @@ class CommunicationPost(models.Model):
 
     photo = ProcessedImageField(blank=True, upload_to='explore/post/%Y/%m/%d',
                                 processors=[Thumbnail(300, 300)],
-                                format='JPEG',
+                                 format='JPEG',
                                 options={'quality': 60})
 
     class Meta:
@@ -36,10 +36,17 @@ class CommunicationPost(models.Model):
 
 class CommunicationComment(models.Model):
     post = models.ForeignKey(CommunicationPost, on_delete=models.CASCADE, related_name='comment_set')
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField(verbose_name='내용')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
+
+    def get_edit_url(self):
+        return reverse('explore:comment_edit', args=[self.post.id, self.id])
+
+    def get_delete_url(self):
+        return reverse('explore:comment_delete', args=[self.post.id, self.id])
+
