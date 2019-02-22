@@ -15,20 +15,24 @@ class Profile(models.Model):
     pic = models.ImageField(blank=True)
     recommend = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='recommended', symmetrical=False, blank=True)
 
+    def __str__(self):
+        return f'Profile (PK: {self.pk}, name: {self.user})'
 
+    def all_follows(self):
+        return self.follows.count()
 
 User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
 
 
-# class Recomendation(models.Model):
-#     recomend = models.ManyToManyField(settings.AUTH_USER_MODEL, symmetrical=False, blank=True)
-#
-#
-#
-# class Follow(models.Model):
-#     user = models.ForeignKey('auth.User', related_name='friends', on_delete=models.CASCADE)
-#     target = models.ForeignKey('auth.User', related_name='followers', on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     class Meta:
-#         unique_together = ('user', 'target')
+
+class Archive(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
+    archive = models.CharField(max_length=18, blank=False)
+
+    def __str__(self):
+        return f'Archive (PK: {self.pk}, name: {self.archive})'
+
+
+    def all_arc(self):
+        user_arc = Archive.objects.filter(owner__id=self.id)
+        return user_arc

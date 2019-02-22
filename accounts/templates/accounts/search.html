@@ -30,6 +30,7 @@
         width: 144px;
         height: 144px;
         margin-bottom: 14px;
+        object-fit: cover;
     }
 
     .s_font {
@@ -71,9 +72,11 @@
                     {% endfor %}
 
                 {% else %}
+                    <div style="text-align: center;">
                     <h1>NO RESULT FOUND</h1>
                     <div class="no_result">
                         Please check your input({{ q }})
+                    </div>
                     </div>
                 {% endif %}
             </div>

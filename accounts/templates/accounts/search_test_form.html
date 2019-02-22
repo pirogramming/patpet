@@ -4,6 +4,7 @@
         width: 100px;
         height: 100px;
         margin-bottom: 14px;
+        object-fit: cover;
     }
     .sss {
         {#padding-top: 0px!important;#}
@@ -52,6 +53,15 @@
   </head>
   <body>
   <div class="container">
+  {% if messages %}
+        <div class="container" style="width: 500px;">
+            {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} text-center" style="margin-top: 50px;">
+            {{ message.message }}
+        </div>
+            {% endfor %}
+        </div>
+  {% endif %}
     <div clas="row">
 
     <div class="s003 sss">
@@ -59,7 +69,7 @@
         <div class="inner-form">
           <div class="input-field first-wrap">
             <div class="input-select">
-              <select data-trigger="" name="choices-single-defaul">
+              <select data-trigger="" name="choices-single-default">
                 <option placeholder="">Category</option>
                 <option>User ID</option>
                 <option>Tag</option>
