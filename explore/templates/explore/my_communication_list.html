@@ -2,34 +2,82 @@
 
 {% block content %}
 
- <div class="container">
-                            <p>소통해요</p>
-                            <p><a href="{%  url "explore:post_new" %}" class="btn btn-primary pull-right">New Post</a>
-                            </p>
-                            <div class="row">
-                                {% for post in post_list %}
-                                    <div class="col-4">
+    <style>
+        * {
+            font-family: 'Abel', sans-serif;
+        }
 
-                                        <div class="card" style="width: 18rem;">
-                                          {% if post.photo %}
-                                            <img src="{{ post.photo.url }}" class="card-img-top" alt="..." width:atuo; height="200px"; >
-                                          {% else %}
-                                          <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..." height="200px"; >
-                                          {% endif %}
-                                          <div class="card-body">
-                                          <p class="card-text"><a href="{% url "explore:post_detail" post.id %}">
-                                            {{ post.title }}</a></p>
-                                          </div>
-                                        </div></br>
+        .fab {
+            width: 70px;
+            height: 70px;
+            background-color: #dd5e61;
+            border-radius: 50%;
+            box-shadow: 0 6px 10px 0 #666;
+            transition: all 0.1s ease-in-out;
 
-                                    </div>
+            font-size: 50px;
+            color: white;
+            text-align: center;
+            line-height: 70px;
 
+            position: fixed;
+            right: 50px;
+            bottom: 50px;
+            margin-bottom: 50px;
+        }
 
+        .fab:hover {
+            box-shadow: 0 6px 14px 0 #666;
+            transform: scale(1.05);
+        }
 
+        .fab a {
+            text-decoration: none;
+            color: white;
+        }
 
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            color: #dd5e61;
+            font-size: 30px;
+            font-weight: bold;
+        }
 
-                                {% endfor %}
-                            </div>
+        .bottom-space {
+            margin-bottom: 100px;
+        }
+    </style>
+
+    <div class="container bottom-space">
+        <h2>MY PLAYGROUND</h2>
+        <div class="row">
+            {% for post in post_list %}
+                <div class="col-4">
+
+                    <div class="card" style="width: 18rem;">
+                        {% if post.photo %}
+                            <img src="{{ post.photo.url }}" class="card-img-top" alt="..." width:atuo; height="200px" ;>
+                        {% else %}
+                            <img src="/media/사자댕댕.jpg" class="card-img-top" alt="..." height="200px" ;>
+                        {% endif %}
+                        <div class="card-body">
+                            <p class="card-text"><a href="{% url "explore:post_detail" post.id %}">
+                                {{ post.title }}</a></p>
                         </div>
+                    </div>
+                    </br>
+                    <div class="fab"><a href="{% url "explore:post_new" %}">+</a></div>
+
+                </div>
+
+
+
+
+
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

@@ -41,12 +41,12 @@
             background: #eee;
         }
         .container {
-            padding-top: 80px;
+            padding-top: 20px;
         }
         .fab {
             width: 70px;
             height: 70px;
-            background-color: #82dcdd;
+            background-color: #dd5e61;
             border-radius: 50%;
             box-shadow: 0 6px 10px 0 #666;
             transition: all 0.1s ease-in-out;
@@ -66,6 +66,19 @@
             text-decoration: none;
             color: white;
         }
+
+        .bottom-space {
+            margin-bottom: 120px;
+        }
+
+        h1 {
+            text-align: left;
+            font-weight: bold;
+            font-size: 30px;
+            font-family: 'Abel', sans-serif;
+            color: #dd5e61;
+            padding-bottom: 20px;
+        }
     </style>
 
     <!-- Swiper -->
@@ -75,8 +88,11 @@
                 <div class="swiper-container swiper-container-v">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <div class="container">
-                                <p>소통해요</p>
+
+
+                            <div class="container bottom-space">
+                                <h1>▶PLAYGROUND</h1>
+
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
@@ -120,8 +136,8 @@
 
                         <div class="swiper-slide">
 
-                            <div class="container">
-                                <p>What's New</p>
+                            <div class="container bottom-space">
+                                <h1>▶What's New</h1>
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
@@ -164,8 +180,8 @@
 
                         <div class="swiper-slide">
 
-                            <div class="container">
-                                <p>Today's Pick</p>
+                            <div class="container bottom-space">
+                                <h1>▶Today's Pick</h1>
                                 <div class="row">
                                     {% for post in post_list %}
                                         <div class="col-4">
