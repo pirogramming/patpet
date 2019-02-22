@@ -169,7 +169,7 @@
                                                 <div class="card-body">
                                                     <p class="card-text"><a
                                                             href="{% url "explore:post_detail" post.id %}">
-                                                        {{ post.title }}</a></p>
+                                                        {{ post.content|truncatewords:10 }}</a></p>
                                                 </div>
                                             </div>
                                             </br>
@@ -213,7 +213,7 @@
                                                 <div class="card-body">
                                                     <p class="card-text"><a
                                                             href="{% url "explore:post_detail" post.id %}">
-                                                        {{ post.title }}</a></p>
+                                                        {{ post.content|truncatewords:10 }}</a></p>
                                                 </div>
                                             </div>
                                             </br>

@@ -12,7 +12,7 @@ from .forms import CommentForm
 
 def post_list(request):
     post = CommunicationPost.objects.all()
-    randuser = CommunicationPost.objects.order_by('?')
+    randuser = Post.objects.order_by('?')
     return render(request, "explore/post_list.html", {
         'post_list': post,
         'rand_list': randuser,
@@ -118,5 +118,5 @@ def insider_user(request):
     return print(insa)
 
 def random_user(request):
-    randuser = CommunicationPost.objects.order_by('?')[:7]
+    randuser = Post.objects.order_by('?')[:7]
     return print(randuser)
