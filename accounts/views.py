@@ -343,7 +343,6 @@ def search(request):
         qs = Post.objects.all()
         q = request.GET.get('q', '')
         like_all = request.user.liked.all()
-        # print(like_all)
         arc = Archive.objects.filter(owner=request.user)
         arcform = ArchiveForm()
         comment_form = CommentForm()
@@ -387,7 +386,6 @@ def message_list(request):
     user = request.user.id
     all_user = User.objects.all()
     message = Message.objects.filter(Q(sender_id=user) | Q(receiver_id=user)).order_by('-send_at')
-    # user_list = Message.sender.filter(Q(sender_id=user) | Q(receiver_id=user)).order_by('-send_at')
     list = []
     for each_message in message:
         if each_message.sender not in list and each_message.sender != request.user:
@@ -442,11 +440,6 @@ def message_detail(request, pk):
         'all_messages': message,
         'target': target,
     })
-    # return render(request, 'accounts/message_detail.html', {
-    #     'all_messages': message,
-    #     'target':target,
-    # })
-
 
 def send_message(request):
     user =request.user.id
