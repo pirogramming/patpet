@@ -52,15 +52,15 @@ def post_new(request):
     })
 
 
-def post_edit(request, id):
-    post = get_object_or_404(CommunicationPost, id=id)
+def post_edit(request, post_id):
+    post = get_object_or_404(CommunicationPost, id=post_id)
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance=post)
 
         if form.is_valid():
             post = form.save()
-            return redirect('explore:post_detail', id=id)
+            return redirect('explore:post_detail', id=post_id)
     else:
         form = PostForm(instance=post)
     return render(request, 'explore/post_form.html', {
@@ -68,8 +68,8 @@ def post_edit(request, id):
     })
 
 
-def post_delete(request, id):
-    post = get_object_or_404(CommunicationPost, id=id)
+def post_delete(request, post_id):
+    post = get_object_or_404(CommunicationPost, id=post_id)
 
     if request.method == 'POST':
         post.delete()
